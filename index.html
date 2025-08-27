@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Codzienny Cytat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#9fc6e2;
+      --navy:#1e3a8a;
+      --white:#ffffff;
+      --quote-grad-start:#3b5998;
+      --quote-grad-end:#5a8dee;
+      --container-w:760px;
+      --rounded:16px;
+      --card-h:120px;
+      --gap:16px;
+    }
+    *{box-sizing:border-box}
+    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: linear-gradient(180deg,var(--bg) 0%, #cfe8f8 100%); display:flex;align-items:center;justify-content:center;padding:20px; }
+    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .5s ease forwards; }
+    @keyframes appIn{to{opacity:1;transform:none}}
+    header{ text-align:center;margin-bottom:8px }
+    h1{font-family:Pacifico, cursive;color:var(--navy);font-size:28px;margin:4px 0}
+    .subtitle{color:rgba(30,58,138,.8);font-size:13px}
+
+    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(58,88,160,.12); }
+    .quote-ref{display:block;margin-top:10px;font-size:13px;opacity:.95}
+
+    .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:12px 0}
+    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(58,88,160,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
+    .btn:active{transform:translateY(2px)}
+    .btn:disabled{background:#c4c4c4;cursor:not-allowed;box-shadow:none}
+    .btn.pulse{animation:pulse 3.5s infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:8px}
+    .streak{font-weight:700}
+    .countdown{font-style:italic;color:var(--navy)}
+
+    /* medals area */
+    .medals-section{margin-top:20px}
+    .medals-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .medal-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory;}
+    .medal-strip::-webkit-scrollbar{height:10px}
+    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#cfe8f8,#9fc6e2);border-radius:8px}
+    .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#f6fbff);border-radius:12px;padding:12px;border:1px solid rgba(30,58,138,.06);box-shadow:0 8px 18px rgba(30,58,138,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
+    .medal-top{display:flex;align-items:center;gap:8px}
+    .medal-tag{font-size:22px}
+    .medal-name{font-weight:700}
+    .medal-days{font-size:13px;color:rgba(30,58,138,.7)}
+    .medal-missing{font-size:13px;color:rgba(30,58,138,.75);margin-top:6px}
+
+    .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(30,58,138,.06)}
+    .medal-pool .title{font-size:14px;color:rgba(30,58,138,.85);font-weight:700;margin-bottom:12px}
+    .progress-wrap{position:relative;height:18px;background:rgba(30,58,138,.06);border-radius:12px;overflow:visible}
+    .progress-fill{position:absolute;left:0;top:0;height:100%;border-radius:12px;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));width:0%;transition:width .6s ease}
+    .marker{position:absolute;top:-34px;transform:translateX(-50%);text-align:center;font-size:12px}
+    .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(30,58,138,.8);display:inline-block}
+    .marker .label{display:block;font-size:11px;margin-top:4px;white-space:nowrap}
+    .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(30,58,138,.7)}
+    .tooltip{position:absolute;transform:translateX(-50%);padding:6px 8px;border-radius:6px;background:#1e3a8a;color:#fff;font-size:12px;white-space:nowrap;top:-48px;display:none}
+
+    .history{margin-top:18px;border-top:1px solid rgba(30,58,138,.08);padding-top:14px}
+    .history h3{margin:6px 0}
+    .history-list{max-height:220px;overflow:auto;padding:10px;border-radius:8px;border:1px solid rgba(30,58,138,.08);background:#fff}
+    .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(30,58,138,.05)}
+
+    footer{font-size:12px;text-align:center;color:rgba(30,58,138,.7);margin-top:12px}
+
+    /* MOBILE ADJUSTMENTS */
+    @media (max-width:720px){
+      body{padding:12px}
+      .app{padding:14px}
+      .quote-box{min-height:160px;font-size:16px;padding:16px}
+      .medal-card{flex:0 0 78%;height:150px}
+      .medal-strip{gap:10px}
+      .meta{flex-direction:column;align-items:flex-start;gap:6px}
+      .controls{margin-top:8px}
+      .medal-pool{margin-top:16px;padding:14px}
+      .progress-wrap{height:22px}
+      .marker{top:-44px}
+      .history-list{max-height:240px}
+    }
+
+    @media (max-width:420px){
+      h1{font-size:22px}
+      .medal-card{flex:0 0 86%;height:160px}
+      .quote-box{min-height:170px}
+      .btn{padding:10px 16px;font-size:15px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header>
+      <h1>Codzienny Cytat</h1>
+      <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Passa nalicza dni z rzędu.</div>
+    </header>
+
+    <main>
+      <div class="quote-box" id="quoteBox" role="region" aria-live="polite">
+        <div>
+          <div id="quoteText">Kliknij „Losuj Cytat”, aby otrzymać dzisiejszy cytat.</div>
+          <div class="quote-ref" id="quoteRef"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="drawBtn" class="btn pulse" aria-pressed="false">Losuj Cytat</button>
+      </div>
+
+      <div class="meta">
+        <div class="streak">Passa: <span id="streak">0</span> dni</div>
+        <div class="countdown" id="countdown" style="min-width:200px">Nie losowano jeszcze</div>
+      </div>
+
+      <section class="medals-section">
+        <div class="medals-header">
+          <h3 style="margin:0">Twoje Medale</h3>
+          <div style="font-size:13px;color:rgba(30,58,138,.7)">Przesuń, aby zobaczyć wszystkie</div>
+        </div>
+
+        <div class="medal-strip" id="medalStrip" aria-label="Lista medali">
+          <!-- karty medali wypełniane JS -->
+        </div>
+
+        <div class="medal-pool" aria-hidden="false">
+          <div class="title">Postęp do kolejnych medali</div>
+          <div style="font-size:13px;color:rgba(30,58,138,.65);margin-bottom:10px">(Poniższy pasek pokazuje ogólny postęp względem najwyższego progu. Na kartach widać ile dni brakuje do każdego medalu.)</div>
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-fill" id="progressFill"></div>
+            <!-- markery dodawane JS -->
+          </div>
+          <div class="progress-legend" id="progressLegend">
+            <div id="legendLeft">0 dni</div>
+            <div id="legendRight">0 dni</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="history">
+        <h3>Historia cytatów</h3>
+        <div class="history-list" id="historyList">Brak zapisanych cytatów.</div>
+      </div>
+    </main>
+
+    <footer>Wszystkie dane przechowywane lokalnie w przeglądarce. Działa offline.</footer>
+  </div>
+
+  <script>
+    // --- DANE: cytaty (polskie) ---
+    const QUOTES = [
+      {text: 'Bóg jest miłością.', ref: '1 Jana 4:8'},
+      {text: 'Pan jest moim pasterzem, niczego mi nie braknie.', ref: 'Psalm 23:1-2'},
+      {text: 'Wszystko mogę w Tym, który mnie umacnia.', ref: 'List do Filipian 4:13'},
+      {text: 'Niech będzie wolna wola twoja.', ref: 'Ewangelia Mateusza 6:10'},
+      {text: 'Miłuj bliźniego swego jak siebie samego.', ref: 'Ewangelia Mateusza 22:39'},
+      {text: 'Proście, a będzie wam dane; szukajcie, a znajdziecie.', ref: 'Ewangelia Mateusza 7:7'},
+      {text: 'Prawda was wyzwoli.', ref: 'Ewangelia Jana 8:32'},
+      {text: 'Pan jest światłem moim i zbawieniem moim.', ref: 'Psalm 27:1'},
+      {text: 'Ufaj Panu z całego serca.', ref: 'Przysłów 3:5'},
+      {text: 'Albowiem gdzie jest skarb twój, tam będzie i serce twoje.', ref: 'Ewangelia Mateusza 6:21'},
+      {text: 'Nie lękaj się, bo ja jestem z tobą.', ref: 'Księga Izajasza 41:10'},
+      {text: 'Szukajcie najpierw Królestwa Bożego.', ref: 'Ewangelia Mateusza 6:33'},
+      {text: 'Pan daje siłę zmęczonemu.', ref: 'Księga Izajasza 40:29'},
+      {text: 'Wybaczajcie, a będzie wam przebaczone.', ref: 'Ewangelia Łukasza 6:37'},
+      {text: 'Nie sądźcie, abyście nie byli sądzeni.', ref: 'Ewangelia Mateusza 7:1'},
+      {text: 'Wszystko ma swój czas.', ref: 'Księga Koheleta 3:1'},
+      {text: 'Serce rozradowane jest dobrym lekarstwem.', ref: 'Przysłów 17:22'},
+      {text: 'Pan błogosławi bojowi twemu.', ref: 'Księga Jozuego 1:9'},
+      {text: 'Miłosierdzie pragnie, a nie ofiary.', ref: 'Ewangelia Mateusza 9:13'},
+      {text: 'Bóg zna twoje drogi.', ref: 'Psalm 139:3'},
+      {text: 'On uzdrawia złamanych na duchu.', ref: 'Psalm 147:3'},
+      {text: 'Dajcie a będzie wam dane.', ref: 'Ewangelia Łukasza 6:38'},
+      {text: 'Niechaj twoje serce się nie trwoży.', ref: 'Ewangelia Jana 14:1'},
+      {text: 'Bądźcie mocni i mężni.', ref: 'Księga Jozuego 1:6'},
+      {text: 'Chleb nasz powszedni daj nam dzisiaj.', ref: 'Modlitwa Pańska'},
+      {text: 'Niech będzie pokój w domu twym.', ref: 'Psalm 122:7'},
+      {text: 'Słowa twoje są dla mnie światłem.', ref: 'Psalm 119:105'},
+      {text: 'Pan jest blisko skruszonych w sercu.', ref: 'Psalm 34:18'},
+      {text: 'Kto trwa we Mnie, przynosi owoc obfity.', ref: 'Ewangelia Jana 15:5'},
+      {text: 'Bóg jest naszą ucieczką i mocą.', ref: 'Psalm 46:2'},
+      {text: 'Czemu się boisz, mała trzódko?', ref: 'Ewangelia Mateusza 8:26'},
+      {text: 'Służcie Panu z weselem.', ref: 'Psalm 100:2'},
+      {text: 'Niech się nie trwoży serce wasze.', ref: 'Ewangelia Jana 14:27'},
+      {text: 'Miłość cierpliwa jest, miłość łaskawa jest.', ref: '1 List do Koryntian 13:4'},
+      {text: 'Bóg daje mądrość.', ref: 'List Jakuba 1:5'},
+      {text: 'Gdy idę doliną cienia śmierci, nie boję się złego.', ref: 'Psalm 23:4'},
+      {text: 'Pan uzdrawia i ratuje.', ref: 'Psalm 103:3'},
+      {text: 'Przyjdźcie do mnie wszyscy spracowani.', ref: 'Ewangelia Mateusza 11:28'},
+      {text: 'Słudzy Boży powinni być roztropni.', ref: 'Ewangelia Mateusza 10:16'},
+      {text: 'Pan jest sprawiedliwy we wszystkich drogach swych.', ref: 'Psalm 145:17'},
+      {text: 'Nie chodź w gniewie długo.', ref: 'Efezjan 4:26'},
+      {text: 'Królestwo Boże jest wśród was.', ref: 'Ewangelia Łukasza 17:21'},
+      {text: 'Daj mi serce czyste, o Boże.', ref: 'Psalm 51:10'},
+      {text: 'Wiedząc, że wszystko działa ku dobremu.', ref: 'List do Rzymian 8:28'},
+      {text: 'Zaufaj Panu i czyń dobrze.', ref: 'Psalm 37:3'},
+      {text: 'Bądźcie jeden dla drugiego wsparciem.', ref: 'List do Hebrajczyków 10:24'},
+      {text: 'Pan napełnia głodnych dobrami.', ref: 'Psalm 107:9'},
+      {text: 'Nie troszczcie się o jutro.', ref: 'Ewangelia Mateusza 6:34'},
+      {text: 'Jezus jest drogą, prawdą i życiem.', ref: 'Ewangelia Jana 14:6'},
+      {text: 'Błogosławieni cisi, albowiem oni na własność posiądą ziemię.', ref: 'Ewangelia Mateusza 5:5'},
+      {text: 'Pan zna drogę sprawiedliwych.', ref: 'Psalm 1:6'},
+      {text: 'Gdzie dwaj albo trzej zgromadzeni są...', ref: 'Ewangelia Mateusza 18:20'},
+      {text: 'Bóg przemawia w ciszy.', ref: '1 Krl 19:12'},
+      {text: 'Niech nikt nie gardzi twoją młodością.', ref: '1 List do Tymoteusza 4:12'},
+      {text: 'Pan podnosi pokornych.', ref: 'Psalm 147:6'},
+      {text: 'Twoje grzechy są przebaczone.', ref: 'Ewangelia Marka 2:5'},
+      {text: 'Dziękujcie we wszystkim.', ref: '1 Tesaloniczan 5:18'},
+      {text: 'Miłość nie zazdrości, nie szuka poklasku.', ref: '1 Kor 13'},
+      {text: 'Strzeż swego serca ponad wszystko, co się strzeże.', ref: 'Przysłów 4:23'},
+      {text: 'Pan jest moją siłą i tarczą.', ref: 'Psalm 28:7'},
+      {text: 'Nie bój się mała trzódko — łagodnie mówi Pan.', ref: 'Łk 12:32'},
+      {text: 'Pan da wam pokój na zawsze.', ref: 'Księga Izajasza 54:10'},
+      {text: 'Gdzie miłość, tam i Bóg.', ref: '1 Jana 4:12'},
+      {text: 'Wszystko ma swoje piękno w czasie.', ref: 'Kohelet 3:11'},
+      {text: 'Pracuj jak dla Pana, nie jak dla ludzi.', ref: 'List do Kolosan 3:23'},
+      {text: 'Błogosławieni miłosierni.', ref: 'Ewangelia Mateusza 5:7'},
+      {text: 'Pan strzeże twoich kroków.', ref: 'Psalm 121:3'},
+      {text: 'Niech twoje słowa będą tak, tak; nie, nie.', ref: 'Ewangelia Mateusza 5:37'},
+      {text: 'Kto sieje w łzach, żąć będzie z radością.', ref: 'Psalm 126:5'},
+      {text: 'Pan jest wierny swoim obietnicom.', ref: 'List do Hebrajczyków 10:23'},
+      {text: 'Dajcie chleb głodnym, wody odwodnionym.', ref: 'Przysłów 31:20'},
+      {text: 'Pan nas zawoła po imieniu.', ref: 'Ewangelia Jana 10:3'},
+      {text: 'Pan umacnia tych, którzy czekają na niego.', ref: 'Księga Izajasza 40:31'},
+      {text: 'Bóg jest sprawiedliwy i miłosierny.', ref: 'Psalm 116:5'},
+      {text: 'Niech wasze serca się nie trwożą.', ref: 'J 14:27'},
+      {text: 'Panu oddaj chwałę i radość.', ref: 'Psalm 149:4'},
+      {text: 'Pan przyjdzie z pomocą tym, którzy go proszą.', ref: 'Ewangelia Łukasza 18:7'},
+      {text: 'Nie pozwól, aby zło zwyciężyło dobro.', ref: 'Rzymian 12:21'},
+      {text: 'Pan prowadzi ubogich sprawiedliwie.', ref: 'Psalm 25:9'},
+      {text: 'Bądź pokorny wobec innych.', ref: 'List do Filipian 2:3'},
+      {text: 'Pan w swej dobroci daje łaskę.', ref: 'Tytusa 3:5'},
+      {text: 'Wspierajcie się nawzajem modlitwą.', ref: 'Jakuba 5:16'},
+      {text: 'Pan jest źródłem mądrości.', ref: 'Przysłów 2:6'},
+      {text: 'Niech miłość wasza będzie bez obłudy.', ref: 'Rzymian 12:9'},
+      {text: 'Pan jest blisko skruszonych.', ref: 'Psalm 34:18'},
+      {text: 'Pan da wam odpocznienie.', ref: 'Mateusz 11:29'},
+      {text: 'Trwaj w nadziei i wierze.', ref: 'Rzymian 12:12'},
+      {text: 'Pan rozjaśnia nasze drogi.', ref: 'Psalm 119:105'},
+      {text: 'Szukajcie sprawiedliwości, a Bóg was wywyższy.', ref: 'Izajasz 56:1'},
+      {text: 'Pan jest z tobą na zawsze.', ref: 'Mateusz 28:20'},
+      {text: 'Jezus jest pierwszym i ostatnim.', ref: 'Objawienie 1:17-18'},
+      {text: 'Bóg zna twoje troski i je niesie.', ref: 'Psalm 55:22'},
+      {text: 'Trwajcie w ufności wobec Boga.', ref: 'Hebrajczyków 11:1'},
+      {text: 'Pan wysłucha modlitwę pokornych.', ref: 'Psalm 34:17'},
+      {text: 'Wierzymy nie widząc, lecz ufamy.', ref: '1 Piotra 1:8'},
+      {text: 'Bądźcie światłem dla świata.', ref: 'Mateusz 5:14'},
+      {text: 'Niech serce twoje znajdzie pokój w Panu.', ref: 'Psalm 4:8'},
+      {text: 'Pan obdarowuje darem ducha.', ref: 'Dzieje Apostolskie 2:38'},
+      {text: 'Niech łaska Pana was prowadzi.', ref: '2 Tesaloniczan 2:16'}
+    ];
+
+    const MEDALS = [
+      {name:'Brązowy', days:2, tag:'🥉'},
+      {name:'Miedziany', days:5, tag:'🏅'},
+      {name:'Złoty', days:10, tag:'🥇'},
+      {name:'Szmaragdowy', days:15, tag:'💚'},
+      {name:'Platynowy', days:20, tag:'⚪'},
+      {name:'Oksynowy', days:25, tag:'🔷'},
+      {name:'Diamentowy', days:30, tag:'💎'},
+      {name:'Tytanowy', days:40, tag:'🛡️'},
+      {name:'Medal Legendy', days:50, tag:'🏆'}
+    ];
+
+    // DOM
+    const drawBtn = document.getElementById('drawBtn');
+    const quoteText = document.getElementById('quoteText');
+    const quoteRef = document.getElementById('quoteRef');
+    const streakEl = document.getElementById('streak');
+    const countdownEl = document.getElementById('countdown');
+    const historyList = document.getElementById('historyList');
+
+    const medalStrip = document.getElementById('medalStrip');
+    const progressFill = document.getElementById('progressFill');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressLegendLeft = document.getElementById('legendLeft');
+    const progressLegendRight = document.getElementById('legendRight');
+
+    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history' };
+
+    function getTodayKey(){ const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
+    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); }catch(e){ history=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history}; }
+    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); }
+    function daysBetween(a,b){ if(!a || !b) return 0; const da = new Date(a+'T00:00:00'); const db = new Date(b+'T00:00:00'); const diff = Math.floor((Date.UTC(db.getFullYear(),db.getMonth(),db.getDate()) - Date.UTC(da.getFullYear(),da.getMonth(),da.getDate())) / (1000*60*60*24)); return diff; }
+    function getNextMidnightMs(){ const now = new Date(); const n = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0); return n.getTime(); }
+
+    function nextMedal(streak){ for(let i=0;i<MEDALS.length;i++){ if(streak < MEDALS[i].days) return MEDALS[i]; } return null; }
+
+    function updateCountdown(){ const state = loadState(); const lastDraw = state.lastDrawDate; if(!lastDraw){ countdownEl.textContent = 'Nie losowano jeszcze'; drawBtn.disabled = false; drawBtn.classList.add('pulse'); return; } const today = getTodayKey(); if(lastDraw === today){ const nextMs = getNextMidnightMs(); const diff = nextMs - Date.now(); if(diff<=0){ countdownEl.textContent = 'Możesz losować!'; drawBtn.disabled=false; drawBtn.classList.add('pulse'); return; } drawBtn.disabled=true; drawBtn.classList.remove('pulse'); const h = String(Math.floor(diff/3600000)).padStart(2,'0'); const m = String(Math.floor(diff%3600000/60000)).padStart(2,'0'); const s = String(Math.floor(diff%60000/1000)).padStart(2,'0'); countdownEl.textContent = `Następne losowanie za: ${h}:${m}:${s} (strefa lokalna)`; return; } drawBtn.disabled=false; drawBtn.classList.add('pulse'); countdownEl.textContent = 'Możesz losować!'; }
+
+    function chooseQuoteAvoidRepeat(lastIndex){ if(QUOTES.length===0) return null; if(QUOTES.length===1) return 0; let idx = Math.floor(Math.random()*QUOTES.length); let attempts=0; while(idx===lastIndex && attempts<50){ idx = Math.floor(Math.random()*QUOTES.length); attempts++; } if(idx===lastIndex) idx = (lastIndex+1)%QUOTES.length; return idx; }
+
+    function computeMedalByStreak(streak){ const achieved = MEDALS.filter(m=>streak>=m.days).sort((a,b)=>b.days-a.days); return achieved.length?achieved[0]:null; }
+
+    function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
+
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.textContent = m.tag; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style=\"width:${Math.max(0,Math.min(100,progressLocal))}%\";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
+        // missing days calculation
+        const missing = Math.max(0, m.days - currentStreak);
+        const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`;
+        bottom.innerHTML = barHtml + `<div class=\"medal-missing\">${missingText}</div>`;
+        card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card);
+      });
+
+      // pooled progress bar with markers
+      const max = maxDays;
+      const fillPercent = Math.min(100, Math.round((currentStreak / max) * 100));
+      progressFill.style.width = fillPercent + '%';
+
+      // remove old markers
+      Array.from(progressWrap.querySelectorAll('.marker')).forEach(n=>n.remove());
+      // add markers
+      MEDALS.forEach(m=>{
+        const pos = Math.min(100, (m.days / max) * 100);
+        const marker = document.createElement('div');
+        marker.className = 'marker';
+        marker.style.left = pos + '%';
+        marker.innerHTML = `<div class=\"dot\"></div><div class=\"label\">${m.tag} ${m.days}d</div>`;
+        marker.title = `${m.name} — próg: ${m.days} dni`;
+        progressWrap.appendChild(marker);
+      });
+
+      // legend + next medal info
+      const next = nextMedal(currentStreak);
+      if(next){
+        const missingToNext = Math.max(0, next.days - currentStreak);
+        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`;
+      } else {
+        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto najwyższy medal 🎉`;
+      }
+      progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
+
+      // tooltip on hover (simple)
+      Array.from(progressWrap.querySelectorAll('.marker')).forEach(marker=>{
+        marker.addEventListener('mouseenter',()=>{
+          let t = marker._tt;
+          if(!t){ t = document.createElement('div'); t.className='tooltip'; t.textContent = marker.title; marker._tt = t; marker.appendChild(t); }
+          t.style.display='block';
+        });
+        marker.addEventListener('mouseleave',()=>{ const t = marker._tt; if(t) t.style.display='none'; });
+      });
+
+      // smooth behavior
+      medalStrip.style.scrollBehavior = 'smooth';
+      medalStrip.querySelectorAll('.medal-card').forEach((c,i)=>{ c.setAttribute('role','group'); c.setAttribute('aria-label', `${MEDALS[i].name} ${MEDALS[i].days} dni`); });
+    }
+
+    // initial render
+    (function init(){ const state = loadState(); streakEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
+
+    // draw logic
+    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.tag} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
+
+    function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className='history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
+
+    function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(58,88,160,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
+
+    console.info('Codzienny Cytat - aplikacja załadowana. Aby zresetować storagę: localStorage.clear()');
+  </script>
+</body>
+</html>

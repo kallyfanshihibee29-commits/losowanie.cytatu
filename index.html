@@ -47,7 +47,6 @@
     .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#cfe8f8,#9fc6e2);border-radius:8px}
     .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#f6fbff);border-radius:12px;padding:12px;border:1px solid rgba(30,58,138,.06);box-shadow:0 8px 18px rgba(30,58,138,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
     .medal-top{display:flex;align-items:center;gap:8px}
-    .medal-tag{font-size:22px}
     .medal-name{font-weight:700}
     .medal-days{font-size:13px;color:rgba(30,58,138,.7)}
     .medal-missing{font-size:13px;color:rgba(30,58,138,.75);margin-top:6px}
@@ -128,13 +127,14 @@
 
         <div class="medal-pool" aria-hidden="false">
           <div class="title">Postęp do kolejnych medali</div>
-          <div style="font-size:13px;color:rgba(30,58,138,.65);margin-bottom:10px">(Poniższy pasek pokazuje ogólny postęp względem najwyższego progu. Na kartach widać ile dni brakuje do każdego medalu.)</div>
+          <!-- usunięto opis nad paskiem zgodnie z prośbą -->
           <div class="progress-wrap" id="progressWrap">
             <div class="progress-fill" id="progressFill"></div>
             <!-- markery dodawane JS -->
           </div>
           <div class="progress-legend" id="progressLegend">
             <div id="legendLeft">0 dni</div>
+          <div class="extra-note" style="margin-top:8px;font-size:13px;color:rgba(30,58,138,.7)">Po 50 dniach dostępne są dodatkowe medale — kontynuuj passę, by odkryć więcej nagród.</div>
             <div id="legendRight">0 dni</div>
           </div>
         </div>
@@ -297,7 +297,9 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.textContent = m.tag; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style=\"width:${Math.max(0,Math.min(100,progressLocal))}%\";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top';
+        const tag = document.createElement('div'); tag.className='medal-tag'; tag.textContent = m.tag;
+        const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style=\"width:${Math.max(0,Math.min(100,progressLocal))}%\";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
         // missing days calculation
         const missing = Math.max(0, m.days - currentStreak);
         const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`;
@@ -310,26 +312,15 @@
       const fillPercent = Math.min(100, Math.round((currentStreak / max) * 100));
       progressFill.style.width = fillPercent + '%';
 
-      // remove old markers
       Array.from(progressWrap.querySelectorAll('.marker')).forEach(n=>n.remove());
-      // add markers
-      MEDALS.forEach(m=>{
-        const pos = Math.min(100, (m.days / max) * 100);
-        const marker = document.createElement('div');
-        marker.className = 'marker';
-        marker.style.left = pos + '%';
-        marker.innerHTML = `<div class=\"dot\"></div><div class=\"label\">${m.tag} ${m.days}d</div>`;
-        marker.title = `${m.name} — próg: ${m.days} dni`;
-        progressWrap.appendChild(marker);
-      });
 
-      // legend + next medal info
+      // legend + next medal info (pokazujemy tylko ile dni do najbliższego progu)
       const next = nextMedal(currentStreak);
       if(next){
         const missingToNext = Math.max(0, next.days - currentStreak);
-        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`;
+        progressLegendLeft.textContent = `Do następnego medalu: ${missingToNext} dni`;
       } else {
-        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto najwyższy medal 🎉`;
+        progressLegendLeft.textContent = `Osiągnięto najwyższy medal`;
       }
       progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
 
@@ -352,9 +343,9 @@
     (function init(){ const state = loadState(); streakEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
 
     // draw logic
-    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.tag} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
+    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
 
-    function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className='history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
+    function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className = 'history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
 
     function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(58,88,160,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
 
@@ -362,3 +353,4 @@
   </script>
 </body>
 </html>
+

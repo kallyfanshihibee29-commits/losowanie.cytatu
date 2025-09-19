@@ -7,29 +7,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#9fc6e2;
-      --navy:#1e3a8a;
+      --bg:#f7d291; /* page background as requested */
+      --navy:#7a1f12; /* deep autumn red / brown for headings and accents */
       --white:#ffffff;
-      --quote-grad-start:#3b5998;
-      --quote-grad-end:#5a8dee;
+      --quote-grad-start:#d15518; /* autumn gradient start (orange) */
+      --quote-grad-end:#f69628;   /* autumn gradient end (lighter orange) */
+      --accent:#d15518; /* main accent */
       --container-w:760px;
       --rounded:16px;
       --card-h:120px;
       --gap:16px;
     }
     *{box-sizing:border-box}
-    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: linear-gradient(180deg,var(--bg) 0%, #cfe8f8 100%); display:flex;align-items:center;justify-content:center;padding:20px; }
+    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: var(--bg); display:flex;align-items:center;justify-content:center;padding:20px; }
     .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .5s ease forwards; }
     @keyframes appIn{to{opacity:1;transform:none}}
     header{ text-align:center;margin-bottom:8px }
     h1{font-family:Pacifico, cursive;color:var(--navy);font-size:28px;margin:4px 0}
-    .subtitle{color:rgba(30,58,138,.8);font-size:13px}
+    .subtitle{color:var(--quote-grad-start);font-size:13px}
 
-    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(58,88,160,.12); }
+    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(209,85,24,.12); }
     .quote-ref{display:block;margin-top:10px;font-size:13px;opacity:.95}
 
     .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:12px 0}
-    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(58,88,160,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
+    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(209,85,24,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
     .btn:active{transform:translateY(2px)}
     .btn:disabled{background:#c4c4c4;cursor:not-allowed;box-shadow:none}
     .btn.pulse{animation:pulse 3.5s infinite}
@@ -44,29 +45,33 @@
     .medals-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .medal-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory;}
     .medal-strip::-webkit-scrollbar{height:10px}
-    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#cfe8f8,#9fc6e2);border-radius:8px}
-    .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#f6fbff);border-radius:12px;padding:12px;border:1px solid rgba(30,58,138,.06);box-shadow:0 8px 18px rgba(30,58,138,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
+    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#f69628,#d15518);border-radius:8px}
+    .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#fff7f0);border-radius:12px;padding:12px;border:1px solid rgba(122,31,18,.06);box-shadow:0 8px 18px rgba(122,31,18,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
     .medal-top{display:flex;align-items:center;gap:8px}
-    .medal-name{font-weight:700}
-    .medal-days{font-size:13px;color:rgba(30,58,138,.7)}
-    .medal-missing{font-size:13px;color:rgba(30,58,138,.75);margin-top:6px}
+    .medal-tag{font-size:22px; width:36px; height:36px; display:flex; align-items:center; justify-content:center}
+    .medal-name{font-weight:700;color:var(--navy)}
+    .medal-days{font-size:13px;color:rgba(122,31,18,.7)}
+    .medal-missing{font-size:13px;color:rgba(122,31,18,.75);margin-top:6px}
 
-    .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(30,58,138,.06)}
-    .medal-pool .title{font-size:14px;color:rgba(30,58,138,.85);font-weight:700;margin-bottom:12px}
-    .progress-wrap{position:relative;height:18px;background:rgba(30,58,138,.06);border-radius:12px;overflow:visible}
+    .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff8f0,#ffffff);border:1px solid rgba(122,31,18,.06)}
+    .medal-pool .title{font-size:14px;color:rgba(122,31,18,.85);font-weight:700;margin-bottom:12px}
+    /* the explanatory small paragraph was kept; the explicit emoji+days labels (were on markers) are removed as requested */
+    .medal-pool .note{font-size:13px;color:rgba(122,31,18,.65);margin-bottom:10px}
+
+    .progress-wrap{position:relative;height:18px;background:rgba(122,31,18,.06);border-radius:12px;overflow:visible}
     .progress-fill{position:absolute;left:0;top:0;height:100%;border-radius:12px;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));width:0%;transition:width .6s ease}
     .marker{position:absolute;top:-34px;transform:translateX(-50%);text-align:center;font-size:12px}
-    .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(30,58,138,.8);display:inline-block}
-    .marker .label{display:block;font-size:11px;margin-top:4px;white-space:nowrap}
-    .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(30,58,138,.7)}
-    .tooltip{position:absolute;transform:translateX(-50%);padding:6px 8px;border-radius:6px;background:#1e3a8a;color:#fff;font-size:12px;white-space:nowrap;top:-48px;display:none}
+    .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(122,31,18,.8);display:inline-block}
+    /* .marker .label removed (no emoji+days labels) */
+    .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(122,31,18,.7)}
+    .tooltip{position:absolute;transform:translateX(-50%);padding:6px 8px;border-radius:6px;background:var(--navy);color:#fff;font-size:12px;white-space:nowrap;top:-48px;display:none}
 
-    .history{margin-top:18px;border-top:1px solid rgba(30,58,138,.08);padding-top:14px}
-    .history h3{margin:6px 0}
-    .history-list{max-height:220px;overflow:auto;padding:10px;border-radius:8px;border:1px solid rgba(30,58,138,.08);background:#fff}
-    .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(30,58,138,.05)}
+    .history{margin-top:18px;border-top:1px solid rgba(122,31,18,.08);padding-top:14px}
+    .history h3{margin:6px 0;color:var(--navy)}
+    .history-list{max-height:220px;overflow:auto;padding:10px;border-radius:8px;border:1px solid rgba(122,31,18,.08);background:#fff}
+    .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(122,31,18,.05)}
 
-    footer{font-size:12px;text-align:center;color:rgba(30,58,138,.7);margin-top:12px}
+    footer{font-size:12px;text-align:center;color:rgba(122,31,18,.7);margin-top:12px}
 
     /* MOBILE ADJUSTMENTS */
     @media (max-width:720px){
@@ -118,7 +123,7 @@
       <section class="medals-section">
         <div class="medals-header">
           <h3 style="margin:0">Twoje Medale</h3>
-          <div style="font-size:13px;color:rgba(30,58,138,.7)">Przesuń, aby zobaczyć wszystkie</div>
+          <div style="font-size:13px;color:rgba(122,31,18,.7)">Przesuń, aby zobaczyć wszystkie</div>
         </div>
 
         <div class="medal-strip" id="medalStrip" aria-label="Lista medali">
@@ -127,14 +132,13 @@
 
         <div class="medal-pool" aria-hidden="false">
           <div class="title">Postęp do kolejnych medali</div>
-          <!-- usunięto opis nad paskiem zgodnie z prośbą -->
+          <div class="note">(Poniższy pasek pokazuje ogólny postęp względem najwyższego progu. Na kartach widać ile dni brakuje do każdego medalu.)</div>
           <div class="progress-wrap" id="progressWrap">
             <div class="progress-fill" id="progressFill"></div>
-            <!-- markery dodawane JS -->
+            <!-- markery dodawane JS (bez etykiet - tylko kropki) -->
           </div>
           <div class="progress-legend" id="progressLegend">
             <div id="legendLeft">0 dni</div>
-          <div class="extra-note" style="margin-top:8px;font-size:13px;color:rgba(30,58,138,.7)">Po 50 dniach dostępne są dodatkowe medale — kontynuuj passę, by odkryć więcej nagród.</div>
             <div id="legendRight">0 dni</div>
           </div>
         </div>
@@ -254,15 +258,15 @@
     ];
 
     const MEDALS = [
-      {name:'Brązowy', days:2, tag:'🥉'},
-      {name:'Miedziany', days:5, tag:'🏅'},
-      {name:'Złoty', days:10, tag:'🥇'},
-      {name:'Szmaragdowy', days:15, tag:'💚'},
-      {name:'Platynowy', days:20, tag:'⚪'},
-      {name:'Oksynowy', days:25, tag:'🔷'},
-      {name:'Diamentowy', days:30, tag:'💎'},
-      {name:'Tytanowy', days:40, tag:'🛡️'},
-      {name:'Medal Legendy', days:50, tag:'🏆'}
+      {name:'Liść Dębu', days:2, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#8B5A2B"/></svg>`},
+      {name:'Liść Klonu', days:5, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#d15518"/></svg>`},
+      {name:'Liść Kasztanowca', days:10, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#a73b07"/></svg>`},
+      {name:'Liść Brzozy', days:15, emoji:'🍃', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#9fcf9b"/></svg>`},
+      {name:'Liść Winorośli', days:20, emoji:'🍇', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#6f2e5a"/></svg>`},
+      {name:'Liść Jesionu', days:25, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#6b8e23"/></svg>`},
+      {name:'Liść Bukowy', days:30, emoji:'🌿', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#2e8b57"/></svg>`},
+      {name:'Liść Sekwoi', days:40, emoji:'🌲', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#704214"/></svg>`},
+      {name:'Złoty Liść', days:50, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#cfa200"/></svg>`}
     ];
 
     // DOM
@@ -297,30 +301,39 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top';
-        const tag = document.createElement('div'); tag.className='medal-tag'; tag.textContent = m.tag;
-        const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style=\"width:${Math.max(0,Math.min(100,progressLocal))}%\";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
-        // missing days calculation
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
         const missing = Math.max(0, m.days - currentStreak);
         const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`;
         bottom.innerHTML = barHtml + `<div class=\"medal-missing\">${missingText}</div>`;
         card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card);
       });
 
-      // pooled progress bar with markers
+      // pooled progress bar with markers (markers: only dot + tooltip; no emoji+days labels)
       const max = maxDays;
       const fillPercent = Math.min(100, Math.round((currentStreak / max) * 100));
       progressFill.style.width = fillPercent + '%';
 
+      // remove old markers
       Array.from(progressWrap.querySelectorAll('.marker')).forEach(n=>n.remove());
+      // add markers (only dots, no label text)
+      MEDALS.forEach(m=>{
+        const pos = Math.min(100, (m.days / max) * 100);
+        const marker = document.createElement('div');
+        marker.className = 'marker';
+        marker.style.left = pos + '%';
+        // only dot; label removed per request
+        marker.innerHTML = `<div class="dot"></div>`;
+        marker.title = `${m.name} — próg: ${m.days} dni`;
+        progressWrap.appendChild(marker);
+      });
 
-      // legend + next medal info (pokazujemy tylko ile dni do najbliższego progu)
+      // legend + next medal info
       const next = nextMedal(currentStreak);
       if(next){
         const missingToNext = Math.max(0, next.days - currentStreak);
-        progressLegendLeft.textContent = `Do następnego medalu: ${missingToNext} dni`;
+        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`;
       } else {
-        progressLegendLeft.textContent = `Osiągnięto najwyższy medal`;
+        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto najwyższy medal 🎉`;
       }
       progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
 
@@ -343,14 +356,15 @@
     (function init(){ const state = loadState(); streakEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
 
     // draw logic
-    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
+    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
 
-    function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className = 'history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
+    function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className='history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
 
-    function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(58,88,160,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
+    function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(209,85,24,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(209,85,24,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(209,85,24,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
 
     console.info('Codzienny Cytat - aplikacja załadowana. Aby zresetować storagę: localStorage.clear()');
   </script>
 </body>
 </html>
+
 

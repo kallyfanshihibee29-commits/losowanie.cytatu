@@ -21,7 +21,7 @@
     }
     *{box-sizing:border-box}
     body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: var(--bg); display:flex;align-items:center;justify-content:center;padding:20px; }
-    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .45s ease forwards; }
+    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .45s ease forwards; position:relative; }
     @keyframes appIn{to{opacity:1;transform:none}}
     header{ text-align:center;margin-bottom:8px }
     /* header title color changed as requested */
@@ -112,6 +112,28 @@
       .quote-box{min-height:170px}
       .btn{padding:10px 16px;font-size:15px}
     }
+  
+    /* top-right external link */
+    .external-link{
+      position:absolute;
+      top:12px;
+      left:12px;
+      width:56px;
+      height:56px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      background:linear-gradient(135deg,#96a590 0%,#717c6b 100%);
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      transition:transform .18s ease, box-shadow .18s ease, opacity .12s ease;
+      z-index:1000;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    .external-link:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 18px 40px rgba(0,0,0,0.18); }
+    .external-link:active{ transform:translateY(0) scale(.99) }
+    .external-link svg{ width:24px; height:24px; display:block; fill:#ffffff; transform:rotate(180deg); }
   </style>
 </head>
 <body>
@@ -120,6 +142,10 @@
       <h1>Codzienny Cytat</h1>
       <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Passa nalicza dni z rzędu.</div>
     </header>
+    <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </a>
+    
 
     <main>
       <div class="quote-box" id="quoteBox" role="region" aria-live="polite">

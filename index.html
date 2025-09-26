@@ -7,12 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f7d291; /* page background as requested */
-      --navy:#7a1f12; /* deep autumn red / brown for headings and accents */
+      --bg:#f8eee4; /* page background as requested */
+      --navy:#7a1f12; /* kept for accents */
       --white:#ffffff;
-      --quote-grad-start:#d15518; /* autumn gradient start (orange) */
-      --quote-grad-end:#f69628;   /* autumn gradient end (lighter orange) */
-      --accent:#d15518; /* main accent */
+      /* remaining gradients changed to requested gradient */
+      --quote-grad-start:#b77d4e; /* new gradient start */
+      --quote-grad-end:#e8a169;   /* new gradient end */
+      --accent:#d15518; /* kept (not used for gradients now) */
       --container-w:760px;
       --rounded:16px;
       --card-h:120px;
@@ -20,17 +21,20 @@
     }
     *{box-sizing:border-box}
     body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: var(--bg); display:flex;align-items:center;justify-content:center;padding:20px; }
-    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .5s ease forwards; }
+    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .45s ease forwards; }
     @keyframes appIn{to{opacity:1;transform:none}}
     header{ text-align:center;margin-bottom:8px }
-    h1{font-family:Pacifico, cursive;color:var(--navy);font-size:28px;margin:4px 0}
+    /* header title color changed as requested */
+    h1{font-family:Pacifico, cursive;color:#b77d4e;font-size:28px;margin:4px 0}
     .subtitle{color:var(--quote-grad-start);font-size:13px}
 
-    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(209,85,24,.12); }
+    /* Quote box: changed from orange gradient to solid #717c6b */
+    .quote-box{ background:#717c6b; color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(113,124,107,.12); }
     .quote-ref{display:block;margin-top:10px;font-size:13px;opacity:.95}
 
     .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:12px 0}
-    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(209,85,24,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
+    /* "Losuj Cytat" button: changed to solid #96a590 */
+    .btn{ background:#96a590;color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(150,165,144,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
     .btn:active{transform:translateY(2px)}
     .btn:disabled{background:#c4c4c4;cursor:not-allowed;box-shadow:none}
     .btn.pulse{animation:pulse 3.5s infinite}
@@ -45,7 +49,8 @@
     .medals-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .medal-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory;}
     .medal-strip::-webkit-scrollbar{height:10px}
-    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#f69628,#d15518);border-radius:8px}
+    /* scrollbar thumb gradient adjusted to the new palette */
+    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--quote-grad-end),var(--quote-grad-start));border-radius:8px}
     .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#fff7f0);border-radius:12px;padding:12px;border:1px solid rgba(122,31,18,.06);box-shadow:0 8px 18px rgba(122,31,18,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
     .medal-top{display:flex;align-items:center;gap:8px}
     .medal-tag{font-size:22px; width:36px; height:36px; display:flex; align-items:center; justify-content:center}
@@ -55,16 +60,19 @@
 
     .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff8f0,#ffffff);border:1px solid rgba(122,31,18,.06)}
     .medal-pool .title{font-size:14px;color:rgba(122,31,18,.85);font-weight:700;margin-bottom:12px}
-    /* the explanatory small paragraph was kept; the explicit emoji+days labels (were on markers) are removed as requested */
     .medal-pool .note{font-size:13px;color:rgba(122,31,18,.65);margin-bottom:10px}
 
     .progress-wrap{position:relative;height:18px;background:rgba(122,31,18,.06);border-radius:12px;overflow:visible}
+    /* pooled progress fill now uses the new gradient vars */
     .progress-fill{position:absolute;left:0;top:0;height:100%;border-radius:12px;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));width:0%;transition:width .6s ease}
     .marker{position:absolute;top:-34px;transform:translateX(-50%);text-align:center;font-size:12px}
     .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(122,31,18,.8);display:inline-block}
-    /* .marker .label removed (no emoji+days labels) */
     .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(122,31,18,.7)}
     .tooltip{position:absolute;transform:translateX(-50%);padding:6px 8px;border-radius:6px;background:var(--navy);color:#fff;font-size:12px;white-space:nowrap;top:-48px;display:none}
+
+    /* popup shown when clicking progress bar */
+    .progress-popup{min-width:160px;max-width:320px}
+    .claim-btn{background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));border:none;color:#fff;padding:6px 10px;border-radius:8px;font-weight:700;cursor:pointer} 
 
     .history{margin-top:18px;border-top:1px solid rgba(122,31,18,.08);padding-top:14px}
     .history h3{margin:6px 0;color:var(--navy)}
@@ -72,6 +80,16 @@
     .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(122,31,18,.05)}
 
     footer{font-size:12px;text-align:center;color:rgba(122,31,18,.7);margin-top:12px}
+
+    /* ENTRY ANIMATIONS: every major block slides in from the left with a tiny stagger */
+    @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+    header{opacity:0;animation:slideInFromLeft .5s cubic-bezier(.2,.9,.2,1) forwards .08s}
+    .quote-box{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .16s}
+    .controls{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .24s}
+    .meta{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .32s}
+    .medals-section{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .40s}
+    .history{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .48s}
+    footer{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .56s}
 
     /* MOBILE ADJUSTMENTS */
     @media (max-width:720px){
@@ -132,7 +150,7 @@
 
         <div class="medal-pool" aria-hidden="false">
           <div class="title">Postęp do kolejnych medali</div>
-          <div class="note">(Poniższy pasek pokazuje ogólny postęp względem najwyższego progu. Na kartach widać ile dni brakuje do każdego medalu.)</div>
+          
           <div class="progress-wrap" id="progressWrap">
             <div class="progress-fill" id="progressFill"></div>
             <!-- markery dodawane JS (bez etykiet - tylko kropki) -->
@@ -283,11 +301,11 @@
     const progressLegendLeft = document.getElementById('legendLeft');
     const progressLegendRight = document.getElementById('legendRight');
 
-    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history' };
+    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals' };
 
     function getTodayKey(){ const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); }catch(e){ history=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history}; }
-    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); }
+    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; let claimed = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); }catch(e){ history=[]; claimed=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history,claimedMedals: Array.isArray(claimed)?claimed:[]}; }
+    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); }
     function daysBetween(a,b){ if(!a || !b) return 0; const da = new Date(a+'T00:00:00'); const db = new Date(b+'T00:00:00'); const diff = Math.floor((Date.UTC(db.getFullYear(),db.getMonth(),db.getDate()) - Date.UTC(da.getFullYear(),da.getMonth(),da.getDate())) / (1000*60*60*24)); return diff; }
     function getNextMidnightMs(){ const now = new Date(); const n = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0); return n.getTime(); }
 
@@ -301,51 +319,32 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`;
-        const missing = Math.max(0, m.days - currentStreak);
-        const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`;
-        bottom.innerHTML = barHtml + `<div class=\"medal-missing\">${missingText}</div>`;
-        card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card);
-      });
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class=\"medal-missing\">${missingText}</div>`; card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
 
-      // pooled progress bar with markers (markers: only dot + tooltip; no emoji+days labels)
-      const max = maxDays;
-      const fillPercent = Math.min(100, Math.round((currentStreak / max) * 100));
+      // pooled progress bar now counts towards the *next* medal (closest above current streak)
+      const state = loadState(); const claimed = state.claimedMedals || [];
+      const next = nextMedal(currentStreak);
+      let fillPercent = 0; let prev = 0; let goal = maxDays; let localProgress = 0;
+      if(next){ prev = getPrevThreshold(next.days); goal = Math.max(1, next.days - prev); localProgress = Math.max(0, currentStreak - prev); fillPercent = Math.min(100, Math.round((localProgress / goal) * 100)); } else { // all achieved
+        const lastPrev = getPrevThreshold(maxDays); localProgress = Math.max(0, currentStreak - lastPrev); goal = Math.max(1, maxDays - lastPrev); fillPercent = 100;
+      }
       progressFill.style.width = fillPercent + '%';
 
-      // remove old markers
-      Array.from(progressWrap.querySelectorAll('.marker')).forEach(n=>n.remove());
-      // add markers (only dots, no label text)
-      MEDALS.forEach(m=>{
-        const pos = Math.min(100, (m.days / max) * 100);
-        const marker = document.createElement('div');
-        marker.className = 'marker';
-        marker.style.left = pos + '%';
-        // only dot; label removed per request
-        marker.innerHTML = `<div class="dot"></div>`;
-        marker.title = `${m.name} — próg: ${m.days} dni`;
-        progressWrap.appendChild(marker);
-      });
+      // remove any old popup
+      const existingPopup = progressWrap.querySelector('.progress-popup'); if(existingPopup) existingPopup.remove();
 
-      // legend + next medal info
-      const next = nextMedal(currentStreak);
-      if(next){
-        const missingToNext = Math.max(0, next.days - currentStreak);
-        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`;
-      } else {
-        progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto najwyższy medal 🎉`;
-      }
+      // clicking progress shows a small popup with exact progress and an "Odbierz" when available
+      progressWrap.onclick = function(e){ e.stopPropagation(); const p = progressWrap.querySelector('.progress-popup'); if(p){ p.remove(); return; } const popup = document.createElement('div'); popup.className = 'progress-popup'; popup.style.position='absolute'; popup.style.left='50%'; popup.style.transform='translateX(-50%)'; popup.style.top='-70px'; popup.style.background='#fff'; popup.style.padding='10px'; popup.style.borderRadius='10px'; popup.style.boxShadow='0 8px 22px rgba(0,0,0,0.12)'; popup.style.zIndex=999;
+        if(next){ const current = Math.max(0, currentStreak - prev); popup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${current} z ${goal} dni do ${next.name}</div>`; if(currentStreak >= next.days && !claimed.includes(next.days)){ const btn = document.createElement('button'); btn.className='claim-btn'; btn.textContent='Odbierz'; btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); // mark claimed
+                const s = loadState(); const cm = s.claimedMedals || []; if(!cm.includes(next.days)) cm.push(next.days); saveState({claimedMedals: cm}); popup.remove(); renderMedalsUI(currentStreak); setTimeout(()=>{ alert(`Gratulacje! Otrzymałeś medal: ${next.emoji} ${next.name}`); },120);
+              }); popup.appendChild(btn); }
+        } else { popup.innerHTML = `<div style="font-weight:700">Osiągnięto wszystkie medale 🎉</div>`; }
+        progressWrap.appendChild(popup);
+      };
+
+      // legend + next medal info (kept but now references the closest medal)
+      if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`; } else { progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
       progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
-
-      // tooltip on hover (simple)
-      Array.from(progressWrap.querySelectorAll('.marker')).forEach(marker=>{
-        marker.addEventListener('mouseenter',()=>{
-          let t = marker._tt;
-          if(!t){ t = document.createElement('div'); t.className='tooltip'; t.textContent = marker.title; marker._tt = t; marker.appendChild(t); }
-          t.style.display='block';
-        });
-        marker.addEventListener('mouseleave',()=>{ const t = marker._tt; if(t) t.style.display='none'; });
-      });
 
       // smooth behavior
       medalStrip.style.scrollBehavior = 'smooth';
@@ -366,5 +365,3 @@
   </script>
 </body>
 </html>
-
-

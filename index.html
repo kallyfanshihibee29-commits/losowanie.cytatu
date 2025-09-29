@@ -18,6 +18,15 @@
       --rounded:16px;
       --card-h:120px;
       --gap:16px;
+
+      /* caption colors */
+      --cap-gray:#8a8f91;
+      --cap-green:#2e8b57;
+      --cap-blue:#2563eb;
+      --cap-purple:#7c3aed;
+      --cap-navy:#243b6b;
+      --cap-red:#c62828;
+      --cap-gold:#cfa200;
     }
     *{box-sizing:border-box}
     body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: var(--bg); display:flex;align-items:center;justify-content:center;padding:20px; }
@@ -41,7 +50,8 @@
     @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 
     .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:8px}
-    .streak{font-weight:700}
+    .streak{font-weight:700;display:flex;align-items:center;gap:8px}
+    .streak #flameIcon{display:inline-flex;align-items:center}
     .countdown{font-style:italic;color:var(--navy)}
 
     /* medals area */
@@ -57,6 +67,14 @@
     .medal-name{font-weight:700;color:var(--navy)}
     .medal-days{font-size:13px;color:rgba(122,31,18,.7)}
     .medal-missing{font-size:13px;color:rgba(122,31,18,.75);margin-top:6px}
+    .medal-caption{font-size:13px;font-weight:700;margin-top:6px}
+    .cap-gray{color:var(--cap-gray)}
+    .cap-green{color:var(--cap-green)}
+    .cap-blue{color:var(--cap-blue)}
+    .cap-purple{color:var(--cap-purple)}
+    .cap-navy{color:var(--cap-navy)}
+    .cap-red{color:var(--cap-red)}
+    .cap-gold{color:var(--cap-gold)}
 
     .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff8f0,#ffffff);border:1px solid rgba(122,31,18,.06)}
     .medal-pool .title{font-size:14px;color:rgba(122,31,18,.85);font-weight:700;margin-bottom:12px}
@@ -140,7 +158,7 @@
   <div class="app" id="app">
     <header>
       <h1>Codzienny Cytat</h1>
-      <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Passa nalicza dni z rzędu.</div>
+      <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Twoja CytatPassa nalicza dni z rzędu.</div>
     </header>
     <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
@@ -160,7 +178,7 @@
       </div>
 
       <div class="meta">
-        <div class="streak">Passa: <span id="streak">0</span> dni</div>
+        <div class="streak">Twoja CytatPassa: <span id="streakValue">0</span> dni <span id="flameIcon" aria-hidden="true" title="Status losowania"></span></div>
         <div class="countdown" id="countdown" style="min-width:200px">Nie losowano jeszcze</div>
       </div>
 
@@ -301,6 +319,7 @@
       {text: 'Niech łaska Pana was prowadzi.', ref: '2 Tesaloniczan 2:16'}
     ];
 
+    // rozszerzona lista medali (dodałem grzyby po 50 dniu)
     const MEDALS = [
       {name:'Liść Dębu', days:2, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#8B5A2B"/></svg>`},
       {name:'Liść Klonu', days:5, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#d15518"/></svg>`},
@@ -310,14 +329,33 @@
       {name:'Liść Jesionu', days:25, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#6b8e23"/></svg>`},
       {name:'Liść Bukowy', days:30, emoji:'🌿', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#2e8b57"/></svg>`},
       {name:'Liść Sekwoi', days:40, emoji:'🌲', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#704214"/></svg>`},
-      {name:'Złoty Liść', days:50, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#cfa200"/></svg>`}
+      {name:'Złoty Liść', days:50, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#cfa200"/></svg>`},
+
+      {name:'Grzyb: Pieczarka', days:60, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#c7b299"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff5e6"/></svg>`},
+      {name:'Grzyb: Maślak', days:65, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d4a84a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff3d9"/></svg>`},
+      {name:'Grzyb: Kurka', days:70, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#ff9b3a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff0d6"/></svg>`},
+      {name:'Grzyb: Podgrzybek', days:75, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#8b5a33"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff7ee"/></svg>`},
+      {name:'Grzyb: Prawdziwek', days:80, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d2b48c"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff6e9"/></svg>`},
+      {name:'Grzyb: Muchomor', days:85, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d94b3a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff7ee"/><circle cx="10" cy="7" r="0.8" fill="#fff"/><circle cx="13" cy="8.2" r="0.7" fill="#fff"/><circle cx="15.5" cy="6.8" r="0.6" fill="#fff"/></svg>`},
+      {name:'Złoty Grzyb', days:100, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#cfa200"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff3d9"/></svg>`},
+
+      // owoce i warzywa (nowe)
+      {name:'Jabłko', days:105, emoji:'🍎', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#e24b3b"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#4a6b2a"/></svg>`},
+      {name:'Gruszka', days:110, emoji:'🍐', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 4c-2 0-4 2-4 4s2 4 4 7 4 3 4 1-1-6-4-12z" fill="#c2a64a"/></svg>`},
+      {name:'Śliwka', days:115, emoji:'🍑', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#8b3b8f"/></svg>`},
+      {name:'Dynia', days:120, emoji:'🎃', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="13" rx="7" ry="6" fill="#ff8c2b"/><rect x="11" y="6" width="2" height="3" rx="0.5" fill="#6b3f1f"/></svg>`},
+      {name:'Marchewka', days:125, emoji:'🥕', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 14c2 2 6 2 9 0l-2-6-7 6z" fill="#ff8a3d"/><path d="M14 6l1-2 2 1-1 2z" fill="#6aa84f"/></svg>`},
+      {name:'Burak', days:130, emoji:'🧅', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#7a2540"/></svg>`},
+      {name:'Ziemniak', days:135, emoji:'🥔', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="7" ry="5" fill="#c89f6b"/></svg>`},
+      {name:'Orzech włoski', days:145, emoji:'🌰', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="7" fill="#8b5a2b"/></svg>`},
+      {name:'Złote Jabłko', days:150, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#cfa200"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#6b3f1f"/></svg>`}
     ];
 
     // DOM
     const drawBtn = document.getElementById('drawBtn');
     const quoteText = document.getElementById('quoteText');
     const quoteRef = document.getElementById('quoteRef');
-    const streakEl = document.getElementById('streak');
+    const streakValueEl = document.getElementById('streakValue');
     const countdownEl = document.getElementById('countdown');
     const historyList = document.getElementById('historyList');
 
@@ -326,6 +364,7 @@
     const progressWrap = document.getElementById('progressWrap');
     const progressLegendLeft = document.getElementById('legendLeft');
     const progressLegendRight = document.getElementById('legendRight');
+    const flameIconWrap = document.getElementById('flameIcon');
 
     const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals' };
 
@@ -337,7 +376,48 @@
 
     function nextMedal(streak){ for(let i=0;i<MEDALS.length;i++){ if(streak < MEDALS[i].days) return MEDALS[i]; } return null; }
 
-    function updateCountdown(){ const state = loadState(); const lastDraw = state.lastDrawDate; if(!lastDraw){ countdownEl.textContent = 'Nie losowano jeszcze'; drawBtn.disabled = false; drawBtn.classList.add('pulse'); return; } const today = getTodayKey(); if(lastDraw === today){ const nextMs = getNextMidnightMs(); const diff = nextMs - Date.now(); if(diff<=0){ countdownEl.textContent = 'Możesz losować!'; drawBtn.disabled=false; drawBtn.classList.add('pulse'); return; } drawBtn.disabled=true; drawBtn.classList.remove('pulse'); const h = String(Math.floor(diff/3600000)).padStart(2,'0'); const m = String(Math.floor(diff%3600000/60000)).padStart(2,'0'); const s = String(Math.floor(diff%60000/1000)).padStart(2,'0'); countdownEl.textContent = `Następne losowanie za: ${h}:${m}:${s} (strefa lokalna)`; return; } drawBtn.disabled=false; drawBtn.classList.add('pulse'); countdownEl.textContent = 'Możesz losować!'; }
+    // returns caption text + css class to use
+    function medalCaptionFor(name){ // mapping according to your request
+      if(name === 'Liść Dębu') return {text:'Zwykła Nagroda', cls:'cap-gray'};
+      if(name === 'Liść Klonu') return {text:'Pospolita Nagroda', cls:'cap-green'};
+      if(name === 'Liść Kasztanowca') return {text:'Rzadka Nagroda', cls:'cap-blue'};
+      // next three (Brzozy, Winorośli, Jesionu) -> Bardzo Rzadka Nagroda (purple)
+      if(name === 'Liść Brzozy' || name === 'Liść Winorośli' || name === 'Liść Jesionu') return {text:'Bardzo Rzadka Nagroda', cls:'cap-purple'};
+      if(name === 'Liść Bukowy') return {text:'Extra Nagroda', cls:'cap-navy'};
+      if(name === 'Liść Sekwoi') return {text:'Mityczna Nagroda', cls:'cap-red'};
+      // legendary: Złoty Liść, Złoty Grzyb, Złote Jabłko
+      if(name.startsWith('Złoty') || name.startsWith('Złote') || name === 'Złoty Grzyb' || name === 'Złote Jabłko' || name === 'Złoty Liść') return {text:'Legendarna Nagroda', cls:'cap-gold'};
+      // default
+      return {text:'Nagroda', cls:'cap-gray'};
+    }
+
+    function updateFlameIcon(){ const state = loadState(); const today = getTodayKey(); const drawnToday = state.lastDrawDate === today; // active if drawn today
+      if(drawnToday){ // bright flame svg
+        flameIconWrap.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="gA" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#ffd166" />
+                <stop offset="60%" stop-color="#ff6b00" />
+                <stop offset="100%" stop-color="#d93b00" />
+              </linearGradient>
+            </defs>
+            <path d="M12 2c0 0-4 4-4 8 0 3.5 3 6 4 9 1-3 4-5.5 4-9 0-4-4-8-4-8z" fill="url(#gA)" />
+            <path d="M12 5.5c0 0-1.8 1.6-1.8 3.2 0 1.4 1.1 2.4 1.8 3.6.6-1.3 1.8-2.2 1.8-3.6 0-1.6-1.8-3.2-1.8-3.2z" fill="#fff6b8" opacity="0.9" />
+          </svg>
+        `;
+        flameIconWrap.setAttribute('title','Zalowano cytat dziś — Twoja CytatPassa aktywna');
+      } else {
+        flameIconWrap.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 3c0 0-3 3-3 6 0 2.5 2 4 3 6 1-2 3-3.5 3-6 0-3-3-6-3-6z" fill="#bdbdbd" />
+          </svg>
+        `;
+        flameIconWrap.setAttribute('title','Jeszcze nie wylosowano dzisiaj — ikonka szara');
+      }
+    }
+
+    function updateCountdown(){ const state = loadState(); const lastDraw = state.lastDrawDate; if(!lastDraw){ countdownEl.textContent = 'Nie losowano jeszcze'; drawBtn.disabled = false; drawBtn.classList.add('pulse'); updateFlameIcon(); return; } const today = getTodayKey(); if(lastDraw === today){ const nextMs = getNextMidnightMs(); const diff = nextMs - Date.now(); if(diff<=0){ countdownEl.textContent = 'Możesz losować!'; drawBtn.disabled=false; drawBtn.classList.add('pulse'); updateFlameIcon(); return; } drawBtn.disabled=true; drawBtn.classList.remove('pulse'); const h = String(Math.floor(diff/3600000)).padStart(2,'0'); const m = String(Math.floor(diff%3600000/60000)).padStart(2,'0'); const s = String(Math.floor(diff%60000/1000)).padStart(2,'0'); countdownEl.textContent = `Następne losowanie za: ${h}:${m}:${s} (strefa lokalna)`; updateFlameIcon(); return; } drawBtn.disabled=false; drawBtn.classList.add('pulse'); countdownEl.textContent = 'Możesz losować!'; updateFlameIcon(); }
 
     function chooseQuoteAvoidRepeat(lastIndex){ if(QUOTES.length===0) return null; if(QUOTES.length===1) return 0; let idx = Math.floor(Math.random()*QUOTES.length); let attempts=0; while(idx===lastIndex && attempts<50){ idx = Math.floor(Math.random()*QUOTES.length); attempts++; } if(idx===lastIndex) idx = (lastIndex+1)%QUOTES.length; return idx; }
 
@@ -345,7 +425,11 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class=\"medal-missing\">${missingText}</div>`; card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class="medal-missing">${missingText}</div>`; // caption
+      const cap = medalCaptionFor(m.name);
+      const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption ${cap.cls}`; captionDiv.textContent = cap.text; bottom.appendChild(captionDiv);
+
+      card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
 
       // pooled progress bar now counts towards the *next* medal (closest above current streak)
       const state = loadState(); const claimed = state.claimedMedals || [];
@@ -369,7 +453,7 @@
       };
 
       // legend + next medal info (kept but now references the closest medal)
-      if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`; } else { progressLegendLeft.textContent = `Passa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
+      if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`; } else { progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
       progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
 
       // smooth behavior
@@ -378,10 +462,10 @@
     }
 
     // initial render
-    (function init(){ const state = loadState(); streakEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
+    (function init(){ const state = loadState(); streakValueEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
 
     // draw logic
-    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
+    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakValueEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
 
     function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className='history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
 
@@ -391,3 +475,4 @@
   </script>
 </body>
 </html>
+

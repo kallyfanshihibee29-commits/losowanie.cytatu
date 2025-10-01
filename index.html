@@ -7,19 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f8eee4; /* page background as requested */
-      --navy:#7a1f12; /* kept for accents */
+      /* Zapisana szata graficzna */
+      --bg:#9fc6e2;
+      --navy:#1e3a8a;
       --white:#ffffff;
-      /* remaining gradients changed to requested gradient */
-      --quote-grad-start:#b77d4e; /* new gradient start */
-      --quote-grad-end:#e8a169;   /* new gradient end */
-      --accent:#d15518; /* kept (not used for gradients now) */
+      --quote-grad-start:#3b5998;
+      --quote-grad-end:#5a8dee;
       --container-w:760px;
       --rounded:16px;
       --card-h:120px;
       --gap:16px;
 
-      /* caption colors */
+      /* dodatkowe (pomocnicze) */
       --cap-gray:#8a8f91;
       --cap-green:#2e8b57;
       --cap-blue:#2563eb;
@@ -29,21 +28,20 @@
       --cap-gold:#cfa200;
     }
     *{box-sizing:border-box}
-    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: var(--bg); display:flex;align-items:center;justify-content:center;padding:20px; }
+    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: linear-gradient(180deg,var(--bg) 0%, #cfe8f8 100%); display:flex;align-items:center;justify-content:center;padding:20px; }
     .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:20px;box-shadow:0px 8px 28px rgba(0,0,0,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .45s ease forwards; position:relative; }
     @keyframes appIn{to{opacity:1;transform:none}}
     header{ text-align:center;margin-bottom:8px }
-    /* header title color changed as requested */
-    h1{font-family:Pacifico, cursive;color:#b77d4e;font-size:28px;margin:4px 0}
-    .subtitle{color:var(--quote-grad-start);font-size:13px}
+    h1{font-family:Pacifico, cursive;color:var(--navy);font-size:28px;margin:4px 0}
+    .subtitle{color:rgba(30,58,138,.8);font-size:13px}
 
-    /* Quote box: changed from orange gradient to solid #717c6b */
-    .quote-box{ background:#717c6b; color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(113,124,107,.12); }
+    /* Quote box uses stored gradient */
+    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:18px;border-radius:12px;min-height:140px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:18px;line-height:1.4;margin:14px 0;box-shadow:0 10px 30px rgba(58,88,160,.12); }
     .quote-ref{display:block;margin-top:10px;font-size:13px;opacity:.95}
 
     .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:12px 0}
-    /* "Losuj Cytat" button: changed to solid #96a590 */
-    .btn{ background:#96a590;color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(150,165,144,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
+    /* button uses stored gradient */
+    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;box-shadow:0 6px 16px rgba(58,88,160,.15); transition:transform .18s ease,box-shadow .18s ease;outline:none; }
     .btn:active{transform:translateY(2px)}
     .btn:disabled{background:#c4c4c4;cursor:not-allowed;box-shadow:none}
     .btn.pulse{animation:pulse 3.5s infinite}
@@ -59,14 +57,13 @@
     .medals-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
     .medal-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory;}
     .medal-strip::-webkit-scrollbar{height:10px}
-    /* scrollbar thumb gradient adjusted to the new palette */
     .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--quote-grad-end),var(--quote-grad-start));border-radius:8px}
-    .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#fff7f0);border-radius:12px;padding:12px;border:1px solid rgba(122,31,18,.06);box-shadow:0 8px 18px rgba(122,31,18,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
+    .medal-card{flex:0 0 180px;background:linear-gradient(180deg,#fff,#f6fbff);border-radius:12px;padding:12px;border:1px solid rgba(30,58,138,.06);box-shadow:0 8px 18px rgba(30,58,138,.04);height:var(--card-h);display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
     .medal-top{display:flex;align-items:center;gap:8px}
     .medal-tag{font-size:22px; width:36px; height:36px; display:flex; align-items:center; justify-content:center}
     .medal-name{font-weight:700;color:var(--navy)}
-    .medal-days{font-size:13px;color:rgba(122,31,18,.7)}
-    .medal-missing{font-size:13px;color:rgba(122,31,18,.75);margin-top:6px}
+    .medal-days{font-size:13px;color:rgba(30,58,138,.7)}
+    .medal-missing{font-size:13px;color:rgba(30,58,138,.75);margin-top:6px}
     .medal-caption{font-size:13px;font-weight:700;margin-top:6px}
     .cap-gray{color:var(--cap-gray)}
     .cap-green{color:var(--cap-green)}
@@ -76,30 +73,28 @@
     .cap-red{color:var(--cap-red)}
     .cap-gold{color:var(--cap-gold)}
 
-    .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff8f0,#ffffff);border:1px solid rgba(122,31,18,.06)}
-    .medal-pool .title{font-size:14px;color:rgba(122,31,18,.85);font-weight:700;margin-bottom:12px}
-    .medal-pool .note{font-size:13px;color:rgba(122,31,18,.65);margin-bottom:10px}
+    .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(30,58,138,.06)}
+    .medal-pool .title{font-size:14px;color:rgba(30,58,138,.85);font-weight:700;margin-bottom:12px}
+    .medal-pool .note{font-size:13px;color:rgba(30,58,138,.65);margin-bottom:10px}
 
-    .progress-wrap{position:relative;height:18px;background:rgba(122,31,18,.06);border-radius:12px;overflow:visible}
-    /* pooled progress fill now uses the new gradient vars */
+    .progress-wrap{position:relative;height:18px;background:rgba(30,58,138,.06);border-radius:12px;overflow:visible}
     .progress-fill{position:absolute;left:0;top:0;height:100%;border-radius:12px;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));width:0%;transition:width .6s ease}
     .marker{position:absolute;top:-34px;transform:translateX(-50%);text-align:center;font-size:12px}
-    .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(122,31,18,.8);display:inline-block}
-    .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(122,31,18,.7)}
+    .marker .dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid rgba(30,58,138,.8);display:inline-block}
+    .progress-legend{display:flex;justify-content:space-between;margin-top:12px;font-size:13px;color:rgba(30,58,138,.7)}
     .tooltip{position:absolute;transform:translateX(-50%);padding:6px 8px;border-radius:6px;background:var(--navy);color:#fff;font-size:12px;white-space:nowrap;top:-48px;display:none}
 
-    /* popup shown when clicking progress bar */
     .progress-popup{min-width:160px;max-width:320px}
     .claim-btn{background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));border:none;color:#fff;padding:6px 10px;border-radius:8px;font-weight:700;cursor:pointer} 
 
-    .history{margin-top:18px;border-top:1px solid rgba(122,31,18,.08);padding-top:14px}
-    .history h3{margin:6px 0;color:var(--navy)}
-    .history-list{max-height:220px;overflow:auto;padding:10px;border-radius:8px;border:1px solid rgba(122,31,18,.08);background:#fff}
-    .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(122,31,18,.05)}
+    .history{margin-top:18px;border-top:1px solid rgba(30,58,138,.08);padding-top:14px}
+    .history h3{margin:6px 0;color:var(--navy);display:flex;align-items:center;gap:10px}
+    .history-list{max-height:220px;overflow:auto;padding:10px;border-radius:8px;border:1px solid rgba(30,58,138,.08);background:#fff}
+    .history-item{font-size:14px;padding:10px 8px;border-bottom:1px dashed rgba(30,58,138,.05)}
 
-    footer{font-size:12px;text-align:center;color:rgba(122,31,18,.7);margin-top:12px}
+    footer{font-size:12px;text-align:center;color:rgba(30,58,138,.7);margin-top:12px}
 
-    /* ENTRY ANIMATIONS: every major block slides in from the left with a tiny stagger */
+    /* ENTRY ANIMATIONS */
     @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
     header{opacity:0;animation:slideInFromLeft .5s cubic-bezier(.2,.9,.2,1) forwards .08s}
     .quote-box{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .16s}
@@ -131,27 +126,79 @@
       .btn{padding:10px 16px;font-size:15px}
     }
   
-    /* top-right external link */
+    /* left external link (HALF SIZE compared to previous) */
     .external-link{
       position:absolute;
-      top:12px;
-      left:12px;
-      width:56px;
-      height:56px;
+      top:8px;
+      left:8px;
+      width:28px;  /* reduced about half */
+      height:28px;
       border-radius:999px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       text-decoration:none;
-      background:linear-gradient(135deg,#96a590 0%,#717c6b 100%);
+      background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%);
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+      transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      z-index:1000;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+    .external-link svg{ width:14px; height:14px; display:block; fill:#ffffff; transform:rotate(180deg); }
+
+    /* right-side search/code icon */
+    .search-link{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%);
       box-shadow:0 10px 30px rgba(0,0,0,0.12);
       transition:transform .18s ease, box-shadow .18s ease, opacity .12s ease;
       z-index:1000;
       border:1px solid rgba(255,255,255,0.06);
+      cursor:pointer;
     }
-    .external-link:hover{ transform:translateY(-3px) scale(1.05); box-shadow:0 18px 40px rgba(0,0,0,0.18); }
-    .external-link:active{ transform:translateY(0) scale(.99) }
-    .external-link svg{ width:24px; height:24px; display:block; fill:#ffffff; transform:rotate(180deg); }
+    .search-link svg{ width:20px; height:20px; display:block; fill:#fff; }
+
+    /* popup with code input */
+    .code-popup{
+      position:absolute;
+      top:60px;
+      right:10px;
+      width:260px;
+      max-width:calc(100% - 40px);
+      background:#fff;
+      border-radius:10px;
+      box-shadow:0 12px 30px rgba(0,0,0,0.14);
+      padding:10px;
+      z-index:1100;
+      display:none;
+    }
+    .code-popup.visible{ display:block; }
+    .code-popup form{ display:flex; gap:8px; align-items:center; }
+    .code-popup input[type="text"]{ flex:1; padding:8px 10px; border-radius:8px; border:1px solid rgba(30,58,138,.08); font-size:14px; }
+    .code-popup button{ padding:8px 10px; border-radius:8px; border:none; background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end)); color:#fff; font-weight:700; cursor:pointer; }
+
+    /* small clear history button near history header */
+    .clear-history-btn{
+      background:transparent;
+      border:none;
+      color:rgba(30,58,138,.7);
+      cursor:pointer;
+      padding:6px;
+      border-radius:8px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .clear-history-btn svg{ width:16px; height:16px; display:block; fill:rgba(30,58,138,.7); }
   </style>
 </head>
 <body>
@@ -160,10 +207,25 @@
       <h1>Codzienny Cytat</h1>
       <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Twoja CytatPassa nalicza dni z rzędu.</div>
     </header>
+
+    <!-- left small arrow (half-size) -->
     <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
     </a>
-    
+
+    <!-- right-side search/code icon -->
+    <div class="search-link" id="searchToggle" title="Wprowadź kod">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM10 14a4 4 0 110-8 4 4 0 010 8z"/></svg>
+    </div>
+
+    <!-- code popup (hidden until clicking search icon) -->
+    <div class="code-popup" id="codePopup" aria-hidden="true">
+      <form id="codeForm">
+        <input id="codeInput" type="text" inputmode="latin" autocomplete="off" placeholder="Wpisz kod specjalny" aria-label="Kod specjalny" />
+        <button type="submit" id="codeApplyBtn">Zastosuj</button>
+      </form>
+      <div id="codeMsg" style="margin-top:8px;font-size:13px;color:var(--navy);display:none"></div>
+    </div>
 
     <main>
       <div class="quote-box" id="quoteBox" role="region" aria-live="polite">
@@ -185,7 +247,7 @@
       <section class="medals-section">
         <div class="medals-header">
           <h3 style="margin:0">Twoje Medale</h3>
-          <div style="font-size:13px;color:rgba(122,31,18,.7)">Przesuń, aby zobaczyć wszystkie</div>
+          <div style="font-size:13px;color:rgba(30,58,138,.7)">Przesuń, aby zobaczyć wszystkie</div>
         </div>
 
         <div class="medal-strip" id="medalStrip" aria-label="Lista medali">
@@ -207,7 +269,13 @@
       </section>
 
       <div class="history">
-        <h3>Historia cytatów</h3>
+        <h3>
+          Historia cytatów
+          <!-- clear history button (trash) -->
+          <button class="clear-history-btn" id="clearHistoryBtn" title="Wyczyść historię cytatów" aria-label="Wyczyść historię cytatów">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+          </button>
+        </h3>
         <div class="history-list" id="historyList">Brak zapisanych cytatów.</div>
       </div>
     </main>
@@ -319,7 +387,7 @@
       {text: 'Niech łaska Pana was prowadzi.', ref: '2 Tesaloniczan 2:16'}
     ];
 
-    // rozszerzona lista medali (dodałem grzyby po 50 dniu)
+    // rozszerzona lista medali (z Twojego kodu) — bez zmian logicznych
     const MEDALS = [
       {name:'Liść Dębu', days:2, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#8B5A2B"/></svg>`},
       {name:'Liść Klonu', days:5, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#d15518"/></svg>`},
@@ -339,7 +407,6 @@
       {name:'Grzyb: Muchomor', days:85, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d94b3a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff7ee"/><circle cx="10" cy="7" r="0.8" fill="#fff"/><circle cx="13" cy="8.2" r="0.7" fill="#fff"/><circle cx="15.5" cy="6.8" r="0.6" fill="#fff"/></svg>`},
       {name:'Złoty Grzyb', days:100, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#cfa200"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff3d9"/></svg>`},
 
-      // owoce i warzywa (nowe)
       {name:'Jabłko', days:105, emoji:'🍎', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#e24b3b"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#4a6b2a"/></svg>`},
       {name:'Gruszka', days:110, emoji:'🍐', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 4c-2 0-4 2-4 4s2 4 4 7 4 3 4 1-1-6-4-12z" fill="#c2a64a"/></svg>`},
       {name:'Śliwka', days:115, emoji:'🍑', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#8b3b8f"/></svg>`},
@@ -366,11 +433,19 @@
     const progressLegendRight = document.getElementById('legendRight');
     const flameIconWrap = document.getElementById('flameIcon');
 
-    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals' };
+    const searchToggle = document.getElementById('searchToggle');
+    const codePopup = document.getElementById('codePopup');
+    const codeForm = document.getElementById('codeForm');
+    const codeInput = document.getElementById('codeInput');
+    const codeMsg = document.getElementById('codeMsg');
+
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals', claimedCodes: 'cd_claimedCodes' };
 
     function getTodayKey(){ const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; let claimed = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); }catch(e){ history=[]; claimed=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history,claimedMedals: Array.isArray(claimed)?claimed:[]}; }
-    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); }
+    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; let claimed = []; let claimedCodes = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); claimedCodes = JSON.parse(localStorage.getItem(LS.claimedCodes)||'[]'); }catch(e){ history=[]; claimed=[]; claimedCodes=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history,claimedMedals: Array.isArray(claimed)?claimed:[], claimedCodes: Array.isArray(claimedCodes)?claimedCodes:[]}; }
+    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); if(state.claimedCodes!==undefined) localStorage.setItem(LS.claimedCodes,JSON.stringify(state.claimedCodes)); }
     function daysBetween(a,b){ if(!a || !b) return 0; const da = new Date(a+'T00:00:00'); const db = new Date(b+'T00:00:00'); const diff = Math.floor((Date.UTC(db.getFullYear(),db.getMonth(),db.getDate()) - Date.UTC(da.getFullYear(),da.getMonth(),da.getDate())) / (1000*60*60*24)); return diff; }
     function getNextMidnightMs(){ const now = new Date(); const n = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0); return n.getTime(); }
 
@@ -381,29 +456,25 @@
       if(name === 'Liść Dębu') return {text:'Zwykła Nagroda', cls:'cap-gray'};
       if(name === 'Liść Klonu') return {text:'Pospolita Nagroda', cls:'cap-green'};
       if(name === 'Liść Kasztanowca') return {text:'Rzadka Nagroda', cls:'cap-blue'};
-      // next three (Brzozy, Winorośli, Jesionu) -> Bardzo Rzadka Nagroda (purple)
       if(name === 'Liść Brzozy' || name === 'Liść Winorośli' || name === 'Liść Jesionu') return {text:'Bardzo Rzadka Nagroda', cls:'cap-purple'};
       if(name === 'Liść Bukowy') return {text:'Extra Nagroda', cls:'cap-navy'};
       if(name === 'Liść Sekwoi') return {text:'Mityczna Nagroda', cls:'cap-red'};
-      // legendary: Złoty Liść, Złoty Grzyb, Złote Jabłko
       if(name.startsWith('Złoty') || name.startsWith('Złote') || name === 'Złoty Grzyb' || name === 'Złote Jabłko' || name === 'Złoty Liść') return {text:'Legendarna Nagroda', cls:'cap-gold'};
-      // default
       return {text:'Nagroda', cls:'cap-gray'};
     }
 
-    function updateFlameIcon(){ const state = loadState(); const today = getTodayKey(); const drawnToday = state.lastDrawDate === today; // active if drawn today
-      if(drawnToday){ // bright flame svg
+    function updateFlameIcon(){ const state = loadState(); const today = getTodayKey(); const drawnToday = state.lastDrawDate === today;
+      if(drawnToday){
         flameIconWrap.innerHTML = `
           <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id="gA" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#ffd166" />
-                <stop offset="60%" stop-color="#ff6b00" />
-                <stop offset="100%" stop-color="#d93b00" />
+                <stop offset="0%" stop-color="#3b5998" />
+                <stop offset="100%" stop-color="#5a8dee" />
               </linearGradient>
             </defs>
             <path d="M12 2c0 0-4 4-4 8 0 3.5 3 6 4 9 1-3 4-5.5 4-9 0-4-4-8-4-8z" fill="url(#gA)" />
-            <path d="M12 5.5c0 0-1.8 1.6-1.8 3.2 0 1.4 1.1 2.4 1.8 3.6.6-1.3 1.8-2.2 1.8-3.6 0-1.6-1.8-3.2-1.8-3.2z" fill="#fff6b8" opacity="0.9" />
+            <path d="M12 5.5c0 0-1.8 1.6-1.8 3.2 0 1.4 1.1 2.4 1.8 3.6.6-1.3 1.8-2.2 1.8-3.6 0-1.6-1.8-3.2-1.8-3.2z" fill="#ffffff" opacity="0.9" />
           </svg>
         `;
         flameIconWrap.setAttribute('title','Zalowano cytat dziś — Twoja CytatPassa aktywna');
@@ -425,38 +496,25 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(209,85,24,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(122,31,18,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class="medal-missing">${missingText}</div>`; // caption
-      const cap = medalCaptionFor(m.name);
-      const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption ${cap.cls}`; captionDiv.textContent = cap.text; bottom.appendChild(captionDiv);
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class="medal-missing">${missingText}</div>`; const cap = medalCaptionFor(m.name); const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption ${cap.cls}`; captionDiv.textContent = cap.text; bottom.appendChild(captionDiv); card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
 
-      card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
-
-      // pooled progress bar now counts towards the *next* medal (closest above current streak)
       const state = loadState(); const claimed = state.claimedMedals || [];
       const next = nextMedal(currentStreak);
       let fillPercent = 0; let prev = 0; let goal = maxDays; let localProgress = 0;
-      if(next){ prev = getPrevThreshold(next.days); goal = Math.max(1, next.days - prev); localProgress = Math.max(0, currentStreak - prev); fillPercent = Math.min(100, Math.round((localProgress / goal) * 100)); } else { // all achieved
-        const lastPrev = getPrevThreshold(maxDays); localProgress = Math.max(0, currentStreak - lastPrev); goal = Math.max(1, maxDays - lastPrev); fillPercent = 100;
-      }
+      if(next){ prev = getPrevThreshold(next.days); goal = Math.max(1, next.days - prev); localProgress = Math.max(0, currentStreak - prev); fillPercent = Math.min(100, Math.round((localProgress / goal) * 100)); } else { fillPercent = 100; }
       progressFill.style.width = fillPercent + '%';
 
-      // remove any old popup
       const existingPopup = progressWrap.querySelector('.progress-popup'); if(existingPopup) existingPopup.remove();
 
-      // clicking progress shows a small popup with exact progress and an "Odbierz" when available
       progressWrap.onclick = function(e){ e.stopPropagation(); const p = progressWrap.querySelector('.progress-popup'); if(p){ p.remove(); return; } const popup = document.createElement('div'); popup.className = 'progress-popup'; popup.style.position='absolute'; popup.style.left='50%'; popup.style.transform='translateX(-50%)'; popup.style.top='-70px'; popup.style.background='#fff'; popup.style.padding='10px'; popup.style.borderRadius='10px'; popup.style.boxShadow='0 8px 22px rgba(0,0,0,0.12)'; popup.style.zIndex=999;
-        if(next){ const current = Math.max(0, currentStreak - prev); popup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${current} z ${goal} dni do ${next.name}</div>`; if(currentStreak >= next.days && !claimed.includes(next.days)){ const btn = document.createElement('button'); btn.className='claim-btn'; btn.textContent='Odbierz'; btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); // mark claimed
-                const s = loadState(); const cm = s.claimedMedals || []; if(!cm.includes(next.days)) cm.push(next.days); saveState({claimedMedals: cm}); popup.remove(); renderMedalsUI(currentStreak); setTimeout(()=>{ alert(`Gratulacje! Otrzymałeś medal: ${next.emoji} ${next.name}`); },120);
-              }); popup.appendChild(btn); }
+        if(next){ const current = Math.max(0, currentStreak - prev); popup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${current} z ${goal} dni do ${next.name}</div>`; if(currentStreak >= next.days && !claimed.includes(next.days)){ const btn = document.createElement('button'); btn.className='claim-btn'; btn.textContent='Odbierz'; btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); const s = loadState(); const cm = s.claimedMedals || []; if(!cm.includes(next.days)) cm.push(next.days); saveState({claimedMedals: cm}); popup.remove(); renderMedalsUI(currentStreak); setTimeout(()=>{ alert(`Gratulacje! Otrzymałeś medal: ${next.emoji} ${next.name}`); },120); }); popup.appendChild(btn); }
         } else { popup.innerHTML = `<div style="font-weight:700">Osiągnięto wszystkie medale 🎉</div>`; }
         progressWrap.appendChild(popup);
       };
 
-      // legend + next medal info (kept but now references the closest medal)
       if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`; } else { progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
       progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
 
-      // smooth behavior
       medalStrip.style.scrollBehavior = 'smooth';
       medalStrip.querySelectorAll('.medal-card').forEach((c,i)=>{ c.setAttribute('role','group'); c.setAttribute('aria-label', `${MEDALS[i].name} ${MEDALS[i].days} dni`); });
     }
@@ -469,10 +527,91 @@
 
     function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className='history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
 
-    function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(209,85,24,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(209,85,24,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(209,85,24,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
+    function quoteBoxAnim(){ const box = document.getElementById('quoteBox'); if(!box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(58,88,160,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' } ],{ duration: 600, easing: 'ease-out' }); }
+
+    /* ---------- NEW FEATURES ---------- */
+
+    // 1) Clear history button
+    clearHistoryBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if(!confirm('Czy na pewno chcesz usunąć całą historię cytatów? Operacji nie można cofnąć.')) return;
+      const s = loadState();
+      s.history = [];
+      saveState({ history: [] });
+      renderHistory();
+      alert('Historia cytatów została wyczyszczona.');
+    });
+
+    // 2) Search/code popup toggle (right icon)
+    searchToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      codeMsg.style.display = 'none';
+      codeMsg.textContent = '';
+      codeInput.value = '';
+      codePopup.classList.toggle('visible');
+      codePopup.setAttribute('aria-hidden', codePopup.classList.contains('visible') ? 'false' : 'true');
+      if(codePopup.classList.contains('visible')) codeInput.focus();
+    });
+
+    // close popups when clicking outside
+    document.addEventListener('click', (ev) => {
+      if(codePopup.classList.contains('visible')){
+        codePopup.classList.remove('visible');
+        codePopup.setAttribute('aria-hidden','true');
+      }
+      // remove any progress popup if open
+      const p = progressWrap.querySelector('.progress-popup');
+      if(p) p.remove();
+    });
+
+    // prevent clicks inside popup from closing it
+    codePopup.addEventListener('click', (ev)=>{ ev.stopPropagation(); });
+
+    // 3) Apply special code (hidden code handling)
+    // NOTE: The code string is not displayed anywhere in UI; usage stored locally under claimedCodes
+    function applySpecialCode(rawCode){
+      const code = (rawCode||'').toString().trim().toUpperCase();
+      if(!code) return { ok:false, msg:'Wpisz kod.' };
+      const state = loadState();
+      const claimed = state.claimedCodes || [];
+      // single secret code: QQWE19 -> +30 dni passy
+      if(code === 'QQWE19'){
+        if(claimed.includes(code)){
+          return { ok:false, msg:'Kod został już użyty.' };
+        }
+        const newStreak = (state.streak || 0) + 30;
+        // save new streak and mark code as claimed
+        claimed.push(code);
+        saveState({ streak: newStreak, claimedCodes: claimed });
+        // update UI
+        streakValueEl.textContent = newStreak;
+        renderMedalsUI(newStreak);
+        updateCountdown();
+        return { ok:true, msg:'+30 dni przyznane. Dziękujemy!' };
+      }
+      return { ok:false, msg:'Nieprawidłowy kod.' };
+    }
+
+    // handle form submit
+    codeForm.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const v = codeInput.value || '';
+      const res = applySpecialCode(v);
+      codeMsg.style.display = 'block';
+      codeMsg.textContent = res.msg;
+      if(res.ok){
+        // show brief success then hide popup
+        setTimeout(()=>{ codePopup.classList.remove('visible'); codePopup.setAttribute('aria-hidden','true'); }, 900);
+        // subtle alert for immediate feedback
+        alert('Kod przyjęty — przyznano +30 dni do passy.');
+      }
+    });
+
+    /* ---------- end new features ---------- */
 
     console.info('Codzienny Cytat - aplikacja załadowana. Aby zresetować storagę: localStorage.clear()');
   </script>
 </body>
 </html>
-

@@ -48,7 +48,8 @@
     @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 
     .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:8px}
-    .streak{font-weight:700;display:flex;align-items:center;gap:8px}
+    .streak{font-weight:700;display:flex;flex-direction:column;gap:6px}
+    .streak-row{display:flex;align-items:center;gap:8px}
     .streak #flameIcon{display:inline-flex;align-items:center}
     .countdown{font-style:italic;color:var(--navy)}
 
@@ -65,6 +66,17 @@
     .medal-days{font-size:13px;color:rgba(30,58,138,.7)}
     .medal-missing{font-size:13px;color:rgba(30,58,138,.75);margin-top:6px}
     .medal-caption{font-size:13px;font-weight:700;margin-top:6px}
+
+    /* autumn gradient text for captions */
+    .cap-autumn{
+      font-weight:700;
+      background: linear-gradient(90deg,#8B5A2B,#d15518,#6b8e23);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
     .cap-gray{color:var(--cap-gray)}
     .cap-green{color:var(--cap-green)}
     .cap-blue{color:var(--cap-blue)}
@@ -72,15 +84,6 @@
     .cap-navy{color:var(--cap-navy)}
     .cap-red{color:var(--cap-red)}
     .cap-gold{color:var(--cap-gold)}
-
-    /* DIAMOND caption: gradient text (gold -> violet -> green -> blue) */
-    .cap-diamond{
-      background: linear-gradient(90deg, #cfa200, #7c3aed, #2e8b57, #2563eb);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-weight:700;
-    }
 
     .medal-pool{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(30,58,138,.06)}
     .medal-pool .title{font-size:14px;color:rgba(30,58,138,.85);font-weight:700;margin-bottom:12px}
@@ -249,13 +252,16 @@
       </div>
 
       <div class="meta">
-        <div class="streak">Twoja CytatPassa: <span id="streakValue">0</span> dni <span id="flameIcon" aria-hidden="true" title="Status losowania"></span></div>
+        <div class="streak">
+          <div class="streak-row">Twoja CytatPassa: <span id="streakValue" style="margin-left:8px">0</span> dni <span id="flameIcon" aria-hidden="true" title="Status losowania"></span></div>
+          <div class="streak-row" style="font-weight:600;color:rgba(30,58,138,.85)">Twoje CytatPunkty: <span id="pointsValue" style="margin-left:8px">0</span></div>
+        </div>
         <div class="countdown" id="countdown" style="min-width:200px">Nie losowano jeszcze</div>
       </div>
 
       <section class="medals-section">
         <div class="medals-header">
-          <h3 style="margin:0">Twoje Medale</h3>
+          <h3 style="margin:0">Nagrody Jesiennego Seoznu</h3>
           <div style="font-size:13px;color:rgba(30,58,138,.7)">Przesuń, aby zobaczyć wszystkie</div>
         </div>
 
@@ -396,7 +402,7 @@
       {text: 'Niech łaska Pana was prowadzi.', ref: '2 Tesaloniczan 2:16'}
     ];
 
-    // rozszerzona lista medali (z Twojego kodu) — DODAŁEM nowe medale od 155 do 200 dni
+    // rozszerzona lista medali (z Twojego kodu) — bez zmian logicznych
     const MEDALS = [
       {name:'Liść Dębu', days:2, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#8B5A2B"/></svg>`},
       {name:'Liść Klonu', days:5, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#d15518"/></svg>`},
@@ -424,19 +430,7 @@
       {name:'Burak', days:130, emoji:'🧅', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#7a2540"/></svg>`},
       {name:'Ziemniak', days:135, emoji:'🥔', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="7" ry="5" fill="#c89f6b"/></svg>`},
       {name:'Orzech włoski', days:145, emoji:'🌰', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="7" fill="#8b5a2b"/></svg>`},
-      {name:'Złote Jabłko', days:150, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#cfa200"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#6b3f1f"/></svg>`},
-
-      /* --- nowe medale od 155 do 200 dni (dodane według Twojej listy) --- */
-      {name:'Liść Jarzębiny', days:155, emoji:'🍒', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="8.5" cy="11" r="3.2" fill="#d94b3a"/><circle cx="15" cy="11" r="3.2" fill="#d94b3a"/></svg>`},
-      {name:'Liść Akacji', days:160, emoji:'🌿', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-2 2-6 6-6 10s4 6 6 6 6-2 6-6-4-8-6-10z" fill="#f4c430"/></svg>`},
-      {name:'Liść Buka', days:165, emoji:'🍃', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-3 2-7 7-7 11s4 6 7 6 7-1 7-6-4-9-7-11z" fill="#2e8b57"/></svg>`},
-      {name:'Liść Wiązu', days:170, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-2 1.5-5 5-5 9s3 6 5 6 5-1 5-6-3-8.5-5-9z" fill="#9aa7b0"/></svg>`},
-      {name:'Liść Oliwki', days:175, emoji:'🌿', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><ellipse cx="12" cy="12" rx="7" ry="4.2" fill="#708238"/></svg>`},
-      {name:'Liść Magnolii', days:180, emoji:'🌸', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-1 1-4 4-4 6s3 4 4 4 4-1 4-4-3-6-4-6z" fill="#f7d6e0"/></svg>`},
-      {name:'Liść Tulipanowca', days:185, emoji:'🌷', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4c-2 2-5 5-5 8s3 5 5 5 5-1 5-5-3-8-5-8z" fill="#ff9bb3"/></svg>`},
-      {name:'Liść Ambrowca', days:190, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-2 2-6 6-6 10s4 6 6 6 6-2 6-6-4-8-6-10z" fill="#b86b2b"/></svg>`},
-      {name:'Liść Cyprysu', days:195, emoji:'🌲', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-1 2-3 6-3 9s2 6 3 6 3-2 3-6-2-9-3-9z" fill="#2f7b4a"/></svg>`},
-      {name:'Diamentowy Liść', days:200, emoji:'💎', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 20,9 16,21 8,21 4,9" fill="#bfcffb"/><path d="M12 4l6 5-4 11-2-8-4 8-4-11 8-5z" fill="#9fb4ff" opacity="0.9"/></svg>`}
+      {name:'Złote Jabłko', days:150, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#cfa200"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#6b3f1f"/></svg>`}
     ];
 
     // DOM
@@ -444,6 +438,7 @@
     const quoteText = document.getElementById('quoteText');
     const quoteRef = document.getElementById('quoteRef');
     const streakValueEl = document.getElementById('streakValue');
+    const pointsValueEl = document.getElementById('pointsValue');
     const countdownEl = document.getElementById('countdown');
     const historyList = document.getElementById('historyList');
 
@@ -462,27 +457,20 @@
 
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
-    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals', claimedCodes: 'cd_claimedCodes' };
+    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', history: 'cd_history', claimedMedals: 'cd_claimedMedals', claimedCodes: 'cd_claimedCodes', points: 'cd_points' };
 
     function getTodayKey(){ const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; let claimed = []; let claimedCodes = []; try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); claimedCodes = JSON.parse(localStorage.getItem(LS.claimedCodes)||'[]'); }catch(e){ history=[]; claimed=[]; claimedCodes=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history,claimedMedals: Array.isArray(claimed)?claimed:[], claimedCodes: Array.isArray(claimedCodes)?claimedCodes:[]}; }
-    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); if(state.claimedCodes!==undefined) localStorage.setItem(LS.claimedCodes,JSON.stringify(state.claimedCodes)); }
+    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let history = []; let claimed = []; let claimedCodes = []; let points = parseInt(localStorage.getItem(LS.points)||'0',10); try{ history = JSON.parse(localStorage.getItem(LS.history)||'[]'); claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); claimedCodes = JSON.parse(localStorage.getItem(LS.claimedCodes)||'[]'); }catch(e){ history=[]; claimed=[]; claimedCodes=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,history,claimedMedals: Array.isArray(claimed)?claimed:[], claimedCodes: Array.isArray(claimedCodes)?claimedCodes:[], points: isNaN(points)?0:points}; }
+    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.history!==undefined) localStorage.setItem(LS.history,JSON.stringify(state.history)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); if(state.claimedCodes!==undefined) localStorage.setItem(LS.claimedCodes,JSON.stringify(state.claimedCodes)); if(state.points!==undefined) localStorage.setItem(LS.points,String(state.points)); }
     function daysBetween(a,b){ if(!a || !b) return 0; const da = new Date(a+'T00:00:00'); const db = new Date(b+'T00:00:00'); const diff = Math.floor((Date.UTC(db.getFullYear(),db.getMonth(),db.getDate()) - Date.UTC(da.getFullYear(),da.getMonth(),da.getDate())) / (1000*60*60*24)); return diff; }
     function getNextMidnightMs(){ const now = new Date(); const n = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0); return n.getTime(); }
 
     function nextMedal(streak){ for(let i=0;i<MEDALS.length;i++){ if(streak < MEDALS[i].days) return MEDALS[i]; } return null; }
 
     // returns caption text + css class to use
-    function medalCaptionFor(name){ // mapping according to your request
-      if(name === 'Liść Dębu') return {text:'Zwykła Nagroda', cls:'cap-gray'};
-      if(name === 'Liść Klonu') return {text:'Pospolita Nagroda', cls:'cap-green'};
-      if(name === 'Liść Kasztanowca') return {text:'Rzadka Nagroda', cls:'cap-blue'};
-      if(name === 'Liść Brzozy' || name === 'Liść Winorośli' || name === 'Liść Jesionu') return {text:'Bardzo Rzadka Nagroda', cls:'cap-purple'};
-      if(name === 'Liść Bukowy') return {text:'Extra Nagroda', cls:'cap-navy'};
-      if(name === 'Liść Sekwoi') return {text:'Mityczna Nagroda', cls:'cap-red'};
-      if(name.startsWith('Złoty') || name.startsWith('Złote') || name === 'Złoty Grzyb' || name === 'Złote Jabłko' || name === 'Złoty Liść') return {text:'Legendarna Nagroda', cls:'cap-gold'};
-      if(name === 'Diamentowy Liść') return {text:'Ultralegendarna Nagroda', cls:'cap-diamond'};
-      return {text:'Nagroda', cls:'cap-gray'};
+    function medalCaptionFor(name){
+      // wszystkie rzadkości -> jedna etykieta (Twoje wymaganie)
+      return {text:'Nagroda za Jesień 2025', cls:'cap-autumn'};
     }
 
     function updateFlameIcon(){ const state = loadState(); const today = getTodayKey(); const drawnToday = state.lastDrawDate === today;
@@ -518,7 +506,7 @@
 
     function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
 
-    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `${m.days} dni`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} dni`; bottom.innerHTML = barHtml + `<div class="medal-missing">${missingText}</div>`; const cap = medalCaptionFor(m.name); const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption ${cap.cls}`; captionDiv.textContent = cap.text; bottom.appendChild(captionDiv); card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
+    function renderMedalsUI(currentStreak){ medalStrip.innerHTML = ''; const maxDays = MEDALS[MEDALS.length-1].days; MEDALS.forEach(m=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentStreak >= m.days) card.style.boxShadow = '0 10px 24px rgba(58,88,160,.08)'; const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `za ${m.days} CytatPunkty`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const bottom = document.createElement('div'); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentStreak, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:10px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentStreak); const missingText = missing === 0 ? 'Zdobyte' : `Brakuje: ${missing} CytatPunkty`; bottom.innerHTML = barHtml + `<div class="medal-missing">${missingText}</div>`; const cap = medalCaptionFor(m.name); const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption ${cap.cls}`; captionDiv.textContent = cap.text; bottom.appendChild(captionDiv); card.appendChild(top); card.appendChild(bottom); medalStrip.appendChild(card); });
 
       const state = loadState(); const claimed = state.claimedMedals || [];
       const next = nextMedal(currentStreak);
@@ -529,23 +517,34 @@
       const existingPopup = progressWrap.querySelector('.progress-popup'); if(existingPopup) existingPopup.remove();
 
       progressWrap.onclick = function(e){ e.stopPropagation(); const p = progressWrap.querySelector('.progress-popup'); if(p){ p.remove(); return; } const popup = document.createElement('div'); popup.className = 'progress-popup'; popup.style.position='absolute'; popup.style.left='50%'; popup.style.transform='translateX(-50%)'; popup.style.top='-70px'; popup.style.background='#fff'; popup.style.padding='10px'; popup.style.borderRadius='10px'; popup.style.boxShadow='0 8px 22px rgba(0,0,0,0.12)'; popup.style.zIndex=999;
-        if(next){ const current = Math.max(0, currentStreak - prev); popup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${current} z ${goal} dni do ${next.name}</div>`; if(currentStreak >= next.days && !claimed.includes(next.days)){ const btn = document.createElement('button'); btn.className='claim-btn'; btn.textContent='Odbierz'; btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); const s = loadState(); const cm = s.claimedMedals || []; if(!cm.includes(next.days)) cm.push(next.days); saveState({claimedMedals: cm}); popup.remove(); renderMedalsUI(currentStreak); setTimeout(()=>{ alert(`Gratulacje! Otrzymałeś medal: ${next.emoji} ${next.name}`); },120); }); popup.appendChild(btn); }
+        if(next){ const current = Math.max(0, currentStreak - prev); popup.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${current} z ${goal} CytatPunkty do ${next.name}</div>`; if(currentStreak >= next.days && !claimed.includes(next.days)){ const btn = document.createElement('button'); btn.className='claim-btn'; btn.textContent='Odbierz'; btn.addEventListener('click',(ev)=>{ ev.stopPropagation(); const s = loadState(); const cm = s.claimedMedals || []; if(!cm.includes(next.days)) cm.push(next.days); saveState({claimedMedals: cm}); popup.remove(); renderMedalsUI(currentStreak); setTimeout(()=>{ alert(`Gratulacje! Otrzymałeś medal: ${next.emoji} ${next.name}`); },120); }); popup.appendChild(btn); }
         } else { popup.innerHTML = `<div style="font-weight:700">Osiągnięto wszystkie medale 🎉</div>`; }
         progressWrap.appendChild(popup);
       };
 
-      if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} dni`; } else { progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
-      progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} dni`;
+      if(next){ const missingToNext = Math.max(0, next.days - currentStreak); progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Do ${next.name}: ${missingToNext} CytatPunkty`; } else { progressLegendLeft.textContent = `Twoja CytatPassa: ${currentStreak} dni • Osiągnięto wszystkie medale 🎉`; }
+      progressLegendRight.textContent = `Cel: ${MEDALS[MEDALS.length-1].days} CytatPunkty`;
 
       medalStrip.style.scrollBehavior = 'smooth';
-      medalStrip.querySelectorAll('.medal-card').forEach((c,i)=>{ c.setAttribute('role','group'); c.setAttribute('aria-label', `${MEDALS[i].name} ${MEDALS[i].days} dni`); });
+      medalStrip.querySelectorAll('.medal-card').forEach((c,i)=>{ c.setAttribute('role','group'); c.setAttribute('aria-label', `${MEDALS[i].name} ${MEDALS[i].days} CytatPunkty`); });
     }
 
     // initial render
-    (function init(){ const state = loadState(); streakValueEl.textContent = (state.streak || 0); if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
+    (function init(){ const state = loadState(); // ensure points at least equals streak (domyślne zachowanie)
+      const pointsVal = Math.max(state.points || 0, state.streak || 0);
+      saveState({ points: pointsVal }); // ensure saved
+      streakValueEl.textContent = (state.streak || 0);
+      pointsValueEl.textContent = pointsVal;
+      if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } }
+      renderMedalsUI(state.streak||0); renderHistory(); updateCountdown(); setInterval(updateCountdown,1000); })();
 
     // draw logic
-    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; streakValueEl.textContent = newStreak; const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
+    drawBtn.addEventListener('click',()=>{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; quoteText.textContent = chosen.text; quoteRef.textContent = chosen.ref; // update streak and points
+      const existingPoints = state.points || 0;
+      const newPoints = Math.max(existingPoints, newStreak); // punkty nie maleją poniżej passy
+      streakValueEl.textContent = newStreak;
+      pointsValueEl.textContent = newPoints;
+      const hist = state.history||[]; const lastEntry = hist.length?hist[hist.length-1]:null; if(!lastEntry || lastEntry.date !== today){ hist.push({date: today, text: chosen.text, ref: chosen.ref}); if(hist.length>365) hist.shift(); } saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, history: hist, points: newPoints}); renderMedalsUI(newStreak); renderHistory(); quoteBoxAnim(); updateCountdown(); const achieved = computeMedalByStreak(newStreak); if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.streak||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (passa ${achieved.days} dni)`); },300); } } });
 
     function renderHistory(){ const state = loadState(); const hist = state.history || []; if(hist.length===0){ historyList.innerHTML='Brak zapisanych cytatów.'; return; } historyList.innerHTML=''; hist.slice().reverse().forEach(h=>{ const div = document.createElement('div'); div.className = 'history-item'; div.textContent = `${h.date} — ${h.text} (${h.ref})`; historyList.appendChild(div); }); }
 
@@ -597,21 +596,51 @@
       if(!code) return { ok:false, msg:'Wpisz kod.' };
       const state = loadState();
       const claimed = state.claimedCodes || [];
-      // single secret code: QQWE19 -> +30 dni passy
+
+      // QQWE19 -> +30 dni do passy i +30 CytatPunktów (jednorazowo)
       if(code === 'QQWE19'){
         if(claimed.includes(code)){
           return { ok:false, msg:'Kod został już użyty.' };
         }
         const newStreak = (state.streak || 0) + 30;
-        // save new streak and mark code as claimed
+        const newPoints = (state.points || 0) + 30;
         claimed.push(code);
-        saveState({ streak: newStreak, claimedCodes: claimed });
-        // update UI
+        saveState({ streak: newStreak, points: newPoints, claimedCodes: claimed });
         streakValueEl.textContent = newStreak;
+        pointsValueEl.textContent = newPoints;
         renderMedalsUI(newStreak);
         updateCountdown();
-        return { ok:true, msg:'+30 dni przyznane. Dziękujemy!' };
+        return { ok:true, msg:'+30 dni do CytatPassy i +30 CytatPunktów zostało dodane. Dziękujemy!' };
       }
+
+      // Kody AABBxx -> +2 CytatPunkty (jednorazowo)
+      const smallPointCodes = ['AABB12','AABB34','AABB95','AABB00'];
+      if(smallPointCodes.includes(code)){
+        if(claimed.includes(code)){
+          return { ok:false, msg:'Kod został już użyty.' };
+        }
+        const newPoints = (state.points || 0) + 2;
+        claimed.push(code);
+        saveState({ points: newPoints, claimedCodes: claimed });
+        pointsValueEl.textContent = newPoints;
+        renderMedalsUI(state.streak || 0);
+        return { ok:true, msg:'+2 CytatPunkty zostały dodane.' };
+      }
+
+      // Kody QQBExx -> +10 CytatPunkty (jednorazowo)
+      const bigPointCodes = ['QQBE12','QQBE19','QQBE48'];
+      if(bigPointCodes.includes(code)){
+        if(claimed.includes(code)){
+          return { ok:false, msg:'Kod został już użyty.' };
+        }
+        const newPoints = (state.points || 0) + 10;
+        claimed.push(code);
+        saveState({ points: newPoints, claimedCodes: claimed });
+        pointsValueEl.textContent = newPoints;
+        renderMedalsUI(state.streak || 0);
+        return { ok:true, msg:'+10 CytatPunktów zostało dodane.' };
+      }
+
       return { ok:false, msg:'Nieprawidłowy kod.' };
     }
 
@@ -627,14 +656,13 @@
         // show brief success then hide popup
         setTimeout(()=>{ codePopup.classList.remove('visible'); codePopup.setAttribute('aria-hidden','true'); }, 900);
         // subtle alert for immediate feedback
-        alert('Kod przyjęty — przyznano +30 dni do passy.');
+        alert('Kod przyjęty — ' + res.msg);
       }
     });
 
     /* ---------- end new features ---------- */
 
-    console.info('Codzienny Cytat - aplikacja załadowana. Aby zresetować storagę: localStorage.clear()');
+    console.info('Codzienny Cytat - aplikacja załadowana. CytatPunkty dodane. Aby zresetować storagę: localStorage.clear()');
   </script>
 </body>
 </html>
-

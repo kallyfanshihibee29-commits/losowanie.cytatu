@@ -127,7 +127,15 @@
 
     .clear-history-btn{ background:transparent; border:none; color:rgba(30,58,138,.7); cursor:pointer; padding:6px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; }
     .clear-history-btn svg{ width:16px; height:16px; display:block; fill:rgba(30,58,138,.7); }
-  </style>
+  
+/* Phone portrait: jedna budka na ekran — przesuwaj w bok (przywrócone zachowanie) */
+@media (max-width:520px) and (orientation: portrait){
+  .medal-strip{ padding-left:10px; gap:12px; scroll-snap-type:x mandatory; }
+  .medal-card{ flex:0 0 92%; min-width:92%; height:160px; scroll-snap-align:start; }
+  .medal-tag{ width:44px; height:44px }
+  .medal-name{ font-size:16px }
+}
+</style>
 </head>
 <body>
   <div class="app" id="app">

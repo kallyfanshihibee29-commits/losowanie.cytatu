@@ -1,555 +1,1216 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Codzienny Cytat</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#9fc6e2;
-      --bg2:#cfe8f8;
-      --navy:#1e3a8a;
-      --white:#ffffff;
-      --quote-grad-start:#3b5998;
-      --quote-grad-end:#5a8dee;
-      --container-w:960px;
-      --rounded:16px;
-      --card-h:140px;
-      --gap:16px;
-      --autumn-start:#8B5A2B;
-      --autumn-mid:#d15518;
-      --autumn-end:#6b8e23;
-      --point-blue: #2b7bd6;
-    }
-    *{box-sizing:border-box}
-    body{ margin:0;min-height:100vh; font-family:Roboto,Arial,sans-serif; background: linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%); display:flex;align-items:center;justify-content:center;padding:14px; }
-    .app{ width:100%;max-width:var(--container-w); background:var(--white);border-radius:var(--rounded); padding:18px;box-shadow:0px 12px 36px rgba(6,21,52,0.12); color:var(--navy);overflow:hidden; transform-origin:center;opacity:0;transform:translateY(8px) scale(.995); animation:appIn .45s ease forwards; position:relative; }
-    @keyframes appIn{to{opacity:1;transform:none}}
-    header{ text-align:center;margin-bottom:6px }
-    h1{font-family:Pacifico, cursive;color:var(--navy);font-size:28px;margin:6px 0}
-    .subtitle{color:rgba(30,58,138,.8);font-size:13px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codzienny Cytat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #9fc6e2;
+            --bg2: #cfe8f8;
+            --navy: #1e3a8a;
+            --quote-grad-start: #3b5998;
+            --quote-grad-end: #5a8dee;
+            --point-blue: #2b7bd6;
+        }
 
-    .quote-box{ background:linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end)); color:var(--white);padding:16px;border-radius:12px;min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center; font-size:16px;line-height:1.4;margin:12px 0;box-shadow:0 12px 34px rgba(59,89,152,.12); }
-    .quote-ref{display:block;margin-top:8px;font-size:13px;opacity:.95}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:10px 0}
-    .btn{ background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));color:var(--white);border:none;padding:10px 18px;border-radius:12px;font-weight:700;cursor:pointer;font-size:14px;box-shadow:0 8px 20px rgba(58,88,160,.15); transition:transform .14s ease,box-shadow .14s ease;outline:none; }
-    .btn:active{transform:translateY(2px)}
-    .btn:disabled{background:#c4c4c4;cursor:not-allowed;box-shadow:none}
-    .btn.pulse{animation:pulse 3.5s infinite}
-    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+        html, body {
+            height: 100%;
+        }
 
-    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:12px}
-    .streak{font-weight:700;display:flex;flex-direction:column;gap:6px}
-    .streak-row{display:flex;align-items:center;gap:10px}
-    .countdown{font-style:italic;color:var(--navy)}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+            min-height: 100%;
+            padding: 20px;
+        }
 
-    /* points icon */
-    .points-wrap{display:inline-flex;align-items:center;gap:8px}
-    .points-icon{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 30%, #63aef0, var(--point-blue));box-shadow:0 6px 18px rgba(43,123,214,0.26);color:#fff;font-weight:800;font-size:13px}
-    .double-badge{ margin-left:8px; padding:4px 8px; border-radius:999px; background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end)); color:#fff; font-weight:700; font-size:12px; box-shadow:0 6px 16px rgba(58,88,160,.12); }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-    /* horizontal medal strip */
-    .medals-section{margin-top:18px}
-    .medals-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .medal-strip{ display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
-    .medal-strip::-webkit-scrollbar{height:8px}
-    .medal-strip::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--quote-grad-end),var(--quote-grad-start));border-radius:8px}
+        .title {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+            text-shadow: 0 2px 4px rgba(6,21,52,0.12);
+        }
 
-    .medal-card{ flex:0 0 170px; background:linear-gradient(180deg,#fff,#f6fbff); border-radius:12px; padding:12px; border:1px solid rgba(30,58,138,.06); box-shadow:0 8px 18px rgba(30,58,138,.04); height:var(--card-h); display:flex;flex-direction:column;justify-content:space-between; scroll-snap-align:start; transition:transform .18s ease,box-shadow .18s ease, border-color .18s ease; position:relative; min-width:170px }
-    .medal-card::before{ content:''; position:absolute; left:0; top:0; height:100%; width:6px; border-top-left-radius:12px; border-bottom-left-radius:12px; background:linear-gradient(180deg,var(--quote-grad-start),var(--quote-grad-end)); opacity:.06; }
-    .medal-card.active{ transform:translateY(-6px); box-shadow:0 22px 44px rgba(30,58,138,.09); border-color: rgba(59,89,152,.16); }
-    .medal-top{display:flex;align-items:center;gap:10px}
-    .medal-tag{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, rgba(59,89,152,0.06), rgba(90,141,238,0.04));flex-shrink:0}
-    .medal-name{font-weight:800;color:var(--navy);font-size:14px}
-    .medal-days{font-size:12px;color:rgba(30,58,138,.7)}
-    .medal-missing{font-size:12px;color:rgba(30,58,138,.75);margin-top:6px}
-    .medal-caption{font-size:12px;font-weight:800;margin-top:8px;background: linear-gradient(90deg,var(--autumn-start),var(--autumn-mid),var(--autumn-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 
+                0 8px 32px rgba(6,21,52,0.1),
+                0 4px 16px rgba(59,89,152,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
 
-    /* missing bubble */
-    .missing-bubble{ width:19px; height:19px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:radial-gradient(circle at 30% 30%, #9fcdff, var(--point-blue)); box-shadow:0 4px 12px rgba(43,123,214,0.18); color:#fff; font-weight:800; font-size:10px; }
-    .missing-bubble.glow{ box-shadow:0 0 8px rgba(43,123,214,0.55), 0 6px 12px rgba(43,123,214,0.14); }
 
-    .medal-pool{margin-top:14px;padding:12px;border-radius:12px;background:linear-gradient(180deg,#f8fbff,#ffffff);border:1px solid rgba(30,58,138,.06)}
-    .medal-pool .title{font-size:14px;color:rgba(30,58,138,.85);font-weight:700;margin-bottom:8px}
-    .progress-wrap{position:relative;height:14px;background:rgba(30,58,138,.06);border-radius:12px;overflow:visible}
-    .progress-fill{position:absolute;left:0;top:0;height:100%;border-radius:12px;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));width:0%;transition:width .6s ease}
-    .progress-legend{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:rgba(30,58,138,.7)}
 
-    /* overlay for "Twoje Wszystkie Nagrody" */
-    .all-awards-overlay{ position:fixed; inset:0; background:rgba(6,21,52,0.55); display:none; align-items:center; justify-content:center; z-index:2000; padding:12px; }
-    .all-awards-panel{ background:#fff; border-radius:12px; width:100%; max-width:1100px; max-height:88vh; overflow:auto; padding:14px; box-shadow:0 30px 80px rgba(6,21,52,0.28); }
-    .awards-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-    .awards-title{ font-size:18px; font-weight:800; color:var(--navy); }
-    .awards-sub{ font-size:13px; color:rgba(30,58,138,.6); font-weight:700; }
-    .back-btn{ background:transparent; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px; font-weight:700; color:var(--navy); }
+        .quote-container {
+            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 
+                0 4px 12px rgba(6,21,52,0.12),
+                0 8px 24px rgba(59,89,152,0.12);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* GRID: force 3 columns even on phones (smaller cards) */
-    .awards-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-    .award-card{ background:linear-gradient(180deg,#fff,#fbfdff); border-radius:10px; padding:10px; border:1px solid rgba(30,58,138,.06); display:flex; flex-direction:column; gap:8px; align-items:center; min-height:120px; }
-    .award-img{ width:64px; height:64px; border-radius:8px; display:flex;align-items:center;justify-content:center; background:linear-gradient(135deg, rgba(59,89,152,0.04), rgba(90,141,238,0.03)); }
-    .award-name{ font-weight:800; color:var(--navy); text-align:center; font-size:13px }
-    .award-rarity{ font-weight:700; font-size:12px; background: linear-gradient(90deg,var(--autumn-start),var(--autumn-mid),var(--autumn-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .award-points{ font-size:12px; color:rgba(30,58,138,.75); }
-    .award-obtained{ margin-top:6px; font-weight:800; color:var(--navy); font-size:12px }
+        .quote-placeholder {
+            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: 400;
+            box-shadow: 
+                0 4px 12px rgba(6,21,52,0.12),
+                0 8px 24px rgba(59,89,152,0.12);
+        }
 
-    @media (max-width:900px){ .awards-grid{ grid-template-columns:repeat(3,1fr); } }
-    @media (max-width:520px){
-      .awards-grid{ grid-template-columns:repeat(3,1fr); }
-      .award-card{ padding:8px; min-height:110px }
-      .medal-card{ min-width:140px; flex:0 0 140px }
-      .quote-box{ font-size:15px; padding:12px }
-      .points-icon{ width:26px; height:26px; font-size:12px }
-    }
+        .quote-text {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
 
-    @media (max-width:360px){
-      .awards-grid{ grid-template-columns:repeat(3,1fr); gap:8px; }
-      .award-card{ padding:6px; min-height:100px }
-      .medal-card{ min-width:120px; flex:0 0 120px }
-    }
+        .quote-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .history{margin-top:12px;border-top:1px solid rgba(30,58,138,.08);padding-top:12px}
-    .history-list{max-height:220px;overflow:auto;padding:8px;border-radius:8px;border:1px solid rgba(30,58,138,.08);background:#fff}
-    .history-item{font-size:13px;padding:8px 6px;border-bottom:1px dashed rgba(30,58,138,.05) }
+        .quote-reference {
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease 0.2s;
+        }
 
-    footer{font-size:12px;text-align:center;color:rgba(30,58,138,.7);margin-top:12px}
+        .quote-reference.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .external-link{ position:absolute; top:8px; left:8px; width:36px; height:36px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%); box-shadow:0 6px 18px rgba(0,0,0,0.08); transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; z-index:1000; border:1px solid rgba(255,255,255,0.06); }
-    .external-link svg{ width:18px; height:18px; display:block; fill:#ffffff; }
+        .draw-button {
+            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            box-shadow: 
+                0 4px 12px rgba(6,21,52,0.12),
+                0 8px 24px rgba(59,89,152,0.12);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
 
-    .search-link{ position:absolute; top:10px; right:10px; width:44px; height:44px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%); box-shadow:0 10px 30px rgba(0,0,0,0.12); transition:transform .18s ease,box-shadow .18s ease, opacity .12s ease; z-index:1000; border:1px solid rgba(255,255,255,0.06); cursor:pointer; }
-    .search-link svg{ width:20px; height:20px; display:block; fill:#ffffff; }
+        .draw-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 16px rgba(6,21,52,0.15),
+                0 12px 32px rgba(59,89,152,0.15);
+        }
 
-    .code-popup{ position:absolute; top:60px; right:10px; width:300px; max-width:calc(100% - 40px); background:#fff; border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.14); padding:10px; z-index:1100; display:none; }
-    .code-popup.visible{ display:block; }
-    .code-popup input[type="text"]{ flex:1; padding:8px 10px; border-radius:8px; border:1px solid rgba(30,58,138,.08); font-size:14px; }
-    .code-popup button{ padding:8px 10px; border-radius:8px; border:none; background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end)); color:#fff; font-weight:700; cursor:pointer; }
+        .draw-button:active {
+            transform: translateY(0);
+        }
 
-    .clear-history-btn{ background:transparent; border:none; color:rgba(30,58,138,.7); cursor:pointer; padding:6px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; }
-    .clear-history-btn svg{ width:16px; height:16px; display:block; fill:rgba(30,58,138,.7); }
-  
-/* Phone portrait: jedna budka na ekran — przesuwaj w bok (przywrócone zachowanie) */
-@media (max-width:520px) and (orientation: portrait){
-  .medal-strip{ padding-left:10px; gap:12px; scroll-snap-type:x mandatory; }
-  .medal-card{ flex:0 0 92%; min-width:92%; height:160px; scroll-snap-align:start; }
-  .medal-tag{ width:44px; height:44px }
-  .medal-name{ font-size:16px }
-}
-</style>
+        .draw-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .draw-button.glass {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--navy);
+        }
+
+        .countdown-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .countdown-container.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .countdown-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .countdown-time {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--point-blue);
+        }
+
+        .stats-text-container {
+            margin-top: 1.5rem;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
+
+        .stats-text-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-text-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-text-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .stat-mini-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-mini-circle.passa {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            box-shadow: 0 2px 6px rgba(59,130,246,0.3);
+        }
+
+        .stat-mini-circle.points {
+            background: linear-gradient(135deg, var(--navy) 0%, #3730a3 100%);
+            box-shadow: 0 2px 6px rgba(30,58,138,0.3);
+        }
+
+        .stat-text-number {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--point-blue);
+        }
+
+        .spinning {
+            animation: spin 0.1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .rewards-section {
+            margin-top: 1rem;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
+
+        .rewards-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .rewards-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(6,21,52,0.12);
+        }
+
+        .swipe-instruction {
+            font-size: 0.8rem;
+            color: var(--point-blue);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .rewards-carousel {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 0.75rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 
+                0 8px 32px rgba(6,21,52,0.1),
+                0 4px 16px rgba(59,89,152,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rewards-container {
+            display: flex;
+            transition: transform 0.3s ease;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .rewards-container:active {
+            cursor: grabbing;
+        }
+
+        .reward-card {
+            min-width: 100%;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.4rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            flex-shrink: 0;
+        }
+
+        .reward-image {
+            width: 45px;
+            height: 45px;
+            border-radius: 6px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .reward-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .reward-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.15rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--point-blue) 0%, #60a5fa 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .points-needed {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--point-blue);
+        }
+
+        .reward-season {
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #D2691E 0%, #8B4513 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reward-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .claim-btn {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(34,197,94,0.3);
+        }
+
+        .claim-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34,197,94,0.4);
+        }
+
+        .claim-btn:disabled {
+            background: rgba(255,255,255,0.2);
+            color: var(--navy);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .my-rewards-button {
+            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            box-shadow: 
+                0 4px 12px rgba(6,21,52,0.12),
+                0 8px 24px rgba(59,89,152,0.12);
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .my-rewards-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 16px rgba(6,21,52,0.15),
+                0 12px 32px rgba(59,89,152,0.15);
+        }
+
+        .my-rewards-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .my-rewards-modal.visible {
+            display: flex;
+        }
+
+        .my-rewards-content {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 
+                0 8px 32px rgba(6,21,52,0.1),
+                0 4px 16px rgba(59,89,152,0.08);
+        }
+
+        .my-rewards-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .my-rewards-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.75rem;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--navy);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: rgba(30,58,138,0.1);
+        }
+
+        .claimed-rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .claimed-reward-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .claimed-reward-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+        }
+
+        .claimed-reward-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+        }
+
+        .claimed-reward-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .claimed-reward-points {
+            font-size: 0.75rem;
+            color: var(--point-blue);
+            font-weight: 600;
+        }
+
+        .no-rewards-message {
+            text-align: center;
+            color: var(--navy);
+            font-size: 1.1rem;
+            padding: 2rem;
+            opacity: 0.7;
+        }
+
+        .quote-history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .quote-history-item {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .quote-history-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+        }
+
+        .history-quote-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--navy);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .history-quote-reference {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--point-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .history-quote-date {
+            font-size: 0.8rem;
+            color: var(--navy);
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .quote-text {
+                font-size: 1.1rem;
+            }
+            
+            .quote-container {
+                padding: 1.5rem;
+            }
+
+            .reward-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .reward-image {
+                width: 50px;
+                height: 50px;
+            }
+
+            .rewards-title {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="app" id="app">
-    <header>
-      <h1>Codzienny Cytat</h1>
-      <div class="subtitle">Losuj cytat z Pisma Świętego — jeden raz dziennie. Twoja CytatPassa nalicza dni z rzędu.</div>
-    </header>
+    <div class="container">
+        <h1 class="title">Codzienny Cytat</h1>
+        
+        <div class="main-card">
 
-    <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-    </a>
-
-    <div class="search-link" id="searchToggle" title="Wprowadź kod" role="button" aria-pressed="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM10 14a4 4 0 110-8 4 4 0 010 8z"/></svg>
+            
+            <div class="quote-placeholder" id="quotePlaceholder">
+                Jeszcze nie wylosowano cytatu na dziś
+            </div>
+            
+            <div class="quote-container hidden" id="quoteContainer">
+                <div class="quote-text" id="quoteText"></div>
+                <div class="quote-reference" id="quoteReference"></div>
+            </div>
+            
+            <button class="draw-button" id="drawButton" onclick="drawQuote()">
+                Losuj cytat na dziś
+            </button>
+            
+            <div class="countdown-container" id="countdownContainer">
+                <div class="countdown-title">Następny cytat za:</div>
+                <div class="countdown-time" id="countdownTime"></div>
+            </div>
+            
+            <div class="stats-text-container" id="statsTextContainer">
+                <div class="stat-text-row">
+                    <span class="stat-text-label">Twoja CytatPassa:</span>
+                    <div class="stat-mini-circle passa">C</div>
+                    <span class="stat-text-number" id="streakTextNumber">0</span>
+                </div>
+                <div class="stat-text-row">
+                    <span class="stat-text-label">Twoje PassaPunkty:</span>
+                    <div class="stat-mini-circle points">P</div>
+                    <span class="stat-text-number" id="pointsTextNumber">0</span>
+                </div>
+            </div>
+            
+            <div class="rewards-section" id="rewardsSection">
+                <div class="swipe-instruction">Przesuń w bok, aby zobaczyć więcej nagród</div>
+                <div class="rewards-carousel">
+                <div class="rewards-container" id="rewardsContainer">
+                    <!-- Rewards will be generated by JavaScript -->
+                </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button class="my-rewards-button" onclick="openMyRewards()" style="margin-top: 0; flex: 1;">
+                        Twoje Nagrody
+                    </button>
+                    <button class="my-rewards-button" onclick="openQuoteHistory()" style="margin-top: 0; flex: 1;">
+                        Historia Cytatów
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
 
-    <div class="code-popup" id="codePopup" aria-hidden="true">
-      <form id="codeForm">
-        <input id="codeInput" type="text" inputmode="latin" autocomplete="off" placeholder="Wpisz kod specjalny" aria-label="Kod specjalny" />
-        <button type="submit" id="codeApplyBtn">Zastosuj</button>
-      </form>
-      <div id="codeMsg" style="margin-top:8px;font-size:13px;color:var(--navy);display:none"></div>
+    <!-- My Rewards Modal -->
+    <div class="my-rewards-modal" id="myRewardsModal">
+        <div class="my-rewards-content">
+            <div class="my-rewards-header">
+                <h2 class="my-rewards-title">Twoje Nagrody</h2>
+                <button class="close-button" onclick="closeMyRewards()">×</button>
+            </div>
+            <div class="claimed-rewards-grid" id="claimedRewardsGrid">
+                <!-- Claimed rewards will be generated by JavaScript -->
+            </div>
+            <div class="no-rewards-message" id="noRewardsMessage" style="display: none;">
+                Nie masz jeszcze żadnych nagród.<br>
+                Zbieraj PassaPunkty, aby odblokować nagrody!
+            </div>
+        </div>
     </div>
 
-    <main>
-      <div class="quote-box" id="quoteBox" role="region" aria-live="polite">
-        <div>
-          <div id="quoteText">Kliknij „Losuj Cytat”, aby otrzymać dzisiejszy cytat.</div>
-          <div class="quote-ref" id="quoteRef"></div>
+    <!-- Quote History Modal -->
+    <div class="my-rewards-modal" id="quoteHistoryModal">
+        <div class="my-rewards-content">
+            <div class="my-rewards-header">
+                <h2 class="my-rewards-title">Historia Cytatów</h2>
+                <button class="close-button" onclick="closeQuoteHistory()">×</button>
+            </div>
+            <div class="quote-history-list" id="quoteHistoryList">
+                <!-- Quote history will be generated by JavaScript -->
+            </div>
+            <div class="no-rewards-message" id="noHistoryMessage" style="display: none;">
+                Nie masz jeszcze żadnych cytatów w historii.<br>
+                Losuj codziennie cytaty, aby zbudować swoją kolekcję!
+            </div>
         </div>
-      </div>
-
-      <div class="controls">
-        <button id="drawBtn" class="btn pulse" aria-pressed="false">Losuj Cytat</button>
-      </div>
-
-      <div class="meta">
-        <div class="streak">
-          <div class="streak-row">Twoja CytatPassa: <span id="streakValue" style="margin-left:8px">0</span> dni <span id="flameIcon" aria-hidden="true" title="Status losowania"></span></div>
-          <div class="streak-row" style="font-weight:700;color:rgba(30,58,138,.85)">
-            <div class="points-wrap">Twoje CytatPunkty: <div class="points-icon" id="pointsIcon">P</div><span id="pointsValue" style="margin-left:8px">0</span></div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;">
-          <div class="countdown" id="countdown" style="min-width:200px">Nie losowano jeszcze</div>
-          <div class="countdown" id="seasonCountdown" style="margin-top:6px;font-weight:700">Koniec Sezonu Jesiennego za: —</div>
-        </div>
-      </div>
-
-      <section class="medals-section">
-        <div class="medals-header">
-          <h3 style="margin:0">Nagrody Sezonu Jesiennego</h3>
-          <div style="font-size:13px;color:rgba(30,58,138,.7)">Przesuń, aby zobaczyć wszystkie</div>
-        </div>
-
-        <div class="medal-strip" id="medalStrip" aria-label="Lista medali">
-          <!-- karty medali wypełniane JS -->
-        </div>
-
-        <div class="medal-pool" aria-hidden="false">
-          <div class="title">Postęp do kolejnych medali</div>
-          
-          <div class="progress-wrap" id="progressWrap">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="progress-legend" id="progressLegend">
-            <div id="legendLeft">0</div>
-            <div id="legendRight">0</div>
-          </div>
-
-          <!-- NEW: przycisk do widoku wszystkich nagród -->
-          <div style="margin-top:10px;display:flex;justify-content:flex-start;">
-            <button id="viewAllBtn" class="btn" style="padding:8px 12px;font-size:14px">Twoje Wszystkie Nagrody</button>
-          </div>
-
-        </div>
-      </section>
-
-      </main>
-
-    <footer>Wszystkie dane przechowywane lokalnie w przeglądarce. Działa offline.</footer>
-  </div>
-
-  <!-- ALL AWARDS OVERLAY -->
-  <div id="allAwardsOverlay" class="all-awards-overlay" aria-hidden="true">
-    <div class="all-awards-panel" role="dialog" aria-modal="true">
-      <div class="awards-header">
-        <div style="display:flex;align-items:center;gap:12px">
-          <button id="backToMainBtn" class="back-btn" aria-label="Wróć do ekranu głównego"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="#1e3a8a"/></svg>Wróć</button>
-          <div class="awards-title">Twoje Wszystkie Nagrody</div>
-        </div>
-        <div style="text-align:right">
-          <div class="awards-sub">Jesień 2025</div>
-        </div>
-      </div>
-
-      <div class="awards-grid" id="awardsGrid">
-        <!-- wypełniane JS -->
-      </div>
-
     </div>
-  </div>
 
-  <script>
-    /* Skonsolidowany i odporny na błędy skrypt - wersja naprawcza z obsługą kodów specjalnych */
-    // --- DANE: pełna lista cytatów ---
-    const QUOTES = [
-      {text: 'Bóg jest miłością.', ref: '1 Jana 4:8'},
-      {text: 'Pan jest moim pasterzem, niczego mi nie braknie.', ref: 'Psalm 23:1-2'},
-      {text: 'Wszystko mogę w Tym, który mnie umacnia.', ref: 'List do Filipian 4:13'},
-      {text: 'Niech będzie wolna wola twoja.', ref: 'Ewangelia Mateusza 6:10'},
-      {text: 'Miłuj bliźniego swego jak siebie samego.', ref: 'Ewangelia Mateusza 22:39'},
-      {text: 'Proście, a będzie wam dane; szukajcie, a znajdziecie.', ref: 'Ewangelia Mateusza 7:7'},
-      {text: 'Prawda was wyzwoli.', ref: 'Ewangelia Jana 8:32'},
-      {text: 'Pan jest światłem moim i zbawieniem moim.', ref: 'Psalm 27:1'},
-      {text: 'Ufaj Panu z całego serca.', ref: 'Przysłów 3:5'},
-      {text: 'Albowiem gdzie jest skarb twój, tam będzie i serce twoje.', ref: 'Ewangelia Mateusza 6:21'},
-      {text: 'Nie lękaj się, bo ja jestem z tobą.', ref: 'Księga Izajasza 41:10'},
-      {text: 'Szukajcie najpierw Królestwa Bożego.', ref: 'Ewangelia Mateusza 6:33'},
-      {text: 'Pan daje siłę zmęczonemu.', ref: 'Księga Izajasza 40:29'},
-      {text: 'Wybaczajcie, a będzie wam przebaczone.', ref: 'Ewangelia Łukasza 6:37'},
-      {text: 'Nie sądźcie, abyście nie byli sądzeni.', ref: 'Ewangelia Mateusza 7:1'},
-      {text: 'Wszystko ma swój czas.', ref: 'Księga Koheleta 3:1'},
-      {text: 'Serce rozradowane jest dobrym lekarstwem.', ref: 'Przysłów 17:22'},
-      {text: 'Pan błogosławi bojowi twemu.', ref: 'Księga Jozuego 1:9'},
-      {text: 'Miłosierdzie pragnie, a nie ofiary.', ref: 'Ewangelia Mateusza 9:13'},
-      {text: 'Bóg zna twoje drogi.', ref: 'Psalm 139:3'},
-      {text: 'On uzdrawia złamanych na duchu.', ref: 'Psalm 147:3'},
-      {text: 'Dajcie a będzie wam dane.', ref: 'Ewangelia Łukasza 6:38'},
-      {text: 'Niechaj twoje serce się nie trwoży.', ref: 'Ewangelia Jana 14:1'},
-      {text: 'Bądźcie mocni i mężni.', ref: 'Księga Jozuego 1:6'},
-      {text: 'Chleb nasz powszedni daj nam dzisiaj.', ref: 'Modlitwa Pańska'},
-      {text: 'Niech będzie pokój w domu twym.', ref: 'Psalm 122:7'},
-      {text: 'Słowa twoje są dla mnie światłem.', ref: 'Psalm 119:105'},
-      {text: 'Pan jest blisko skruszonych w sercu.', ref: 'Psalm 34:18'},
-      {text: 'Kto trwa we Mnie, przynosi owoc obfity.', ref: 'Ewangelia Jana 15:5'},
-      {text: 'Bóg jest naszą ucieczką i mocą.', ref: 'Psalm 46:2'},
-      {text: 'Czemu się boisz, mała trzódko?', ref: 'Ewangelia Mateusza 8:26'},
-      {text: 'Służcie Panu z weselem.', ref: 'Psalm 100:2'},
-      {text: 'Niech się nie trwoży serce wasze.', ref: 'Ewangelia Jana 14:27'},
-      {text: 'Miłość cierpliwa jest, miłość łaskawa jest.', ref: '1 List do Koryntian 13:4'},
-      {text: 'Bóg daje mądrość.', ref: 'List Jakuba 1:5'},
-      {text: 'Gdy idę doliną cienia śmierci, nie boję się złego.', ref: 'Psalm 23:4'},
-      {text: 'Pan uzdrawia i ratuje.', ref: 'Psalm 103:3'},
-      {text: 'Przyjdźcie do mnie wszyscy spracowani.', ref: 'Ewangelia Mateusza 11:28'},
-      {text: 'Słudzy Boży powinni być roztropni.', ref: 'Ewangelia Mateusza 10:16'},
-      {text: 'Pan jest sprawiedliwy we wszystkich drogach swych.', ref: 'Psalm 145:17'},
-      {text: 'Nie chodź w gniewie długo.', ref: 'Efezjan 4:26'},
-      {text: 'Królestwo Boże jest wśród was.', ref: 'Ewangelia Łukasza 17:21'},
-      {text: 'Daj mi serce czyste, o Boże.', ref: 'Psalm 51:10'},
-      {text: 'Wiedząc, że wszystko działa ku dobremu.', ref: 'List do Rzymian 8:28'},
-      {text: 'Zaufaj Panu i czyń dobrze.', ref: 'Psalm 37:3'},
-      {text: 'Bądźcie jeden dla drugiego wsparciem.', ref: 'List do Hebrajczyków 10:24'},
-      {text: 'Pan napełnia głodnych dobrami.', ref: 'Psalm 107:9'},
-      {text: 'Nie troszczcie się o jutro.', ref: 'Ewangelia Mateusza 6:34'},
-      {text: 'Jezus jest drogą, prawdą i życiem.', ref: 'Ewangelia Jana 14:6'},
-      {text: 'Błogosławieni cisi, albowiem oni na własność posiądą ziemię.', ref: 'Ewangelia Mateusza 5:5'},
-      {text: 'Pan zna drogę sprawiedliwych.', ref: 'Psalm 1:6'},
-      {text: 'Gdzie dwaj albo trzej zgromadzeni są...', ref: 'Ewangelia Mateusza 18:20'},
-      {text: 'Bóg przemawia w ciszy.', ref: '1 Krl 19:12'},
-      {text: 'Niech nikt nie gardzi twoją młodością.', ref: '1 List do Tymoteusza 4:12'},
-      {text: 'Pan podnosi pokornych.', ref: 'Psalm 147:6'},
-      {text: 'Twoje grzechy są przebaczone.', ref: 'Ewangelia Marka 2:5'},
-      {text: 'Dziękujcie we wszystkim.', ref: '1 Tesaloniczan 5:18'},
-      {text: 'Miłość nie zazdrości, nie szuka poklasku.', ref: '1 Kor 13'},
-      {text: 'Strzeż swego serca ponad wszystko, co się strzeże.', ref: 'Przysłów 4:23'},
-      {text: 'Pan jest moją siłą i tarczą.', ref: 'Psalm 28:7'},
-      {text: 'Nie bój się mała trzódko — łagodnie mówi Pan.', ref: 'Łk 12:32'},
-      {text: 'Pan da wam pokój na zawsze.', ref: 'Księga Izajasza 54:10'},
-      {text: 'Gdzie miłość, tam i Bóg.', ref: '1 Jana 4:12'},
-      {text: 'Wszystko ma swoje piękno w czasie.', ref: 'Kohelet 3:11'},
-      {text: 'Pracuj jak dla Pana, nie jak dla ludzi.', ref: 'List do Kolosan 3:23'},
-      {text: 'Błogosławieni miłosierni.', ref: 'Ewangelia Mateusza 5:7'},
-      {text: 'Pan strzeże twoich kroków.', ref: 'Psalm 121:3'},
-      {text: 'Niech twoje słowa będą tak, tak; nie, nie.', ref: 'Ewangelia Mateusza 5:37'},
-      {text: 'Kto sieje w łzach, żąć będzie z radością.', ref: 'Psalm 126:5'},
-      {text: 'Pan jest wierny swoim obietnicom.', ref: 'List do Hebrajczyków 10:23'},
-      {text: 'Dajcie chleb głodnym, wody odwodnionym.', ref: 'Przysłów 31:20'},
-      {text: 'Pan nas zawoła po imieniu.', ref: 'Ewangelia Jana 10:3'},
-      {text: 'Pan umacnia tych, którzy czekają na niego.', ref: 'Księga Izajasza 40:31'},
-      {text: 'Bóg jest sprawiedliwy i miłosierny.', ref: 'Psalm 116:5'},
-      {text: 'Niech wasze serca się nie trwożą.', ref: 'J 14:27'},
-      {text: 'Panu oddaj chwałę i radość.', ref: 'Psalm 149:4'},
-      {text: 'Pan przyjdzie z pomocą tym, którzy go proszą.', ref: 'Ewangelia Łukasza 18:7'},
-      {text: 'Nie pozwól, aby zło zwyciężyło dobro.', ref: 'Rzymian 12:21'},
-      {text: 'Pan prowadzi ubogich sprawiedliwie.', ref: 'Psalm 25:9'},
-      {text: 'Bądź pokorny wobec innych.', ref: 'List do Filipian 2:3'},
-      {text: 'Pan w swej dobroci daje łaskę.', ref: 'Tytusa 3:5'},
-      {text: 'Wspierajcie się nawzajem modlitwą.', ref: 'Jakuba 5:16'},
-      {text: 'Pan jest źródłem mądrości.', ref: 'Przysłów 2:6'},
-      {text: 'Niech miłość wasza będzie bez obłudy.', ref: 'Rzymian 12:9'},
-      {text: 'Pan jest blisko skruszonych.', ref: 'Psalm 34:18'},
-      {text: 'Pan da wam odpocznienie.', ref: 'Mateusz 11:29'},
-      {text: 'Trwaj w nadziei i wierze.', ref: 'Rzymian 12:12'},
-      {text: 'Pan rozjaśnia nasze drogi.', ref: 'Psalm 119:105'},
-      {text: 'Szukajcie sprawiedliwości, a Bóg was wywyższy.', ref: 'Izajasz 56:1'},
-      {text: 'Pan jest z tobą na zawsze.', ref: 'Mateusz 28:20'},
-      {text: 'Jezus jest pierwszym i ostatnim.', ref: 'Objawienie 1:17-18'},
-      {text: 'Bóg zna twoje troski i je niesie.', ref: 'Psalm 55:22'},
-      {text: 'Trwajcie w ufności wobec Boga.', ref: 'Hebrajczyków 11:1'},
-      {text: 'Pan wysłucha modlitwę pokornych.', ref: 'Psalm 34:17'},
-      {text: 'Wierzymy nie widząc, lecz ufamy.', ref: '1 Piotra 1:8'},
-      {text: 'Bądźcie światłem dla świata.', ref: 'Mateusz 5:14'},
-      {text: 'Niech serce twoje znajdzie pokój w Panu.', ref: 'Psalm 4:8'},
-      {text: 'Pan obdarowuje darem ducha.', ref: 'Dzieje Apostolskie 2:38'},
-      {text: 'Niech łaska Pana was prowadzi.', ref: '2 Tesaloniczan 2:16'}
-    ];
+    <script>
+        const quotes = [
+            { text: "Pan jest moim pasterzem, nie brak mi niczego.", ref: "Ps 23,1" },
+            { text: "Wszystko mogę w Tym, który mnie umacnia.", ref: "Flp 4,13" },
+            { text: "Nie lękaj się, bo jestem z tobą.", ref: "Iz 41,10" },
+            { text: "Miłość nigdy nie ustaje.", ref: "1 Kor 13,8" },
+            { text: "Błogosławieni, którzy wprowadzają pokój.", ref: "Mt 5,9" },
+            { text: "Proście, a będzie wam dane.", ref: "Mt 7,7" },
+            { text: "Ja jestem drogą, prawdą i życiem.", ref: "J 14,6" },
+            { text: "Pan jest światłem moim i zbawieniem moim.", ref: "Ps 27,1" },
+            { text: "Nie troszczcie się zbytnio o jutro.", ref: "Mt 6,34" },
+            { text: "Radujcie się zawsze w Panu.", ref: "Flp 4,4" },
+            { text: "Kto trwa we Mnie, a Ja w nim, ten przynosi owoc obfity.", ref: "J 15,5" },
+            { text: "Pokój mój daję wam.", ref: "J 14,27" },
+            { text: "Zło dobrem zwyciężaj.", ref: "Rz 12,21" },
+            { text: "Pan jest blisko wszystkich, którzy Go wzywają.", ref: "Ps 145,18" },
+            { text: "W miłości nie ma lęku.", ref: "1 J 4,18" },
+            { text: "Niech wszystko, co żyje, chwali Pana.", ref: "Ps 150,6" },
+            { text: "Bądźcie miłosierni, jak Ojciec wasz jest miłosierny.", ref: "Łk 6,36" },
+            { text: "Szukajcie najpierw królestwa Bożego, a wszystko inne będzie wam dodane.", ref: "Mt 6,33" },
+            { text: "Niech wasze światło świeci przed ludźmi.", ref: "Mt 5,16" },
+            { text: "Ufaj Panu z całego serca.", ref: "Prz 3,5" },
+            { text: "Nie sądźcie, abyście nie byli sądzeni.", ref: "Mt 7,1" },
+            { text: "Czuwajcie i módlcie się, aby nie ulec pokusie.", ref: "Mt 26,41" },
+            { text: "Kto wierzy we Mnie, choćby i umarł, żyć będzie.", ref: "J 11,25" },
+            { text: "Niech serce wasze się nie trwoży.", ref: "J 14,1" },
+            { text: "Błogosławieni cisi, albowiem oni posiądą ziemię.", ref: "Mt 5,5" },
+            { text: "Niech wasza miłość będzie nieobłudna.", ref: "Rz 12,9" },
+            { text: "Dążcie do sprawiedliwości, miłości i pokoju.", ref: "2 P 1,7" },
+            { text: "Niech słowo Chrystusa mieszka w was obficie.", ref: "Kol 3,16" },
+            { text: "Bóg jest wierny.", ref: "1 Kor 1,9" },
+            { text: "Czuwajcie, bo nie znacie dnia ani godziny.", ref: "Mt 25,13" },
+            { text: "Pan jest mocą moją i pieśnią moją.", ref: "Ps 118,14" },
+            { text: "Niech pokój Chrystusa rządzi w sercach waszych.", ref: "Kol 3,15" },
+            { text: "Kto sieje wiarę, zbiera życie wieczne.", ref: "Gal 6,8" },
+            { text: "Wszystko bowiem pochodzi od Boga.", ref: "Jk 1,17" },
+            { text: "Nie bój się, bo Ja cię odkupiłem.", ref: "Iz 43,1" },
+            { text: "Bóg jest miłością.", ref: "1 J 4,8" },
+            { text: "Niech słowa wasze będą zawsze uprzejme, przyprawione solą.", ref: "Kol 4,6" },
+            { text: "Wysławiajcie Pana, bo jest dobry.", ref: "Ps 106,1" },
+            { text: "Wszystkich was noszę w sercu.", ref: "Flp 1,7" },
+            { text: "Niech będzie wola Twoja.", ref: "Mt 6,10" },
+            { text: "Pan jest pasterzem moim.", ref: "Ps 23,1" },
+            { text: "Wiara czyni cuda.", ref: "Mt 17,20" },
+            { text: "Miłujcie nieprzyjaciół waszych.", ref: "Mt 5,44" },
+            { text: "Błogosławieni ubodzy w duchu.", ref: "Mt 5,3" },
+            { text: "Gdzie dwóch lub trzech zebranych w imię moje, tam jestem pośród nich.", ref: "Mt 18,20" },
+            { text: "Przyjdźcie do Mnie wszyscy, którzy jesteście spracowani.", ref: "Mt 11,28" },
+            { text: "Ja jestem zmartwychwstaniem i życiem.", ref: "J 11,25" },
+            { text: "Niech się dzieje według słowa twego.", ref: "Łk 1,38" },
+            { text: "Bóg tak umiłował świat.", ref: "J 3,16" },
+            { text: "Czyńcie to na moją pamiątkę.", ref: "Łk 22,19" }
+        ];
 
-    // --- MEDALS: pełna lista nagród sezonowych ---
-    const MEDALS = [
-      {name:'Liść Dębu', days:2, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#8B5A2B"/></svg>`},
-      {name:'Liść Klonu', days:5, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#d15518"/></svg>`},
-      {name:'Liść Kasztanowca', days:10, emoji:'🍁', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#a73b07"/></svg>`},
-      {name:'Liść Brzozy', days:15, emoji:'🍃', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#9fcf9b"/></svg>`},
-      {name:'Liść Winorośli', days:20, emoji:'🍇', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#6f2e5a"/></svg>`},
-      {name:'Liść Jesionu', days:25, emoji:'🍂', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#6b8e23"/></svg>`},
-      {name:'Liść Bukowy', days:30, emoji:'🌿', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#2e8b57"/></svg>`},
-      {name:'Liść Sekwoi', days:40, emoji:'🌲', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#704214"/></svg>`},
-      {name:'Złoty Liść', days:50, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 3s-6 3-9 6-6 9-6 9 6-1 9-4 6-11 6-11z" fill="#cfa200"/></svg>`},
+        const rewards = [
+            { name: "Liść Dębu", points: 2, image: "nagroda_1.png" },
+            { name: "Liść Klonu", points: 5, image: "nagroda_2.png" },
+            { name: "Liść Kasztanowca", points: 10, image: "nagroda_3.png" },
+            { name: "Liść Brzozy", points: 15, image: "nagroda_4.png" },
+            { name: "Liść Winorośli", points: 20, image: "nagroda_5.png" },
+            { name: "Liść Jesionu", points: 25, image: "nagroda_6.png" },
+            { name: "Liść Buku", points: 30, image: "nagroda_7.png" },
+            { name: "Liść Sekwoi", points: 40, image: "nagroda_8.png" },
+            { name: "Złoty Liść", points: 50, image: "nagroda_9.png" }
+        ];
 
-      {name:'Grzyb: Pieczarka', days:60, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#c7b299"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff5e6"/></svg>`},
-      {name:'Grzyb: Maślak', days:65, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d4a84a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff3d9"/></svg>`},
-      {name:'Grzyb: Kurka', days:70, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#ff9b3a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff0d6"/></svg>`},
-      {name:'Grzyb: Podgrzybek', days:75, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#8b5a33"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff7ee"/></svg>`},
-      {name:'Grzyb: Prawdziwek', days:80, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d2b48c"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff6e9"/></svg>`},
-      {name:'Grzyb: Muchomor', days:85, emoji:'🍄', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#d94b3a"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff7ee"/><circle cx="10" cy="7" r="0.8" fill="#fff"/><circle cx="13" cy="8.2" r="0.7" fill="#fff"/><circle cx="15.5" cy="6.8" r="0.6" fill="#fff"/></svg>`},
-      {name:'Złoty Grzyb', days:100, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="9" rx="8" ry="5" fill="#cfa200"/><rect x="9" y="9" width="6" height="8" rx="3" fill="#fff3d9"/></svg>`},
+        let hasDrawnToday = false;
+        let currentQuote = null;
+        let currentStreak = 0;
+        let totalPoints = 0;
+        let currentRewardIndex = 0;
+        let claimedRewards = [];
+        let quoteHistory = [];
 
-      {name:'Jabłko', days:105, emoji:'🍎', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#e24b3b"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#4a6b2a"/></svg>`},
-      {name:'Gruszka', days:110, emoji:'🍐', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 4c-2 0-4 2-4 4s2 4 4 7 4 3 4 1-1-6-4-12z" fill="#c2a64a"/></svg>`},
-      {name:'Śliwka', days:115, emoji:'🍑', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#8b3b8f"/></svg>`},
-      {name:'Dynia', days:120, emoji:'🎃', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="13" rx="7" ry="6" fill="#ff8c2b"/><rect x="11" y="6" width="2" height="3" rx="0.5" fill="#6b3f1f"/></svg>`},
-      {name:'Marchewka', days:125, emoji:'🥕', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 14c2 2 6 2 9 0l-2-6-7 6z" fill="#ff8a3d"/><path d="M14 6l1-2 2 1-1 2z" fill="#6aa84f"/></svg>`},
-      {name:'Burak', days:130, emoji:'🧅', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="#7a2540"/></svg>`},
-      {name:'Ziemniak', days:135, emoji:'🥔', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="7" ry="5" fill="#c89f6b"/></svg>`},
-      {name:'Orzech włoski', days:145, emoji:'🌰', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="7" fill="#8b5a2b"/></svg>`},
-      {name:'Złote Jabłko', days:150, emoji:'🌟', svg:`<svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="#cfa200"/><path d="M14 5c-.6-1.2-2-2-3.5-2-0.2 1-0.3 2 .5 3 .8 1 2 1 3 0z" fill="#6b3f1f"/></svg>`}
-    ];
-
-    // --- HELPERS i STAN ---
-    const LS = { lastDrawDate: 'cd_lastDrawDate', lastQuoteIndex: 'cd_lastQuoteIndex', streak: 'cd_streak', claimedMedals: 'cd_claimedMedals', claimedCodes: 'cd_claimedCodes', points: 'cd_points', doubleUntil: 'cd_doubleUntil' };
-
-    function safeGet(id){ try{ return document.getElementById(id); }catch(e){ return null; } }
-
-    const drawBtn = safeGet('drawBtn');
-    const quoteText = safeGet('quoteText');
-    const quoteRef = safeGet('quoteRef');
-    const streakValueEl = safeGet('streakValue');
-    const pointsValueEl = safeGet('pointsValue');
-    const countdownEl = safeGet('countdown');
-    const seasonCountdownEl = safeGet('seasonCountdown');
-    const medalStrip = safeGet('medalStrip');
-    const progressFill = safeGet('progressFill');
-    const progressWrap = safeGet('progressWrap');
-    const progressLegendLeft = safeGet('legendLeft');
-    const progressLegendRight = safeGet('legendRight');
-    const flameIconWrap = safeGet('flameIcon');
-    const searchToggle = safeGet('searchToggle');
-    const codePopup = safeGet('codePopup');
-    const codeForm = safeGet('codeForm');
-    const codeInput = safeGet('codeInput');
-    const codeMsg = safeGet('codeMsg');
-    const viewAllBtn = safeGet('viewAllBtn');
-    const allAwardsOverlay = safeGet('allAwardsOverlay');
-    const awardsGrid = safeGet('awardsGrid');
-    const backToMainBtn = safeGet('backToMainBtn');
-
-    function getTodayKey(){ const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    function formatYMD(dt){ const y=dt.getFullYear(); const m=String(dt.getMonth()+1).padStart(2,'0'); const d=String(dt.getDate()).padStart(2,'0'); return `${y}-${m}-${d}`; }
-
-    function loadState(){ const lastDrawDate = localStorage.getItem(LS.lastDrawDate); const lastQuoteIndex = localStorage.getItem(LS.lastQuoteIndex); const streak = parseInt(localStorage.getItem(LS.streak)||'0',10); let claimed = []; let claimedCodes = []; let points = parseInt(localStorage.getItem(LS.points)||'0',10); let doubleUntil = localStorage.getItem(LS.doubleUntil) || null; try{ claimed = JSON.parse(localStorage.getItem(LS.claimedMedals)||'[]'); claimedCodes = JSON.parse(localStorage.getItem(LS.claimedCodes)||'[]'); }catch(e){ claimed=[]; claimedCodes=[]; } return {lastDrawDate,lastQuoteIndex: lastQuoteIndex!==null?parseInt(lastQuoteIndex,10):null,streak: isNaN(streak)?0:streak,claimedMedals: Array.isArray(claimed)?claimed:[], claimedCodes: Array.isArray(claimedCodes)?claimedCodes:[], points: isNaN(points)?0:points, doubleUntil: doubleUntil}; }
-    function saveState(state){ if(state.lastDrawDate!==undefined) localStorage.setItem(LS.lastDrawDate,state.lastDrawDate); if(state.lastQuoteIndex!==undefined) localStorage.setItem(LS.lastQuoteIndex,String(state.lastQuoteIndex)); if(state.streak!==undefined) localStorage.setItem(LS.streak,String(state.streak)); if(state.claimedMedals!==undefined) localStorage.setItem(LS.claimedMedals,JSON.stringify(state.claimedMedals)); if(state.claimedCodes!==undefined) localStorage.setItem(LS.claimedCodes,JSON.stringify(state.claimedCodes)); if(state.points!==undefined) localStorage.setItem(LS.points,String(state.points)); if(state.doubleUntil!==undefined && state.doubleUntil!==null) localStorage.setItem(LS.doubleUntil,String(state.doubleUntil)); }
-
-    function daysBetween(a,b){ if(!a || !b) return 0; const da = new Date(a+'T00:00:00'); const db = new Date(b+'T00:00:00'); const diff = Math.floor((Date.UTC(db.getFullYear(),db.getMonth(),db.getDate()) - Date.UTC(da.getFullYear(),da.getMonth(),da.getDate())) / (1000*60*60*24)); return diff; }
-    function getNextMidnightMs(){ const now = new Date(); const n = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,0,0); return n.getTime(); }
-
-    function pluralizePoints(n){ n = Math.abs(Number(n) || 0); if(n === 1) return 'CytatPunkt'; const lastTwo = n % 100; if(lastTwo >= 12 && lastTwo <= 14) return 'CytatPunktów'; const last = n % 10; if(last >= 2 && last <= 4) return 'CytatPunkty'; return 'CytatPunktów'; }
-
-    function nextMedalByPoints(points){ for(let i=0;i<MEDALS.length;i++){ if(points < MEDALS[i].days) return {medal:MEDALS[i], index:i}; } return {medal:null, index:MEDALS.length-1}; }
-
-    function updateFlameIcon(){ try{ const state = loadState(); const today = getTodayKey(); const drawnToday = state.lastDrawDate === today; if(!flameIconWrap) return; if(drawnToday){ flameIconWrap.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gA" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#3b5998" /><stop offset="100%" stop-color="#5a8dee" /></linearGradient></defs><path d="M12 2c0 0-4 4-4 8 0 3.5 3 6 4 9 1-3 4-5.5 4-9 0-4-4-8-4-8z" fill="url(#gA)" /><path d="M12 5.5c0 0-1.8 1.6-1.8 3.2 0 1.4 1.1 2.4 1.8 3.6.6-1.3 1.8-2.2 1.8-3.6 0-1.6-1.8-3.2-1.8-3.2z" fill="#ffffff" opacity="0.9" /></svg>`; flameIconWrap.setAttribute('title','Zalowano cytat dziś — Twoja CytatPassa aktywna'); } else { flameIconWrap.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c0 0-3 3-3 6 0 2.5 2 4 3 6 1-2 3-3.5 3-6 0-3-3-6-3-6z" fill="#bdbdbd" /></svg>`; flameIconWrap.setAttribute('title','Jeszcze nie wylosowano dzisiaj — ikonka szara'); } }catch(e){ /* ignore */ } }
-
-    function updateCountdown(){ try{ if(!countdownEl) return; const state = loadState(); const lastDraw = state.lastDrawDate; if(!lastDraw){ countdownEl.textContent = 'Nie losowano jeszcze'; if(drawBtn) { drawBtn.disabled = false; drawBtn.classList.add('pulse'); } updateFlameIcon(); updateDoubleBadge(); return; } const today = getTodayKey(); if(lastDraw === today){ const nextMs = getNextMidnightMs(); const diff = nextMs - Date.now(); if(diff<=0){ countdownEl.textContent = 'Możesz losować!'; if(drawBtn){ drawBtn.disabled=false; drawBtn.classList.add('pulse'); } updateFlameIcon(); updateDoubleBadge(); return; } if(drawBtn){ drawBtn.disabled=true; drawBtn.classList.remove('pulse'); } const h = String(Math.floor(diff/3600000)).padStart(2,'0'); const m = String(Math.floor(diff%3600000/60000)).padStart(2,'0'); const s = String(Math.floor(diff%60000/1000)).padStart(2,'0'); countdownEl.textContent = `Następne losowanie za: ${h}:${m}:${s} (strefa lokalna)`; updateFlameIcon(); updateDoubleBadge(); return; } if(drawBtn){ drawBtn.disabled=false; drawBtn.classList.add('pulse'); } countdownEl.textContent = 'Możesz losować!'; updateFlameIcon(); updateDoubleBadge(); }catch(e){ /* ignore */ } }
-
-    function monthsDaysUntilDec1(fromDate){ const now = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()); let target = new Date(now.getFullYear(), 11, 1); if(now > target) target = new Date(now.getFullYear()+1, 11, 1); let months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth()); const interm2 = new Date(now.getFullYear(), now.getMonth() + months, now.getDate()); if(interm2 > target) months--; const interm = new Date(now.getFullYear(), now.getMonth() + months, now.getDate()); const msPerDay = 1000*60*60*24; const days = Math.ceil((target - interm) / msPerDay); return {months: Math.max(0, months), days: Math.max(0, days)}; }
-    function updateSeasonCountdown(){ try{ if(!seasonCountdownEl) return; const now = new Date(); const md = monthsDaysUntilDec1(now); const monthText = md.months === 1 ? '1 miesiąc' : (md.months >=2 && md.months <=4 ? `${md.months} miesiące` : `${md.months} miesięcy`); const daysText = md.days === 1 ? '1 dzień' : `${md.days} dni`; seasonCountdownEl.textContent = `Koniec Sezonu Jesiennego za: ${monthText} ${daysText}`; }catch(e){} }
-
-    function chooseQuoteAvoidRepeat(lastIndex){ if(QUOTES.length===0) return null; if(QUOTES.length===1) return 0; let idx = Math.floor(Math.random()*QUOTES.length); let attempts=0; while(idx===lastIndex && attempts<50){ idx = Math.floor(Math.random()*QUOTES.length); attempts++; } if(idx===lastIndex) idx = (lastIndex+1)%QUOTES.length; return idx; }
-
-    function computeMedalByPoints(points){ const achieved = MEDALS.filter(m=>points>=m.days).sort((a,b)=>b.days-a.days); return achieved.length?achieved[0]:null; }
-    function getPrevThreshold(days){ let prev = 0; for(let i=0;i<MEDALS.length;i++){ if(MEDALS[i].days>=days) { return prev; } prev = MEDALS[i].days; } return prev; }
-
-    function renderMedalsUI(currentPoints){ try{ if(!medalStrip || !progressFill || !progressLegendLeft || !progressLegendRight) return; medalStrip.innerHTML = ''; MEDALS.forEach((m, idx)=>{ const card = document.createElement('div'); card.className = 'medal-card'; if(currentPoints >= m.days) card.classList.add('active'); const top = document.createElement('div'); top.className='medal-top'; const tag = document.createElement('div'); tag.className='medal-tag'; tag.innerHTML = m.svg; const nameWrap = document.createElement('div'); const name = document.createElement('div'); name.className='medal-name'; name.textContent = m.name; const days = document.createElement('div'); days.className='medal-days'; days.textContent = `za ${m.days} ${pluralizePoints(m.days)}`; nameWrap.appendChild(name); nameWrap.appendChild(days); top.appendChild(tag); top.appendChild(nameWrap); const prevThreshold = getPrevThreshold(m.days); const progressLocal = ((Math.min(currentPoints, m.days) - prevThreshold) / Math.max(1, (m.days - prevThreshold))) * 100; const barHtml = `<div style="height:8px;background:rgba(30,58,138,.06);border-radius:8px;overflow:hidden;margin-top:8px"><div style="width:${Math.max(0,Math.min(100,progressLocal))}%";height:100%;background:linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end))></div></div>`; const missing = Math.max(0, m.days - currentPoints); const bottom = document.createElement('div'); if(missing === 0){ bottom.innerHTML = barHtml + `<div class="medal-missing">Zdobyte</div>`; } else { bottom.innerHTML = barHtml + `<div style="margin-top:8px"><div class="missing-bubble glow" title="Brakuje ${missing} ${pluralizePoints(missing)}"><span style="font-weight:800">${missing}</span></div></div>`; } const captionDiv = document.createElement('div'); captionDiv.className = `medal-caption`; captionDiv.textContent = 'Nagroda za Jesień 2025'; bottom.appendChild(captionDiv); card.appendChild(top); card.appendChild(bottom); card.setAttribute('role','group'); card.setAttribute('aria-label', `${m.name} ${m.days} ${pluralizePoints(m.days)}`); medalStrip.appendChild(card); }); const nextInfo = nextMedalByPoints(currentPoints); const next = nextInfo.medal; const nextIndex = nextInfo.index; const maxDays = MEDALS[MEDALS.length-1].days; let fillPercent = 0; let prev = 0; let goal = maxDays; let localProgress = 0; if(next){ prev = getPrevThreshold(next.days); goal = Math.max(1, next.days - prev); localProgress = Math.max(0, currentPoints - prev); fillPercent = Math.min(100, Math.round((localProgress / goal) * 100)); } else { fillPercent = 100; } progressFill.style.width = fillPercent + '%'; if(next){ const missingToNext = Math.max(0, next.days - currentPoints); progressLegendLeft.textContent = `Twoje CytatPunkty: ${currentPoints} • Do ${next.name}: `; let bubble = document.getElementById('legendMissingBubble'); if(!bubble){ bubble = document.createElement('div'); bubble.id='legendMissingBubble'; bubble.style.display='inline-flex'; bubble.style.marginLeft='8px'; bubble.className='missing-bubble'; bubble.title = `${missingToNext} ${pluralizePoints(missingToNext)}`; bubble.textContent = missingToNext; progressLegendLeft.appendChild(bubble); } else { bubble.textContent = missingToNext; bubble.title = `${missingToNext} ${pluralizePoints(missingToNext)}`; } } else { progressLegendLeft.textContent = `Twoje CytatPunkty: ${currentPoints} • Osiągnięto wszystkie medale 🎉`; const b = document.getElementById('legendMissingBubble'); if(b) b.remove(); } progressLegendRight.textContent = `Cel: ${maxDays} ${pluralizePoints(maxDays)}`;
-      setTimeout(()=>{ try{ const children = medalStrip ? Array.from(medalStrip.children) : []; let targetIndex = 0; if(next){ targetIndex = Math.max(0, Math.min(children.length-1, nextIndex)); } else { targetIndex = children.length-1; } const targetEl = children[targetIndex]; if(targetEl){ children.forEach(c=>c.classList.remove('highlight')); targetEl.classList.add('highlight'); targetEl.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}); targetEl.classList.add('active'); setTimeout(()=>{ targetEl.classList.remove('active'); }, 900); } }catch(e){} }, 80);
-    }catch(e){ console.error('renderMedalsUI error', e); }
-    }
-
-    // render all awards view (ONLY obtained)
-    function renderAllAwards(){ try{ if(!awardsGrid) return; awardsGrid.innerHTML = ''; const state = loadState(); const pts = state.points || 0; const obtained = MEDALS.filter(m=> pts >= m.days); if(obtained.length === 0){ awardsGrid.innerHTML = '<div style="padding:20px;color:rgba(30,58,138,.8)">Jeszcze nie zdobyto żadnej nagrody.</div>'; return; } obtained.forEach(m=>{ const card = document.createElement('div'); card.className = 'award-card'; const img = document.createElement('div'); img.className='award-img'; img.innerHTML = m.svg; const name = document.createElement('div'); name.className='award-name'; name.textContent = m.name; const rarity = document.createElement('div'); rarity.className='award-rarity'; rarity.textContent = 'Nagroda za Jesień 2025'; const pointsLine = document.createElement('div'); pointsLine.className='award-points'; pointsLine.textContent = `Zdobyta za ${m.days} ${pluralizePoints(m.days)}`; const obtainedMark = document.createElement('div'); obtainedMark.className='award-obtained'; obtainedMark.textContent = 'Zdobyta'; card.appendChild(img); card.appendChild(name); card.appendChild(rarity); card.appendChild(pointsLine); card.appendChild(obtainedMark); awardsGrid.appendChild(card); }); }catch(e){ console.error('renderAllAwards error', e); } }
-
-    // double badge UI
-    function updateDoubleBadge(){ try{ const state = loadState(); const wrap = document.querySelector('.points-wrap'); if(!wrap) return; let badge = document.querySelector('.double-badge'); if(state.doubleUntil && state.doubleUntil >= getTodayKey()){ // active
-        const until = state.doubleUntil;
-        if(!badge){ badge = document.createElement('div'); badge.className = 'double-badge'; badge.id='doubleBadge'; badge.textContent = `x2 do ${until}`; wrap.appendChild(badge); } else { badge.textContent = `x2 do ${until}`; }
-      } else { if(badge) badge.remove(); } }catch(e){} }
-
-    // INIT
-    (function init(){ try{ const state = loadState(); const pointsVal = (state.points || state.streak || 0); saveState({ points: pointsVal }); if(streakValueEl) streakValueEl.textContent = (state.streak || 0); if(pointsValueEl) pointsValueEl.textContent = pointsVal; if(state.lastQuoteIndex!==null && state.lastQuoteIndex!==undefined && quoteText && quoteRef){ const q = QUOTES[state.lastQuoteIndex]; if(q){ quoteText.textContent = q.text; quoteRef.textContent = q.ref; } } renderMedalsUI(pointsVal); updateCountdown(); updateSeasonCountdown(); updateDoubleBadge(); setInterval(updateCountdown,1000); setInterval(updateSeasonCountdown,60*1000); }catch(e){ console.error('init error', e); } })();
-
-    // DRAW logic
-    if(drawBtn){ drawBtn.addEventListener('click',()=>{ try{ const today = getTodayKey(); const state = loadState(); if(state.lastDrawDate===today){ alert('Dzisiaj już losowano cytat. Spróbuj jutro.'); return; } let newStreak = 1; if(state.lastDrawDate){ const diffDays = daysBetween(state.lastDrawDate, today); if(diffDays===1){ newStreak = (state.streak||0) + 1; } else if(diffDays===0){ newStreak = state.streak||1; } else { newStreak = 1; } } const idx = chooseQuoteAvoidRepeat(state.lastQuoteIndex); const chosen = QUOTES[idx]; if(quoteText) quoteText.textContent = chosen.text; if(quoteRef) quoteRef.textContent = chosen.ref; const existingPoints = state.points || 0;
-
-      // multiplier for double points
-      let multiplier = 1;
-      if(state.doubleUntil && state.doubleUntil >= today){ multiplier = 2; }
-
-      const gained = 1 * multiplier;
-      const newPoints = existingPoints + gained;
-
-      if(streakValueEl) streakValueEl.textContent = newStreak;
-      if(pointsValueEl) pointsValueEl.textContent = newPoints;
-      saveState({lastDrawDate: today, lastQuoteIndex: idx, streak: newStreak, points: newPoints});
-      renderMedalsUI(newPoints);
-      quoteBoxAnim();
-      updateCountdown();
-
-      const achieved = computeMedalByPoints(newPoints);
-      if(achieved){ const previousBest = MEDALS.slice().reverse().find(m=> (state.points||0) >= m.days ); const prevDays = previousBest?previousBest.days:0; if(achieved.days>prevDays){ setTimeout(()=>{ alert(`Gratulacje! Zdobyłeś medal: ${achieved.emoji} ${achieved.name} (${achieved.days} ${pluralizePoints(achieved.days)})`); },300); } }
-
-      if(multiplier > 1){
-        setTimeout(()=>{ alert(`Super! Mnożnik x2 aktywny — zdobyłeś ${gained} CytatPunktów.`); }, 200);
-      }
-
-    }catch(e){ console.error('draw error', e); } }); }
-
-    function quoteBoxAnim(){ try{ const box = safeGet('quoteBox'); if(!box || !box.animate) return; box.animate([ { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' }, { transform: 'translateY(-6px) scale(1.01)', boxShadow: '0 18px 30px rgba(58,88,160,.16)' }, { transform: 'translateY(0) scale(1)', boxShadow: '0 8px 20px rgba(58,88,160,.12)' } ],{ duration: 600, easing: 'ease-out' }); }catch(e){} }
-
-    // UI handlers
-    if(searchToggle){ searchToggle.addEventListener('click', (e) => { e.stopPropagation(); if(!codeMsg) return; if(codeMsg) codeMsg.style.display = 'none'; if(codeMsg) codeMsg.textContent = ''; if(codeInput) codeInput.value = ''; if(codePopup) codePopup.classList.toggle('visible'); if(codePopup) codePopup.setAttribute('aria-hidden', codePopup.classList.contains('visible') ? 'false' : 'true'); if(codePopup && codePopup.classList.contains('visible') && codeInput) codeInput.focus(); }); }
-    document.addEventListener('click', (ev) => { try{ if(codePopup && codePopup.classList.contains('visible')){ codePopup.classList.remove('visible'); codePopup.setAttribute('aria-hidden','true'); } const p = progressWrap ? progressWrap.querySelector('.progress-popup') : null; if(p) p.remove(); }catch(e){} }); if(codePopup){ codePopup.addEventListener('click', (ev)=>{ ev.stopPropagation(); }); }
-
-    if(viewAllBtn){ viewAllBtn.addEventListener('click', (e)=>{ e.preventDefault(); try{ renderAllAwards(); if(allAwardsOverlay) { allAwardsOverlay.style.display='flex'; allAwardsOverlay.setAttribute('aria-hidden','false'); allAwardsOverlay.scrollTop = 0; } }catch(er){ console.error('viewAll error', er); } }); }
-    if(backToMainBtn){ backToMainBtn.addEventListener('click', (e)=>{ e.preventDefault(); if(allAwardsOverlay){ allAwardsOverlay.style.display='none'; allAwardsOverlay.setAttribute('aria-hidden','true'); } }); }
-
-    // codes handling
-    function applySpecialCode(rawCode){ try{ const code = (rawCode||'').toString().trim().toUpperCase(); if(!code) return { ok:false, msg:'Wpisz kod.' }; const state = loadState(); const claimed = state.claimedCodes || [];
-
-      // special mega code (legacy in original)
-      if(code === 'QQWE19'){ if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' }; const newStreak = (state.streak || 0) + 30; const newPoints = (state.points || 0) + 30; claimed.push(code); saveState({ streak: newStreak, points: newPoints, claimedCodes: claimed }); if(streakValueEl) streakValueEl.textContent = newStreak; if(pointsValueEl) pointsValueEl.textContent = newPoints; renderMedalsUI(newPoints); updateCountdown(); return { ok:true, msg:'+30 dni do CytatPassy i +30 CytatPunktów zostało dodane.' }; }
-
-      // previously existing small/big sets (legacy)
-      const smallPointCodes = ['AABB12','AABB34','AABB95','AABB00'];
-      if(smallPointCodes.includes(code)){ if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' }; const newPoints = (state.points || 0) + 2; claimed.push(code); saveState({ points: newPoints, claimedCodes: claimed }); if(pointsValueEl) pointsValueEl.textContent = newPoints; renderMedalsUI(newPoints); return { ok:true, msg:'+2 CytatPunkty zostały dodane.' }; }
-
-      const bigPointCodes = ['QQBE12','QQBE19','QQBE48'];
-      if(bigPointCodes.includes(code)){ if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' }; const newPoints = (state.points || 0) + 10; claimed.push(code); saveState({ points: newPoints, claimedCodes: claimed }); if(pointsValueEl) pointsValueEl.textContent = newPoints; renderMedalsUI(newPoints); return { ok:true, msg:'+10 CytatPunktów zostało dodane.' }; }
-
-      // === NEW: kody użytkownika ===
-      const doubleCodes = ['DDBB00','DDBB01','DDBB02','DDBB03']; // x2 na 5 dni
-      const ksooCodes = ['KSOO00','KSOO01','KSOO02','KSOO03']; // +2 punkty
-      const aubcCodes = ['AUBC00','AUBC01','AUBC02','AUBC03']; // +5 punkty
-
-      if(doubleCodes.includes(code)){
-        if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' };
-        // ustawienie daty wygaśnięcia (5 dni włącznie od dzisiaj)
-        const now = new Date();
-        const expire = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5); // 5 dni
-        const expireStr = formatYMD(expire);
-        // jeśli jest już dłuższy okres, zachowaj najdłuższy
-        let existing = state.doubleUntil || null;
-        if(existing && existing > expireStr){
-          // istnieje dłuższy -> nic nie robimy z datą, ale i tak zapisujemy kod jako użyty
-          claimed.push(code);
-          saveState({ claimedCodes: claimed });
-          updateDoubleBadge();
-          return { ok:true, msg:`Kod przyjęty. Mnożnik x2 już aktywny do ${existing}. Kod zapisany.` };
-        } else {
-          claimed.push(code);
-          saveState({ claimedCodes: claimed, doubleUntil: expireStr });
-          updateDoubleBadge();
-          return { ok:true, msg:`Mnożnik x2 aktywowany na 5 dni (do ${expireStr}).` };
+        function checkStreak() {
+            const lastDrawDate = localStorage.getItem('lastDrawDate');
+            const today = new Date();
+            const todayString = today.toDateString();
+            
+            // Load saved stats
+            currentStreak = parseInt(localStorage.getItem('currentStreak') || '0');
+            totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+            quoteHistory = JSON.parse(localStorage.getItem('quoteHistory') || '[]');
+            
+            if (lastDrawDate) {
+                const lastDate = new Date(lastDrawDate);
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+                
+                // Check if last draw was yesterday (streak continues) or today (already drawn)
+                if (lastDrawDate === todayString) {
+                    // Already drawn today - streak is maintained
+                } else if (lastDrawDate === yesterday.toDateString()) {
+                    // Last draw was yesterday - streak continues but no draw today yet
+                } else {
+                    // More than 1 day gap - reset streak
+                    currentStreak = 0;
+                    localStorage.setItem('currentStreak', '0');
+                }
+            }
+            
+            updateStatsDisplay();
         }
-      }
 
-      if(ksooCodes.includes(code)){
-        if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' };
-        const newPoints = (state.points || 0) + 2;
-        claimed.push(code);
-        saveState({ points: newPoints, claimedCodes: claimed });
-        if(pointsValueEl) pointsValueEl.textContent = newPoints;
-        renderMedalsUI(newPoints);
-        return { ok:true, msg:'+2 CytatPunkty zostały dodane.' };
-      }
+        function checkIfDrawnToday() {
+            const lastDrawDate = localStorage.getItem('lastDrawDate');
+            const today = new Date().toDateString();
+            
+            if (lastDrawDate === today) {
+                hasDrawnToday = true;
+                const savedQuote = JSON.parse(localStorage.getItem('todayQuote'));
+                if (savedQuote) {
+                    const container = document.getElementById('quoteContainer');
+                    const placeholder = document.getElementById('quotePlaceholder');
+                    const button = document.getElementById('drawButton');
+                    
+                    placeholder.style.display = 'none';
+                    container.classList.remove('hidden');
+                    displayQuote(savedQuote);
+                    button.textContent = 'Już losowano';
+                    button.disabled = true;
+                    button.classList.add('glass');
+                    showCountdown();
+                }
+            }
+        }
 
-      if(aubcCodes.includes(code)){
-        if(claimed.includes(code)) return { ok:false, msg:'Kod został już użyty.' };
-        const newPoints = (state.points || 0) + 5;
-        claimed.push(code);
-        saveState({ points: newPoints, claimedCodes: claimed });
-        if(pointsValueEl) pointsValueEl.textContent = newPoints;
-        renderMedalsUI(newPoints);
-        return { ok:true, msg:'+5 CytatPunktów zostało dodane.' };
-      }
+        function updateStatsDisplay() {
+            document.getElementById('streakTextNumber').textContent = currentStreak;
+            document.getElementById('pointsTextNumber').textContent = totalPoints;
+            if (document.getElementById('rewardsContainer').children.length > 0) {
+                generateRewardCards();
+            }
+        }
 
-      return { ok:false, msg:'Nieprawidłowy kod.' };
-    }catch(e){ return { ok:false, msg:'Błąd wewnętrzny' }; }
-    }
+        function drawQuote() {
+            if (hasDrawnToday) return;
+            
+            const button = document.getElementById('drawButton');
+            const container = document.getElementById('quoteContainer');
+            const placeholder = document.getElementById('quotePlaceholder');
+            
+            // Hide placeholder and show quote container
+            placeholder.style.display = 'none';
+            container.classList.remove('hidden');
+            
+            // Immediate quote selection
+            const finalQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            displayQuote(finalQuote);
+            
+            // Update streak and points
+            currentStreak++;
+            totalPoints += currentStreak; // Points = current streak value
+            
+            // Save quote to history
+            const today = new Date();
+            const historyEntry = {
+                quote: finalQuote,
+                date: today.toDateString(),
+                dateFormatted: today.toLocaleDateString('pl-PL', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+            
+            // Add to beginning of history array (newest first)
+            quoteHistory.unshift(historyEntry);
+            
+            // Save to localStorage
+            localStorage.setItem('lastDrawDate', new Date().toDateString());
+            localStorage.setItem('todayQuote', JSON.stringify(finalQuote));
+            localStorage.setItem('currentStreak', currentStreak.toString());
+            localStorage.setItem('totalPoints', totalPoints.toString());
+            localStorage.setItem('quoteHistory', JSON.stringify(quoteHistory));
+            
+            // Update display
+            updateStatsDisplay();
+            
+            hasDrawnToday = true;
+            button.textContent = 'Już losowano';
+            button.disabled = true;
+            button.classList.add('glass');
+            
+            setTimeout(() => {
+                showCountdown();
+            }, 1000);
+        }
 
-    if(codeForm){ codeForm.addEventListener('submit', (ev) => { ev.preventDefault(); ev.stopPropagation(); if(!codeInput) return; const v = codeInput.value || ''; const res = applySpecialCode(v); if(codeMsg){ codeMsg.style.display = 'block'; codeMsg.textContent = res.msg; } if(res.ok){ setTimeout(()=>{ if(codePopup){ codePopup.classList.remove('visible'); codePopup.setAttribute('aria-hidden','true'); } }, 900); alert('Kod przyjęty — ' + res.msg); } }); }
+        function displayQuote(quote) {
+            const quoteText = document.getElementById('quoteText');
+            const quoteRef = document.getElementById('quoteReference');
+            const container = document.getElementById('quoteContainer');
+            
+            quoteText.textContent = quote.text;
+            quoteRef.textContent = quote.ref;
+            
+            container.classList.add('pulse');
+            
+            setTimeout(() => {
+                quoteText.classList.add('visible');
+                quoteRef.classList.add('visible');
+                container.classList.remove('pulse');
+            }, 100);
+            
+            currentQuote = quote;
+        }
 
-    console.info('Skrypt inicjalizowany: wersja z obsługą kodów DDBB/KSOO/AUBC.');
-  </script>
-</body>
+        function showCountdown() {
+            const countdownContainer = document.getElementById('countdownContainer');
+            const rewardsSection = document.getElementById('rewardsSection');
+            countdownContainer.classList.add('visible');
+            rewardsSection.classList.add('visible');
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function initializeRewards() {
+            claimedRewards = JSON.parse(localStorage.getItem('claimedRewards') || '[]');
+            generateRewardCards();
+            updateSliderNavigation();
+        }
+
+        function generateRewardCards() {
+            const container = document.getElementById('rewardsContainer');
+            container.innerHTML = '';
+            
+            rewards.forEach((reward, index) => {
+                const progress = Math.min(totalPoints / reward.points, 1) * 100;
+                const pointsNeeded = Math.max(0, reward.points - totalPoints);
+                const canClaim = totalPoints >= reward.points && !claimedRewards.includes(index);
+                const isClaimed = claimedRewards.includes(index);
+                
+                const card = document.createElement('div');
+                card.className = 'reward-card';
+                card.innerHTML = `
+                    <div class="reward-image">
+                        <img src="${reward.image}" alt="${reward.name}" 
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                    </div>
+                    <div class="reward-info">
+                        <div class="reward-name">${reward.name}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="points-needed">
+                            ${isClaimed ? 'Odebrano!' : pointsNeeded > 0 ? `Brakuje ${pointsNeeded} PassaPunktów` : 'Gotowe do odebrania!'}
+                        </div>
+                        <div class="reward-season">Nagroda Za Jesień 2025</div>
+                    </div>
+                    <div class="reward-action">
+                        <button class="claim-btn" ${!canClaim || isClaimed ? 'disabled' : ''} 
+                                onclick="claimReward(${index})">
+                            ${isClaimed ? 'Odebrano' : canClaim ? 'Odbierz' : 'Zablokowane'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function claimReward(index) {
+            if (totalPoints >= rewards[index].points && !claimedRewards.includes(index)) {
+                claimedRewards.push(index);
+                localStorage.setItem('claimedRewards', JSON.stringify(claimedRewards));
+                generateRewardCards();
+                updateCarouselPosition();
+            }
+        }
+
+        function updateSliderNavigation() {
+            // No slider anymore - just update position
+        }
+
+        function initializeSwipeControls() {
+            const container = document.getElementById('rewardsContainer');
+            let startX = 0;
+            let isDragging = false;
+
+            // Mouse events
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                container.style.transition = 'none';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const diffX = e.clientX - startX;
+                const currentTranslate = -currentRewardIndex * 100;
+                const dragPercent = (diffX / container.offsetWidth) * 100;
+                container.style.transform = `translateX(${currentTranslate + dragPercent}%)`;
+            });
+
+            document.addEventListener('mouseup', handleEnd);
+
+            // Touch events
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                container.style.transition = 'none';
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const diffX = e.touches[0].clientX - startX;
+                const currentTranslate = -currentRewardIndex * 100;
+                const dragPercent = (diffX / container.offsetWidth) * 100;
+                container.style.transform = `translateX(${currentTranslate + dragPercent}%)`;
+            });
+
+            document.addEventListener('touchend', handleEnd);
+
+            function handleEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                container.style.transition = 'transform 0.3s ease';
+                
+                const endX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
+                const diffX = endX - startX;
+                const threshold = 80;
+                
+                if (Math.abs(diffX) > threshold) {
+                    if (diffX > 0 && currentRewardIndex > 0) {
+                        currentRewardIndex--;
+                    } else if (diffX < 0 && currentRewardIndex < rewards.length - 1) {
+                        currentRewardIndex++;
+                    }
+                }
+                
+                updateCarouselPosition();
+            }
+        }
+
+        function updateCarouselPosition() {
+            const container = document.getElementById('rewardsContainer');
+            const translateX = -currentRewardIndex * 100;
+            container.style.transform = `translateX(${translateX}%)`;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const timeLeft = tomorrow - now;
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdownTime').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                // Reset for new day
+                hasDrawnToday = false;
+                localStorage.removeItem('lastDrawDate');
+                localStorage.removeItem('todayQuote');
+                location.reload();
+            }
+        }
+
+        function openMyRewards() {
+            const modal = document.getElementById('myRewardsModal');
+            const grid = document.getElementById('claimedRewardsGrid');
+            const noRewardsMessage = document.getElementById('noRewardsMessage');
+            
+            // Clear previous content
+            grid.innerHTML = '';
+            
+            if (claimedRewards.length === 0) {
+                noRewardsMessage.style.display = 'block';
+                grid.style.display = 'none';
+            } else {
+                noRewardsMessage.style.display = 'none';
+                grid.style.display = 'grid';
+                
+                claimedRewards.forEach(rewardIndex => {
+                    const reward = rewards[rewardIndex];
+                    const item = document.createElement('div');
+                    item.className = 'claimed-reward-item';
+                    item.innerHTML = `
+                        <div class="claimed-reward-image">
+                            <img src="${reward.image}" alt="${reward.name}" 
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        </div>
+                        <div class="claimed-reward-name">${reward.name}</div>
+                        <div class="claimed-reward-points">${reward.points} PassaPunktów</div>
+                    `;
+                    grid.appendChild(item);
+                });
+            }
+            
+            modal.classList.add('visible');
+        }
+
+        function closeMyRewards() {
+            const modal = document.getElementById('myRewardsModal');
+            modal.classList.remove('visible');
+        }
+
+        function openQuoteHistory() {
+            const modal = document.getElementById('quoteHistoryModal');
+            const list = document.getElementById('quoteHistoryList');
+            const noHistoryMessage = document.getElementById('noHistoryMessage');
+            
+            // Clear previous content
+            list.innerHTML = '';
+            
+            if (quoteHistory.length === 0) {
+                noHistoryMessage.style.display = 'block';
+                list.style.display = 'none';
+            } else {
+                noHistoryMessage.style.display = 'none';
+                list.style.display = 'flex';
+                
+                quoteHistory.forEach(entry => {
+                    const item = document.createElement('div');
+                    item.className = 'quote-history-item';
+                    item.innerHTML = `
+                        <div class="history-quote-text">"${entry.quote.text}"</div>
+                        <div class="history-quote-reference">${entry.quote.ref}</div>
+                        <div class="history-quote-date">${entry.dateFormatted}</div>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+            
+            modal.classList.add('visible');
+        }
+
+        function closeQuoteHistory() {
+            const modal = document.getElementById('quoteHistoryModal');
+            modal.classList.remove('visible');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('myRewardsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMyRewards();
+            }
+        });
+
+        document.getElementById('quoteHistoryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQuoteHistory();
+            }
+        });
+
+        // Initialize app
+        checkStreak();
+        checkIfDrawnToday();
+        initializeRewards();
+        initializeSwipeControls();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990970ba86eaeec6',t:'MTc2MDgwNTIzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-

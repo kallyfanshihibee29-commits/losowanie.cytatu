@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codzienny Cytat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codzienny Cytat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Roboto:wght@400;700&amp;family=Georgia&amp;display=swap" rel="stylesheet">
+  <style>
         body {
             box-sizing: border-box;
         }
@@ -14,9 +14,9 @@
             --bg: #9fc6e2;
             --bg2: #cfe8f8;
             --navy: #1e3a8a;
-            --quote-grad-start: #3b5998;
-            --quote-grad-end: #5a8dee;
-            --point-blue: #2b7bd6;
+            --accent: #2b7bd6;
+            --gradient-start: #3b5998;
+            --gradient-end: #5a8dee;
         }
 
         * {
@@ -31,16 +31,18 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg2) 100%);
             min-height: 100%;
-            padding: 20px;
+            padding: 40px 20px;
+            animation: slideInRight 1s ease-out;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
             text-align: center;
+            animation: headerFloat 1.2s ease-out 0.3s both;
         }
 
         .title {
@@ -48,33 +50,48 @@
             font-size: 2.5rem;
             color: var(--navy);
             margin-bottom: 2rem;
-            margin-top: 1rem;
             text-shadow: 0 2px 4px rgba(6,21,52,0.12);
+            animation: breathe 3s ease-in-out infinite;
         }
 
         .main-card {
-            background: rgba(255,255,255,0.15);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 
-                0 8px 32px rgba(6,21,52,0.1),
-                0 4px 16px rgba(59,89,152,0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 8px 32px rgba(6,21,52,0.12);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: titleCardSlideIn 1s ease-out 0.6s both;
+            transition: all 0.3s ease;
+            max-width: 100%;
         }
 
+        .main-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(6,21,52,0.15);
+        }
 
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: glassShimmer 3s ease-in-out infinite;
+        }
 
         .quote-container {
-            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 
-                0 4px 12px rgba(6,21,52,0.12),
-                0 8px 24px rgba(59,89,152,0.12);
-            min-height: 80px;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 20px rgba(59,89,152,0.25);
+            min-height: 120px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -83,31 +100,20 @@
         }
 
         .quote-placeholder {
-            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            color: rgba(255,255,255,0.8);
             font-size: 1rem;
-            font-weight: 400;
-            box-shadow: 
-                0 4px 12px rgba(6,21,52,0.12),
-                0 8px 24px rgba(59,89,152,0.12);
+            font-style: italic;
         }
 
         .quote-text {
-            font-size: 1.25rem;
-            font-weight: 400;
+            font-family: 'Georgia', serif;
+            font-size: 1.2rem;
             color: white;
             line-height: 1.6;
             margin-bottom: 1rem;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: all 0.6s ease;
         }
 
         .quote-text.visible {
@@ -116,12 +122,13 @@
         }
 
         .quote-reference {
-            font-size: 1rem;
-            font-weight: 700;
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            font-weight: bold;
             color: rgba(255,255,255,0.9);
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.5s ease 0.2s;
+            transition: all 0.6s ease 0.3s;
         }
 
         .quote-reference.visible {
@@ -130,54 +137,73 @@
         }
 
         .draw-button {
-            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1rem 2rem;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             font-family: 'Roboto', sans-serif;
             cursor: pointer;
-            box-shadow: 
-                0 4px 12px rgba(6,21,52,0.12),
-                0 8px 24px rgba(59,89,152,0.12);
+            box-shadow: 0 6px 20px rgba(59,89,152,0.25);
             transition: all 0.3s ease;
-            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .draw-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 16px rgba(6,21,52,0.15),
-                0 12px 32px rgba(59,89,152,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(59,89,152,0.35);
+            background: linear-gradient(135deg, #4a6ba8 0%, #6a9dfe 100%);
         }
 
         .draw-button:active {
-            transform: translateY(0);
+            transform: translateY(-2px) scale(0.98);
+            animation: pulse 0.3s ease;
+        }
+
+        .draw-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .draw-button:active::before {
+            width: 300px;
+            height: 300px;
         }
 
         .draw-button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
-        }
-
-        .draw-button.glass {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.3);
             color: var(--navy);
         }
 
+        .draw-button:disabled:hover {
+            transform: none;
+            box-shadow: 0 6px 20px rgba(59,89,152,0.25);
+        }
+
         .countdown-container {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.5);
             display: none;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.5s ease;
-            font-size: 0.85rem;
-            margin-top: 1rem;
         }
 
         .countdown-container.visible {
@@ -187,570 +213,445 @@
         }
 
         .countdown-title {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 0.25rem;
-        }
-
-        .countdown-time {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--point-blue);
-        }
-
-        .stats-text-container {
-            margin-top: 1.5rem;
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.5s ease;
-        }
-
-        .stats-text-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stat-text-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .stat-text-label {
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--navy);
+            margin-bottom: 0.5rem;
         }
 
-        .stat-mini-circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
+        .countdown-time {
+            font-size: 1.2rem;
             font-weight: 700;
-            color: white;
+            color: var(--accent);
+            font-family: 'Georgia', serif;
         }
 
-        .stat-mini-circle.passa {
-            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-            box-shadow: 0 2px 6px rgba(59,130,246,0.3);
-        }
-
-        .stat-mini-circle.points {
-            background: linear-gradient(135deg, var(--navy) 0%, #3730a3 100%);
-            box-shadow: 0 2px 6px rgba(30,58,138,0.3);
-        }
-
-        .stat-text-number {
+        .history-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            color: var(--navy);
+            border: 2px solid rgba(30, 58, 138, 0.2);
+            border-radius: 16px;
+            padding: 1rem 2rem;
             font-size: 1rem;
-            font-weight: 700;
-            color: var(--point-blue);
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
         }
 
-        .spinning {
-            animation: spin 0.1s linear infinite;
+        .history-button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.2);
         }
 
-        @keyframes spin {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .rewards-section {
-            margin-top: 1rem;
-            opacity: 1;
-            transform: translateY(0);
+        .history-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(30, 58, 138, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
             transition: all 0.5s ease;
         }
 
-        .rewards-section.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .history-button:active::before {
+            width: 300px;
+            height: 300px;
         }
 
-        .rewards-title {
-            font-family: 'Pacifico', cursive;
-            font-size: 1.5rem;
-            color: var(--navy);
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(6,21,52,0.12);
-        }
-
-        .swipe-instruction {
-            font-size: 0.8rem;
-            color: var(--point-blue);
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .rewards-carousel {
-            background: rgba(255,255,255,0.15);
-            border-radius: 16px;
-            padding: 0.75rem;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 
-                0 8px 32px rgba(6,21,52,0.1),
-                0 4px 16px rgba(59,89,152,0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .rewards-container {
-            display: flex;
-            transition: transform 0.3s ease;
-            cursor: grab;
-            user-select: none;
-        }
-
-        .rewards-container:active {
-            cursor: grabbing;
-        }
-
-        .reward-card {
-            min-width: 100%;
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 0.4rem;
-            border: 1px solid rgba(255,255,255,0.15);
-            flex-shrink: 0;
-        }
-
-        .reward-image {
-            width: 45px;
-            height: 45px;
-            border-radius: 6px;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        .reward-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .reward-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 0.15rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--point-blue) 0%, #60a5fa 100%);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .points-needed {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--point-blue);
-        }
-
-        .reward-season {
-            font-size: 0.65rem;
-            font-weight: 600;
-            background: linear-gradient(90deg, #D2691E 0%, #8B4513 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .reward-action {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .claim-btn {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 0.35rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(34,197,94,0.3);
-        }
-
-        .claim-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(34,197,94,0.4);
-        }
-
-        .claim-btn:disabled {
-            background: rgba(255,255,255,0.2);
-            color: var(--navy);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .my-rewards-button {
-            background: linear-gradient(135deg, var(--quote-grad-start) 0%, var(--quote-grad-end) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: 'Roboto', sans-serif;
-            cursor: pointer;
-            box-shadow: 
-                0 4px 12px rgba(6,21,52,0.12),
-                0 8px 24px rgba(59,89,152,0.12);
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            width: 100%;
-        }
-
-        .my-rewards-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 16px rgba(6,21,52,0.15),
-                0 12px 32px rgba(59,89,152,0.15);
-        }
-
-        .my-rewards-modal {
+        /* Modal Styles */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: none;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 1000;
-            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
         }
 
-        .my-rewards-modal.visible {
+        .modal-overlay.visible {
             display: flex;
+            opacity: 1;
         }
 
-        .my-rewards-content {
-            background: rgba(255,255,255,0.15);
+        .modal-content {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80%;
+            overflow: hidden;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.4) 30%, 
+                rgba(255, 255, 255, 0.6) 50%, 
+                rgba(255, 255, 255, 0.4) 70%, 
+                transparent 100%);
+            z-index: 10;
+            transition: all 0.8s ease;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80%;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 
-                0 8px 32px rgba(6,21,52,0.1),
-                0 4px 16px rgba(59,89,152,0.08);
         }
 
-        .my-rewards-header {
+        .modal-overlay.visible .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-overlay.visible .modal-content::before {
+            left: 100%;
+            transition: all 1.2s ease 0.3s;
+        }
+
+        .modal-header {
+            padding: 1.5rem 2rem 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.6s ease;
         }
 
-        .my-rewards-title {
+        .modal-overlay.visible .modal-header {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.8s;
+        }
+
+        .modal-title {
             font-family: 'Pacifico', cursive;
-            font-size: 1.75rem;
+            font-size: 1.8rem;
             color: var(--navy);
             margin: 0;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
         }
 
         .close-button {
-            background: none;
+            background: transparent;
             border: none;
             font-size: 1.5rem;
             color: var(--navy);
             cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            padding: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
         }
 
         .close-button:hover {
-            background: rgba(30,58,138,0.1);
+            color: var(--accent);
+            transform: scale(1.2);
         }
 
-        .claimed-rewards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-        }
-
-        .claimed-reward-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 1rem;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .claimed-reward-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
-        }
-
-        .claimed-reward-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            background: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.75rem;
-            overflow: hidden;
-        }
-
-        .claimed-reward-name {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 0.25rem;
-        }
-
-        .claimed-reward-points {
-            font-size: 0.75rem;
-            color: var(--point-blue);
-            font-weight: 600;
-        }
-
-        .no-rewards-message {
-            text-align: center;
-            color: var(--navy);
-            font-size: 1.1rem;
+        .modal-body {
             padding: 2rem;
-            opacity: 0.7;
-        }
-
-        .quote-history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
             max-height: 400px;
             overflow-y: auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
         }
 
-        .quote-history-item {
-            background: rgba(255,255,255,0.2);
+        .modal-overlay.visible .modal-body {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 1s;
+        }
+
+        .no-history {
+            text-align: center;
+            color: var(--navy);
+            font-style: italic;
+            padding: 3rem 2rem;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 1.5rem;
+        }
+
+        .history-list {
+            display: none;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--navy);
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.1);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInHistory 0.6s ease forwards;
         }
 
-        .quote-history-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(30,58,138,0.15);
+        .history-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            border-radius: 0 2px 2px 0;
         }
 
-        .history-quote-text {
+        .history-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+            border-color: rgba(43, 123, 214, 0.3);
+        }
+
+        .history-quote {
+            font-family: 'Georgia', serif;
             font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--navy);
             line-height: 1.6;
-            margin-bottom: 0.75rem;
-            font-style: italic;
-        }
-
-        .history-quote-reference {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--point-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .history-quote-date {
-            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
             color: var(--navy);
-            opacity: 0.7;
+        }
+
+        .history-reference {
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            background: rgba(43, 123, 214, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .history-date {
+            font-size: 0.8rem;
+            color: rgba(30, 58, 138, 0.7);
+            font-style: italic;
             font-weight: 500;
         }
 
+        /* Animacje */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) rotateY(30deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
 
+        @keyframes headerFloat {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.8);
+            }
+            60% {
+                transform: translateY(10px) scale(1.05);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes titleCardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(30deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes glassShimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            50% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translateY(-2px) scale(0.98);
+            }
+            50% {
+                transform: translateY(-2px) scale(1.02);
+            }
+            100% {
+                transform: translateY(-2px) scale(0.98);
+            }
+        }
+
+        @keyframes slideInHistory {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glassWaveClose {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.02);
+            }
+            60% {
+                opacity: 0.7;
+                transform: scale(0.98);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+        }
+
+        @keyframes glassWaveClose::before {
+            0% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
+        }
 
         @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
             .title {
                 font-size: 2rem;
+            }
+            
+            .main-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .quote-container {
+                padding: 1.5rem;
+                min-height: 100px;
             }
             
             .quote-text {
                 font-size: 1.1rem;
             }
             
-            .quote-container {
-                padding: 1.5rem;
-            }
-
-            .reward-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .reward-image {
-                width: 50px;
-                height: 50px;
-            }
-
-            .rewards-title {
-                font-size: 1.25rem;
+            .draw-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
             }
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Codzienny Cytat</h1>
-        
-        <div class="main-card">
-
-            
-            <div class="quote-placeholder" id="quotePlaceholder">
-                Jeszcze nie wylosowano cytatu na dziś
-            </div>
-            
-            <div class="quote-container hidden" id="quoteContainer">
-                <div class="quote-text" id="quoteText"></div>
-                <div class="quote-reference" id="quoteReference"></div>
-            </div>
-            
-            <button class="draw-button" id="drawButton" onclick="drawQuote()">
-                Losuj cytat na dziś
-            </button>
-            
-            <div class="countdown-container" id="countdownContainer">
-                <div class="countdown-title">Następny cytat za:</div>
-                <div class="countdown-time" id="countdownTime"></div>
-            </div>
-            
-            <div class="stats-text-container" id="statsTextContainer">
-                <div class="stat-text-row">
-                    <span class="stat-text-label">Twoja CytatPassa:</span>
-                    <div class="stat-mini-circle passa">C</div>
-                    <span class="stat-text-number" id="streakTextNumber">0</span>
-                </div>
-                <div class="stat-text-row">
-                    <span class="stat-text-label">Twoje PassaPunkty:</span>
-                    <div class="stat-mini-circle points">P</div>
-                    <span class="stat-text-number" id="pointsTextNumber">0</span>
-                </div>
-            </div>
-            
-            <div class="rewards-section" id="rewardsSection">
-                <div class="swipe-instruction">Przesuń w bok, aby zobaczyć więcej nagród</div>
-                <div class="rewards-carousel">
-                <div class="rewards-container" id="rewardsContainer">
-                    <!-- Rewards will be generated by JavaScript -->
-                </div>
-                </div>
-                
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                    <button class="my-rewards-button" onclick="openMyRewards()" style="margin-top: 0; flex: 1;">
-                        Twoje Nagrody
-                    </button>
-                    <button class="my-rewards-button" onclick="openQuoteHistory()" style="margin-top: 0; flex: 1;">
-                        Historia Cytatów
-                    </button>
-                </div>
-            </div>
-        </div>
-        </div>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <h1 class="title">Codzienny Cytat</h1>
+   <div class="main-card">
+    <div class="quote-container" id="quoteContainer">
+     <div class="quote-placeholder" id="quotePlaceholder">
+      Kliknij przycisk, aby wylosować cytat na dziś
+     </div>
+     <div class="quote-text" id="quoteText"></div>
+     <div class="quote-reference" id="quoteReference"></div>
+    </div><button class="draw-button" id="drawButton" onclick="drawQuote()"> Losuj Cytat </button>
+    <div class="countdown-container" id="countdownContainer">
+     <div class="countdown-title">
+      Następny cytat za:
+     </div>
+     <div class="countdown-time" id="countdownTime"></div>
+    </div><button class="history-button" id="historyButton" onclick="showHistory()"> Historia Cytatów </button>
+   </div>
+  </div><!-- Modal Historia -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeHistory()">
+   <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+     <h2 class="modal-title">Historia Cytatów</h2><button class="close-button" onclick="closeHistory()">×</button>
     </div>
-
-    <!-- My Rewards Modal -->
-    <div class="my-rewards-modal" id="myRewardsModal">
-        <div class="my-rewards-content">
-            <div class="my-rewards-header">
-                <h2 class="my-rewards-title">Twoje Nagrody</h2>
-                <button class="close-button" onclick="closeMyRewards()">×</button>
-            </div>
-            <div class="claimed-rewards-grid" id="claimedRewardsGrid">
-                <!-- Claimed rewards will be generated by JavaScript -->
-            </div>
-            <div class="no-rewards-message" id="noRewardsMessage" style="display: none;">
-                Nie masz jeszcze żadnych nagród.<br>
-                Zbieraj PassaPunkty, aby odblokować nagrody!
-            </div>
-        </div>
+    <div class="modal-body" id="modalBody">
+     <div class="no-history" id="noHistory">
+      Nie masz jeszcze żadnych cytatów w historii.
+     </div>
+     <div class="history-list" id="historyList"></div>
     </div>
-
-    <!-- Quote History Modal -->
-    <div class="my-rewards-modal" id="quoteHistoryModal">
-        <div class="my-rewards-content">
-            <div class="my-rewards-header">
-                <h2 class="my-rewards-title">Historia Cytatów</h2>
-                <button class="close-button" onclick="closeQuoteHistory()">×</button>
-            </div>
-            <div class="quote-history-list" id="quoteHistoryList">
-                <!-- Quote history will be generated by JavaScript -->
-            </div>
-            <div class="no-rewards-message" id="noHistoryMessage" style="display: none;">
-                Nie masz jeszcze żadnych cytatów w historii.<br>
-                Losuj codziennie cytaty, aby zbudować swoją kolekcję!
-            </div>
-        </div>
-    </div>
-
-    <script>
+   </div>
+  </div>
+  <script>
         const quotes = [
             { text: "Pan jest moim pasterzem, nie brak mi niczego.", ref: "Ps 23,1" },
             { text: "Wszystko mogę w Tym, który mnie umacnia.", ref: "Flp 4,13" },
@@ -781,79 +682,12 @@
             { text: "Dążcie do sprawiedliwości, miłości i pokoju.", ref: "2 P 1,7" },
             { text: "Niech słowo Chrystusa mieszka w was obficie.", ref: "Kol 3,16" },
             { text: "Bóg jest wierny.", ref: "1 Kor 1,9" },
-            { text: "Czuwajcie, bo nie znacie dnia ani godziny.", ref: "Mt 25,13" },
-            { text: "Pan jest mocą moją i pieśnią moją.", ref: "Ps 118,14" },
-            { text: "Niech pokój Chrystusa rządzi w sercach waszych.", ref: "Kol 3,15" },
-            { text: "Kto sieje wiarę, zbiera życie wieczne.", ref: "Gal 6,8" },
-            { text: "Wszystko bowiem pochodzi od Boga.", ref: "Jk 1,17" },
-            { text: "Nie bój się, bo Ja cię odkupiłem.", ref: "Iz 43,1" },
-            { text: "Bóg jest miłością.", ref: "1 J 4,8" },
-            { text: "Niech słowa wasze będą zawsze uprzejme, przyprawione solą.", ref: "Kol 4,6" },
-            { text: "Wysławiajcie Pana, bo jest dobry.", ref: "Ps 106,1" },
-            { text: "Wszystkich was noszę w sercu.", ref: "Flp 1,7" },
-            { text: "Niech będzie wola Twoja.", ref: "Mt 6,10" },
-            { text: "Pan jest pasterzem moim.", ref: "Ps 23,1" },
-            { text: "Wiara czyni cuda.", ref: "Mt 17,20" },
-            { text: "Miłujcie nieprzyjaciół waszych.", ref: "Mt 5,44" },
-            { text: "Błogosławieni ubodzy w duchu.", ref: "Mt 5,3" },
-            { text: "Gdzie dwóch lub trzech zebranych w imię moje, tam jestem pośród nich.", ref: "Mt 18,20" },
-            { text: "Przyjdźcie do Mnie wszyscy, którzy jesteście spracowani.", ref: "Mt 11,28" },
-            { text: "Ja jestem zmartwychwstaniem i życiem.", ref: "J 11,25" },
-            { text: "Niech się dzieje według słowa twego.", ref: "Łk 1,38" },
-            { text: "Bóg tak umiłował świat.", ref: "J 3,16" },
-            { text: "Czyńcie to na moją pamiątkę.", ref: "Łk 22,19" }
-        ];
-
-        const rewards = [
-            { name: "Liść Dębu", points: 2, image: "nagroda_1.png" },
-            { name: "Liść Klonu", points: 5, image: "nagroda_2.png" },
-            { name: "Liść Kasztanowca", points: 10, image: "nagroda_3.png" },
-            { name: "Liść Brzozy", points: 15, image: "nagroda_4.png" },
-            { name: "Liść Winorośli", points: 20, image: "nagroda_5.png" },
-            { name: "Liść Jesionu", points: 25, image: "nagroda_6.png" },
-            { name: "Liść Buku", points: 30, image: "nagroda_7.png" },
-            { name: "Liść Sekwoi", points: 40, image: "nagroda_8.png" },
-            { name: "Złoty Liść", points: 50, image: "nagroda_9.png" }
+            { text: "Czuwajcie, bo nie znacie dnia ani godziny.", ref: "Mt 25,13" }
         ];
 
         let hasDrawnToday = false;
-        let currentQuote = null;
-        let currentStreak = 0;
-        let totalPoints = 0;
-        let currentRewardIndex = 0;
-        let claimedRewards = [];
-        let quoteHistory = [];
 
-        function checkStreak() {
-            const lastDrawDate = localStorage.getItem('lastDrawDate');
-            const today = new Date();
-            const todayString = today.toDateString();
-            
-            // Load saved stats
-            currentStreak = parseInt(localStorage.getItem('currentStreak') || '0');
-            totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
-            quoteHistory = JSON.parse(localStorage.getItem('quoteHistory') || '[]');
-            
-            if (lastDrawDate) {
-                const lastDate = new Date(lastDrawDate);
-                const yesterday = new Date(today);
-                yesterday.setDate(yesterday.getDate() - 1);
-                
-                // Check if last draw was yesterday (streak continues) or today (already drawn)
-                if (lastDrawDate === todayString) {
-                    // Already drawn today - streak is maintained
-                } else if (lastDrawDate === yesterday.toDateString()) {
-                    // Last draw was yesterday - streak continues but no draw today yet
-                } else {
-                    // More than 1 day gap - reset streak
-                    currentStreak = 0;
-                    localStorage.setItem('currentStreak', '0');
-                }
-            }
-            
-            updateStatsDisplay();
-        }
-
+        // Sprawdź czy już losowano dziś
         function checkIfDrawnToday() {
             const lastDrawDate = localStorage.getItem('lastDrawDate');
             const today = new Date().toDateString();
@@ -862,237 +696,160 @@
                 hasDrawnToday = true;
                 const savedQuote = JSON.parse(localStorage.getItem('todayQuote'));
                 if (savedQuote) {
-                    const container = document.getElementById('quoteContainer');
-                    const placeholder = document.getElementById('quotePlaceholder');
-                    const button = document.getElementById('drawButton');
-                    
-                    placeholder.style.display = 'none';
-                    container.classList.remove('hidden');
-                    displayQuote(savedQuote);
-                    button.textContent = 'Już losowano';
-                    button.disabled = true;
-                    button.classList.add('glass');
+                    displaySavedQuote(savedQuote);
                     showCountdown();
                 }
             }
         }
 
-        function updateStatsDisplay() {
-            document.getElementById('streakTextNumber').textContent = currentStreak;
-            document.getElementById('pointsTextNumber').textContent = totalPoints;
-            if (document.getElementById('rewardsContainer').children.length > 0) {
-                generateRewardCards();
-            }
+        function displaySavedQuote(quote) {
+            const placeholder = document.getElementById('quotePlaceholder');
+            const quoteText = document.getElementById('quoteText');
+            const quoteReference = document.getElementById('quoteReference');
+            const button = document.getElementById('drawButton');
+            
+            placeholder.style.display = 'none';
+            quoteText.textContent = `"${quote.text}"`;
+            quoteReference.textContent = quote.ref;
+            quoteText.classList.add('visible');
+            quoteReference.classList.add('visible');
+            
+            button.textContent = 'Już wylosowano na dziś';
+            button.disabled = true;
         }
 
         function drawQuote() {
             if (hasDrawnToday) return;
             
-            const button = document.getElementById('drawButton');
-            const container = document.getElementById('quoteContainer');
             const placeholder = document.getElementById('quotePlaceholder');
+            const quoteText = document.getElementById('quoteText');
+            const quoteReference = document.getElementById('quoteReference');
+            const button = document.getElementById('drawButton');
             
-            // Hide placeholder and show quote container
+            // Ukryj placeholder
             placeholder.style.display = 'none';
-            container.classList.remove('hidden');
             
-            // Immediate quote selection
-            const finalQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            displayQuote(finalQuote);
+            // Wylosuj cytat
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
             
-            // Update streak and points
-            currentStreak++;
-            totalPoints += currentStreak; // Points = current streak value
-            
-            // Save quote to history
-            const today = new Date();
-            const historyEntry = {
-                quote: finalQuote,
-                date: today.toDateString(),
-                dateFormatted: today.toLocaleDateString('pl-PL', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                })
-            };
-            
-            // Add to beginning of history array (newest first)
-            quoteHistory.unshift(historyEntry);
-            
-            // Save to localStorage
+            // Zapisz do localStorage
             localStorage.setItem('lastDrawDate', new Date().toDateString());
-            localStorage.setItem('todayQuote', JSON.stringify(finalQuote));
-            localStorage.setItem('currentStreak', currentStreak.toString());
-            localStorage.setItem('totalPoints', totalPoints.toString());
-            localStorage.setItem('quoteHistory', JSON.stringify(quoteHistory));
+            localStorage.setItem('todayQuote', JSON.stringify(randomQuote));
             
-            // Update display
-            updateStatsDisplay();
+            // Zapisz do historii
+            saveToHistory(randomQuote);
             
-            hasDrawnToday = true;
-            button.textContent = 'Już losowano';
+            // Wyświetl cytat
+            quoteText.textContent = `"${randomQuote.text}"`;
+            quoteReference.textContent = randomQuote.ref;
+            
+            // Animacja pojawiania się
+            setTimeout(() => {
+                quoteText.classList.add('visible');
+            }, 100);
+            
+            setTimeout(() => {
+                quoteReference.classList.add('visible');
+            }, 400);
+            
+            // Zmień stan przycisku
+            button.textContent = 'Już wylosowano na dziś';
             button.disabled = true;
-            button.classList.add('glass');
+            hasDrawnToday = true;
             
+            // Pokaż odliczanie
             setTimeout(() => {
                 showCountdown();
             }, 1000);
         }
 
-        function displayQuote(quote) {
-            const quoteText = document.getElementById('quoteText');
-            const quoteRef = document.getElementById('quoteReference');
-            const container = document.getElementById('quoteContainer');
+        function saveToHistory(quote) {
+            let history = JSON.parse(localStorage.getItem('quotesHistory') || '[]');
             
-            quoteText.textContent = quote.text;
-            quoteRef.textContent = quote.ref;
+            const historyItem = {
+                quote: quote,
+                date: new Date().toLocaleDateString('pl-PL', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }),
+                timestamp: new Date().getTime()
+            };
             
-            container.classList.add('pulse');
+            // Dodaj na początek tablicy (najnowsze pierwsze)
+            history.unshift(historyItem);
             
+            // Ogranicz historię do 50 ostatnich cytatów
+            if (history.length > 50) {
+                history = history.slice(0, 50);
+            }
+            
+            localStorage.setItem('quotesHistory', JSON.stringify(history));
+        }
+
+        function showHistory() {
+            const modal = document.getElementById('modalOverlay');
+            const noHistory = document.getElementById('noHistory');
+            const historyList = document.getElementById('historyList');
+            
+            const history = JSON.parse(localStorage.getItem('quotesHistory') || '[]');
+            
+            if (history.length === 0) {
+                noHistory.style.display = 'block';
+                historyList.style.display = 'none';
+            } else {
+                noHistory.style.display = 'none';
+                historyList.style.display = 'block';
+                
+                // Wyczyść poprzednią zawartość
+                historyList.innerHTML = '';
+                
+                // Dodaj każdy cytat z historii z opóźnieniem
+                history.forEach((item, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.style.animationDelay = `${1.2 + (index * 0.1)}s`;
+                    historyItem.innerHTML = `
+                        <div class="history-quote">"${item.quote.text}"</div>
+                        <div class="history-reference">${item.quote.ref}</div>
+                        <div class="history-date">${item.date}</div>
+                    `;
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            modal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHistory() {
+            const modal = document.getElementById('modalOverlay');
+            const modalContent = modal.querySelector('.modal-content');
+            
+            // Resetuj animacje zamykania
+            modalContent.style.animation = 'none';
+            modalContent.offsetHeight; // Force reflow
+            
+            // Dodaj animację szklanej fali zamykania
+            modalContent.style.animation = 'glassWaveClose 0.8s ease-out forwards';
+            
+            // Po animacji ukryj modal
             setTimeout(() => {
-                quoteText.classList.add('visible');
-                quoteRef.classList.add('visible');
-                container.classList.remove('pulse');
-            }, 100);
-            
-            currentQuote = quote;
+                modal.classList.remove('visible');
+                document.body.style.overflow = 'auto';
+                
+                // Resetuj style po zamknięciu
+                setTimeout(() => {
+                    modalContent.style.animation = '';
+                }, 100);
+            }, 800);
         }
 
         function showCountdown() {
             const countdownContainer = document.getElementById('countdownContainer');
-            const rewardsSection = document.getElementById('rewardsSection');
             countdownContainer.classList.add('visible');
-            rewardsSection.classList.add('visible');
             updateCountdown();
             setInterval(updateCountdown, 1000);
-        }
-
-        function initializeRewards() {
-            claimedRewards = JSON.parse(localStorage.getItem('claimedRewards') || '[]');
-            generateRewardCards();
-            updateSliderNavigation();
-        }
-
-        function generateRewardCards() {
-            const container = document.getElementById('rewardsContainer');
-            container.innerHTML = '';
-            
-            rewards.forEach((reward, index) => {
-                const progress = Math.min(totalPoints / reward.points, 1) * 100;
-                const pointsNeeded = Math.max(0, reward.points - totalPoints);
-                const canClaim = totalPoints >= reward.points && !claimedRewards.includes(index);
-                const isClaimed = claimedRewards.includes(index);
-                
-                const card = document.createElement('div');
-                card.className = 'reward-card';
-                card.innerHTML = `
-                    <div class="reward-image">
-                        <img src="${reward.image}" alt="${reward.name}" 
-                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-                    </div>
-                    <div class="reward-info">
-                        <div class="reward-name">${reward.name}</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${progress}%"></div>
-                        </div>
-                        <div class="points-needed">
-                            ${isClaimed ? 'Odebrano!' : pointsNeeded > 0 ? `Brakuje ${pointsNeeded} PassaPunktów` : 'Gotowe do odebrania!'}
-                        </div>
-                        <div class="reward-season">Nagroda Za Jesień 2025</div>
-                    </div>
-                    <div class="reward-action">
-                        <button class="claim-btn" ${!canClaim || isClaimed ? 'disabled' : ''} 
-                                onclick="claimReward(${index})">
-                            ${isClaimed ? 'Odebrano' : canClaim ? 'Odbierz' : 'Zablokowane'}
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function claimReward(index) {
-            if (totalPoints >= rewards[index].points && !claimedRewards.includes(index)) {
-                claimedRewards.push(index);
-                localStorage.setItem('claimedRewards', JSON.stringify(claimedRewards));
-                generateRewardCards();
-                updateCarouselPosition();
-            }
-        }
-
-        function updateSliderNavigation() {
-            // No slider anymore - just update position
-        }
-
-        function initializeSwipeControls() {
-            const container = document.getElementById('rewardsContainer');
-            let startX = 0;
-            let isDragging = false;
-
-            // Mouse events
-            container.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                container.style.transition = 'none';
-                e.preventDefault();
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const diffX = e.clientX - startX;
-                const currentTranslate = -currentRewardIndex * 100;
-                const dragPercent = (diffX / container.offsetWidth) * 100;
-                container.style.transform = `translateX(${currentTranslate + dragPercent}%)`;
-            });
-
-            document.addEventListener('mouseup', handleEnd);
-
-            // Touch events
-            container.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-                container.style.transition = 'none';
-                e.preventDefault();
-            });
-
-            document.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const diffX = e.touches[0].clientX - startX;
-                const currentTranslate = -currentRewardIndex * 100;
-                const dragPercent = (diffX / container.offsetWidth) * 100;
-                container.style.transform = `translateX(${currentTranslate + dragPercent}%)`;
-            });
-
-            document.addEventListener('touchend', handleEnd);
-
-            function handleEnd(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                container.style.transition = 'transform 0.3s ease';
-                
-                const endX = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
-                const diffX = endX - startX;
-                const threshold = 80;
-                
-                if (Math.abs(diffX) > threshold) {
-                    if (diffX > 0 && currentRewardIndex > 0) {
-                        currentRewardIndex--;
-                    } else if (diffX < 0 && currentRewardIndex < rewards.length - 1) {
-                        currentRewardIndex++;
-                    }
-                }
-                
-                updateCarouselPosition();
-            }
-        }
-
-        function updateCarouselPosition() {
-            const container = document.getElementById('rewardsContainer');
-            const translateX = -currentRewardIndex * 100;
-            container.style.transform = `translateX(${translateX}%)`;
         }
 
         function updateCountdown() {
@@ -1110,8 +867,8 @@
             document.getElementById('countdownTime').textContent = 
                 `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
+            // Sprawdź czy minęła północ
             if (timeLeft <= 0) {
-                // Reset for new day
                 hasDrawnToday = false;
                 localStorage.removeItem('lastDrawDate');
                 localStorage.removeItem('todayQuote');
@@ -1119,98 +876,10 @@
             }
         }
 
-        function openMyRewards() {
-            const modal = document.getElementById('myRewardsModal');
-            const grid = document.getElementById('claimedRewardsGrid');
-            const noRewardsMessage = document.getElementById('noRewardsMessage');
-            
-            // Clear previous content
-            grid.innerHTML = '';
-            
-            if (claimedRewards.length === 0) {
-                noRewardsMessage.style.display = 'block';
-                grid.style.display = 'none';
-            } else {
-                noRewardsMessage.style.display = 'none';
-                grid.style.display = 'grid';
-                
-                claimedRewards.forEach(rewardIndex => {
-                    const reward = rewards[rewardIndex];
-                    const item = document.createElement('div');
-                    item.className = 'claimed-reward-item';
-                    item.innerHTML = `
-                        <div class="claimed-reward-image">
-                            <img src="${reward.image}" alt="${reward.name}" 
-                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-                        </div>
-                        <div class="claimed-reward-name">${reward.name}</div>
-                        <div class="claimed-reward-points">${reward.points} PassaPunktów</div>
-                    `;
-                    grid.appendChild(item);
-                });
-            }
-            
-            modal.classList.add('visible');
-        }
-
-        function closeMyRewards() {
-            const modal = document.getElementById('myRewardsModal');
-            modal.classList.remove('visible');
-        }
-
-        function openQuoteHistory() {
-            const modal = document.getElementById('quoteHistoryModal');
-            const list = document.getElementById('quoteHistoryList');
-            const noHistoryMessage = document.getElementById('noHistoryMessage');
-            
-            // Clear previous content
-            list.innerHTML = '';
-            
-            if (quoteHistory.length === 0) {
-                noHistoryMessage.style.display = 'block';
-                list.style.display = 'none';
-            } else {
-                noHistoryMessage.style.display = 'none';
-                list.style.display = 'flex';
-                
-                quoteHistory.forEach(entry => {
-                    const item = document.createElement('div');
-                    item.className = 'quote-history-item';
-                    item.innerHTML = `
-                        <div class="history-quote-text">"${entry.quote.text}"</div>
-                        <div class="history-quote-reference">${entry.quote.ref}</div>
-                        <div class="history-quote-date">${entry.dateFormatted}</div>
-                    `;
-                    list.appendChild(item);
-                });
-            }
-            
-            modal.classList.add('visible');
-        }
-
-        function closeQuoteHistory() {
-            const modal = document.getElementById('quoteHistoryModal');
-            modal.classList.remove('visible');
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('myRewardsModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeMyRewards();
-            }
+        // Inicjalizacja przy załadowaniu strony
+        window.addEventListener('load', () => {
+            checkIfDrawnToday();
         });
-
-        document.getElementById('quoteHistoryModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeQuoteHistory();
-            }
-        });
-
-        // Initialize app
-        checkStreak();
-        checkIfDrawnToday();
-        initializeRewards();
-        initializeSwipeControls();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990970ba86eaeec6',t:'MTc2MDgwNTIzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99743c0480178851',t:'MTc2MTkyNTA1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Codzienny Cytat</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Roboto:wght@400;700&amp;family=Georgia&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Roboto:wght@400;700&amp;family=Georgia:wght@400;700&amp;display=swap" rel="stylesheet">
   <style>
         body {
             box-sizing: border-box;
@@ -46,12 +48,13 @@
         }
 
         .title {
-            font-family: 'Pacifico', cursive;
+            font-family: 'Pacifico', 'Brush Script MT', 'Lucida Handwriting', cursive;
             font-size: 2.5rem;
             color: var(--navy);
             margin-bottom: 2rem;
             text-shadow: 0 2px 4px rgba(6,21,52,0.12);
             animation: breathe 3s ease-in-out infinite;
+            font-weight: 400;
         }
 
         .main-card {
@@ -97,6 +100,84 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+        }
+
+        .quote-container::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 18px;
+            border: 2px solid transparent;
+            background: 
+                linear-gradient(90deg, 
+                    rgba(255, 215, 0, 0.6) 0%, 
+                    rgba(255, 215, 0, 0.6) var(--progress, 0%), 
+                    transparent var(--progress, 0%), 
+                    transparent 100%
+                ) border-box;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .quote-container.loading::after {
+            opacity: 1;
+            animation: progressBorder 3s linear forwards;
+        }
+
+        @keyframes progressBorder {
+            0% {
+                background: 
+                    linear-gradient(90deg, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        transparent 0%, 
+                        transparent 100%
+                    ) border-box;
+            }
+            25% {
+                background: 
+                    linear-gradient(90deg, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        rgba(255, 215, 0, 0.6) 25%, 
+                        transparent 25%, 
+                        transparent 100%
+                    ) border-box;
+            }
+            50% {
+                background: 
+                    linear-gradient(90deg, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        rgba(255, 215, 0, 0.6) 50%, 
+                        transparent 50%, 
+                        transparent 100%
+                    ) border-box;
+            }
+            75% {
+                background: 
+                    linear-gradient(90deg, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        rgba(255, 215, 0, 0.6) 75%, 
+                        transparent 75%, 
+                        transparent 100%
+                    ) border-box;
+            }
+            100% {
+                background: 
+                    linear-gradient(90deg, 
+                        rgba(255, 215, 0, 0.6) 0%, 
+                        rgba(255, 215, 0, 0.6) 100%, 
+                        transparent 100%, 
+                        transparent 100%
+                    ) border-box;
+            }
         }
 
         .quote-placeholder {
@@ -150,6 +231,25 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            user-select: none;
+        }
+
+        #countdownText {
+            background: var(--navy);
+            color: white;
+            border-radius: 8px;
+            padding: 0.3rem 0.6rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-width: 30px;
+            text-align: center;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .draw-button.holding {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(59,89,152,0.35);
         }
 
         .draw-button:hover {
@@ -357,11 +457,12 @@
         }
 
         .modal-title {
-            font-family: 'Pacifico', cursive;
+            font-family: 'Pacifico', 'Brush Script MT', 'Lucida Handwriting', cursive;
             font-size: 1.8rem;
             color: var(--navy);
             margin: 0;
             text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+            font-weight: 400;
         }
 
         .close-button {
@@ -476,6 +577,167 @@
             color: rgba(30, 58, 138, 0.7);
             font-style: italic;
             font-weight: 500;
+        }
+
+        /* Settings Button */
+        .settings-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--navy);
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.1);
+        }
+
+        .settings-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px) rotate(90deg);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.2);
+        }
+
+        .settings-button svg {
+            transition: all 0.3s ease;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .settings-modal.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .settings-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.15);
+            max-width: 400px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .settings-modal.visible .settings-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .settings-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .settings-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--navy);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .settings-close:hover {
+            color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-option {
+            background: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .color-option.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(43, 123, 214, 0.3);
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .color-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--navy);
+            text-align: center;
+            line-height: 1.2;
         }
 
         /* Animacje */
@@ -621,7 +883,11 @@
  </head>
  <body>
   <div class="container">
-   <h1 class="title">Codzienny Cytat</h1>
+   <h1 class="title">Codzienny Cytat</h1><!-- Settings Button -->
+   <div class="settings-button" id="settingsButton" onclick="toggleSettings()">
+    <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle> <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.79a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+   </div>
    <div class="main-card">
     <div class="quote-container" id="quoteContainer">
      <div class="quote-placeholder" id="quotePlaceholder">
@@ -629,13 +895,108 @@
      </div>
      <div class="quote-text" id="quoteText"></div>
      <div class="quote-reference" id="quoteReference"></div>
-    </div><button class="draw-button" id="drawButton" onclick="drawQuote()"> Losuj Cytat </button>
+    </div><button class="draw-button" id="drawButton"> <span id="buttonText">Przytrzymaj aby wylosować cytat</span> <span id="countdownText" style="display: none;">8</span> </button>
     <div class="countdown-container" id="countdownContainer">
      <div class="countdown-title">
       Następny cytat za:
      </div>
      <div class="countdown-time" id="countdownTime"></div>
     </div><button class="history-button" id="historyButton" onclick="showHistory()"> Historia Cytatów </button>
+   </div>
+  </div><!-- Settings Modal -->
+  <div class="settings-modal" id="settingsModal" onclick="closeSettings()">
+   <div class="settings-panel" onclick="event.stopPropagation()">
+    <div class="settings-header">
+     <div class="settings-title">
+      Dostosuj wygląd aplikacji
+     </div><button class="settings-close" onclick="closeSettings()">×</button>
+    </div>
+    <div class="color-grid">
+     <div class="color-option active" data-theme="blue">
+      <div class="color-preview" style="background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);"></div>
+      <div class="color-name">
+       Niebieski
+      </div>
+     </div>
+     <div class="color-option" data-theme="light-blue">
+      <div class="color-preview" style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);"></div>
+      <div class="color-name">
+       Jasny błękit
+      </div>
+     </div>
+     <div class="color-option" data-theme="green">
+      <div class="color-preview" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);"></div>
+      <div class="color-name">
+       Zielony
+      </div>
+     </div>
+     <div class="color-option" data-theme="olive">
+      <div class="color-preview" style="background: linear-gradient(135deg, #6b7c4f 0%, #5a6b42 100%);"></div>
+      <div class="color-name">
+       Spleśniała zieleń
+      </div>
+     </div>
+     <div class="color-option" data-theme="gray">
+      <div class="color-preview" style="background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);"></div>
+      <div class="color-name">
+       Szary
+      </div>
+     </div>
+     <div class="color-option" data-theme="black-white">
+      <div class="color-preview" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);"></div>
+      <div class="color-name">
+       Czarno-biały
+      </div>
+     </div>
+     <div class="color-option" data-theme="pink">
+      <div class="color-preview" style="background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);"></div>
+      <div class="color-name">
+       Różowy
+      </div>
+     </div>
+     <div class="color-option" data-theme="light-pink">
+      <div class="color-preview" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);"></div>
+      <div class="color-name">
+       Jasny różany
+      </div>
+     </div>
+     <div class="color-option" data-theme="orange">
+      <div class="color-preview" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"></div>
+      <div class="color-name">
+       Pomarańczowy
+      </div>
+     </div>
+     <div class="color-option" data-theme="pumpkin">
+      <div class="color-preview" style="background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);"></div>
+      <div class="color-name">
+       Dojrzała dynia
+      </div>
+     </div>
+     <div class="color-option" data-theme="purple">
+      <div class="color-preview" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);"></div>
+      <div class="color-name">
+       Fioletowy
+      </div>
+     </div>
+     <div class="color-option" data-theme="plum">
+      <div class="color-preview" style="background: linear-gradient(135deg, #8e4a9c 0%, #6b3775 100%);"></div>
+      <div class="color-name">
+       Śliwkowy
+      </div>
+     </div>
+     <div class="color-option" data-theme="beige">
+      <div class="color-preview" style="background: linear-gradient(135deg, #e6d7c3 0%, #d4b896 100%);"></div>
+      <div class="color-name">
+       Beżowy
+      </div>
+     </div>
+     <div class="color-option" data-theme="latte">
+      <div class="color-preview" style="background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);"></div>
+      <div class="color-name">
+       Spienione latte
+      </div>
+     </div>
+    </div>
    </div>
   </div><!-- Modal Historia -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeHistory()">
@@ -686,6 +1047,10 @@
         ];
 
         let hasDrawnToday = false;
+        let holdTimer = null;
+        let isHolding = false;
+        let countdownInterval = null;
+        let currentCountdown = 3;
 
         // Sprawdź czy już losowano dziś
         function checkIfDrawnToday() {
@@ -706,6 +1071,7 @@
             const placeholder = document.getElementById('quotePlaceholder');
             const quoteText = document.getElementById('quoteText');
             const quoteReference = document.getElementById('quoteReference');
+            const buttonText = document.getElementById('buttonText');
             const button = document.getElementById('drawButton');
             
             placeholder.style.display = 'none';
@@ -714,8 +1080,69 @@
             quoteText.classList.add('visible');
             quoteReference.classList.add('visible');
             
-            button.textContent = 'Już wylosowano na dziś';
+            buttonText.textContent = 'Już wylosowano na dziś';
             button.disabled = true;
+        }
+
+        function startHolding() {
+            if (hasDrawnToday || isHolding) return;
+            
+            isHolding = true;
+            currentCountdown = 3;
+            const button = document.getElementById('drawButton');
+            const quoteContainer = document.getElementById('quoteContainer');
+            const buttonText = document.getElementById('buttonText');
+            const countdownText = document.getElementById('countdownText');
+            
+            button.classList.add('holding');
+            quoteContainer.classList.add('loading');
+            
+            // Ukryj tekst przycisku i pokaż odliczanie
+            buttonText.style.display = 'none';
+            countdownText.style.display = 'inline';
+            countdownText.textContent = currentCountdown;
+            
+            // Odliczanie co sekundę
+            countdownInterval = setInterval(() => {
+                currentCountdown--;
+                countdownText.textContent = currentCountdown;
+                
+                if (currentCountdown <= 0) {
+                    clearInterval(countdownInterval);
+                    drawQuote();
+                }
+            }, 1000);
+            
+            holdTimer = setTimeout(() => {
+                drawQuote();
+            }, 3000);
+        }
+
+        function stopHolding() {
+            if (!isHolding) return;
+            
+            isHolding = false;
+            const button = document.getElementById('drawButton');
+            const quoteContainer = document.getElementById('quoteContainer');
+            const buttonText = document.getElementById('buttonText');
+            const countdownText = document.getElementById('countdownText');
+            
+            button.classList.remove('holding');
+            quoteContainer.classList.remove('loading');
+            
+            // Przywróć oryginalny tekst przycisku
+            buttonText.style.display = 'inline';
+            countdownText.style.display = 'none';
+            
+            if (holdTimer) {
+                clearTimeout(holdTimer);
+                holdTimer = null;
+            }
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
         }
 
         function drawQuote() {
@@ -725,6 +1152,12 @@
             const quoteText = document.getElementById('quoteText');
             const quoteReference = document.getElementById('quoteReference');
             const button = document.getElementById('drawButton');
+            const quoteContainer = document.getElementById('quoteContainer');
+            
+            // Zatrzymaj animację ładowania
+            quoteContainer.classList.remove('loading');
+            button.classList.remove('holding');
+            isHolding = false;
             
             // Ukryj placeholder
             placeholder.style.display = 'none';
@@ -753,9 +1186,19 @@
             }, 400);
             
             // Zmień stan przycisku
-            button.textContent = 'Już wylosowano na dziś';
+            const buttonText = document.getElementById('buttonText');
+            const countdownText = document.getElementById('countdownText');
+            buttonText.textContent = 'Już wylosowano na dziś';
+            buttonText.style.display = 'inline';
+            countdownText.style.display = 'none';
             button.disabled = true;
             hasDrawnToday = true;
+            
+            // Wyczyść timery
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
             
             // Pokaż odliczanie
             setTimeout(() => {
@@ -876,10 +1319,209 @@
             }
         }
 
+        // Color themes
+        const colorThemes = {
+            'blue': {
+                bg: '#9fc6e2',
+                bg2: '#cfe8f8',
+                navy: '#1e3a8a',
+                accent: '#2b7bd6',
+                gradientStart: '#3b5998',
+                gradientEnd: '#5a8dee'
+            },
+            'light-blue': {
+                bg: '#bfdbfe',
+                bg2: '#dbeafe',
+                navy: '#1e40af',
+                accent: '#2563eb',
+                gradientStart: '#60a5fa',
+                gradientEnd: '#3b82f6'
+            },
+            'green': {
+                bg: '#a7f3d0',
+                bg2: '#d1fae5',
+                navy: '#064e3b',
+                accent: '#047857',
+                gradientStart: '#059669',
+                gradientEnd: '#10b981'
+            },
+            'olive': {
+                bg: '#8b9467',
+                bg2: '#a8b584',
+                navy: '#3d4a2b',
+                accent: '#4a5635',
+                gradientStart: '#6b7c4f',
+                gradientEnd: '#5a6b42'
+            },
+            'gray': {
+                bg: '#e5e7eb',
+                bg2: '#f3f4f6',
+                navy: '#111827',
+                accent: '#374151',
+                gradientStart: '#4b5563',
+                gradientEnd: '#6b7280'
+            },
+            'black-white': {
+                bg: '#ffffff',
+                bg2: '#f8f9fa',
+                navy: '#000000',
+                accent: '#666666',
+                gradientStart: '#000000',
+                gradientEnd: '#333333'
+            },
+            'pink': {
+                bg: '#fce7f3',
+                bg2: '#fdf2f8',
+                navy: '#831843',
+                accent: '#be185d',
+                gradientStart: '#db2777',
+                gradientEnd: '#ec4899'
+            },
+            'light-pink': {
+                bg: '#ffe4e6',
+                bg2: '#fef2f2',
+                navy: '#881337',
+                accent: '#dc2626',
+                gradientStart: '#f43f5e',
+                gradientEnd: '#e11d48'
+            },
+            'orange': {
+                bg: '#fed7aa',
+                bg2: '#fef3c7',
+                navy: '#92400e',
+                accent: '#d97706',
+                gradientStart: '#f59e0b',
+                gradientEnd: '#f97316'
+            },
+            'pumpkin': {
+                bg: '#ff6b35',
+                bg2: '#ffedd5',
+                navy: '#7c2d12',
+                accent: '#c2410c',
+                gradientStart: '#ea580c',
+                gradientEnd: '#dc2626'
+            },
+            'purple': {
+                bg: '#e9d5ff',
+                bg2: '#f3e8ff',
+                navy: '#581c87',
+                accent: '#7c3aed',
+                gradientStart: '#8b5cf6',
+                gradientEnd: '#a855f7'
+            },
+            'plum': {
+                bg: '#c8b5d1',
+                bg2: '#ebd9ea',
+                navy: '#4a2c5a',
+                accent: '#7a4285',
+                gradientStart: '#8e4a9c',
+                gradientEnd: '#6b3775'
+            },
+            'beige': {
+                bg: '#f7f3e9',
+                bg2: '#fdf9f1',
+                navy: '#8b4513',
+                accent: '#c19a6b',
+                gradientStart: '#e6d7c3',
+                gradientEnd: '#d4b896'
+            },
+            'latte': {
+                bg: '#d4b896',
+                bg2: '#e8d5b7',
+                navy: '#5d4037',
+                accent: '#795548',
+                gradientStart: '#8d6e63',
+                gradientEnd: '#6d4c41'
+            }
+        };
+
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.remove('visible');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeTheme(themeName) {
+            const theme = colorThemes[themeName];
+            if (!theme) return;
+
+            const root = document.documentElement;
+            root.style.setProperty('--bg', theme.bg);
+            root.style.setProperty('--bg2', theme.bg2);
+            root.style.setProperty('--navy', theme.navy);
+            root.style.setProperty('--accent', theme.accent);
+            root.style.setProperty('--gradient-start', theme.gradientStart);
+            root.style.setProperty('--gradient-end', theme.gradientEnd);
+
+            // Update active state
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`[data-theme="${themeName}"]`).classList.add('active');
+
+            // Save to localStorage
+            localStorage.setItem('selectedTheme', themeName);
+        }
+
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'blue';
+            changeTheme(savedTheme);
+        }
+
         // Inicjalizacja przy załadowaniu strony
         window.addEventListener('load', () => {
+            loadSavedTheme();
             checkIfDrawnToday();
+            
+            const button = document.getElementById('drawButton');
+            
+            // Obsługa myszy
+            button.addEventListener('mousedown', startHolding);
+            button.addEventListener('mouseup', stopHolding);
+            button.addEventListener('mouseleave', stopHolding);
+            
+            // Obsługa dotyku
+            button.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startHolding();
+            });
+            button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopHolding();
+            });
+            button.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                stopHolding();
+            });
+            
+            // Obsługa klawiatury
+            button.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    e.preventDefault();
+                    startHolding();
+                }
+            });
+            button.addEventListener('keyup', (e) => {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    e.preventDefault();
+                    stopHolding();
+                }
+            });
+
+            // Add click handlers for color options
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.getAttribute('data-theme');
+                    changeTheme(theme);
+                });
+            });
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99743c0480178851',t:'MTc2MTkyNTA1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99830f9281569131',t:'MTc2MjA4MDUyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

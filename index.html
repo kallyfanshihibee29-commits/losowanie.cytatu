@@ -876,11 +876,64 @@
             transform: scale(1.2);
         }
 
+        .settings-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+        }
+
+        .settings-modal.visible .settings-tabs {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .settings-tab {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .settings-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .color-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             margin-bottom: 1rem;
+        }
+
+        .seasonal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
         }
 
         .color-option:hover {
@@ -908,6 +961,76 @@
             text-align: center;
             line-height: 1.2;
             transition: color 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .seasonal-option {
+            background: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: scale(0.3) rotate(180deg);
+        }
+
+        .settings-modal.visible .seasonal-option {
+            animation: colorPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .settings-modal.visible .seasonal-option:nth-child(1) { animation-delay: 0.4s; }
+        .settings-modal.visible .seasonal-option:nth-child(2) { animation-delay: 0.5s; }
+
+        .seasonal-option:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .seasonal-option.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(43, 123, 214, 0.3);
+        }
+
+        .seasonal-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        .seasonal-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            transition: color 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .seasonal-description {
+            font-size: 0.75rem;
+            color: rgba(30, 58, 138, 0.7);
+            text-align: center;
+            line-height: 1.4;
+            transition: color 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .seasonal-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .seasonal-color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
         /* Animacje */
@@ -1082,113 +1205,155 @@
       Dostosuj wygląd aplikacji
      </div><button class="settings-close" onclick="closeSettings()">×</button>
     </div>
-    <div class="color-grid"><!-- CZERWONE -->
-     <div class="color-option" data-theme="pink">
-      <div class="color-preview" style="background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);"></div>
-      <div class="color-name">
-       Różowy
+    <div class="settings-tabs"><button class="settings-tab active" onclick="switchTab('standard')">Standardowe</button> <button class="settings-tab" onclick="switchTab('seasonal')">Kolory Sezonowe</button>
+    </div>
+    <div class="tab-content active" id="standardTab">
+     <div class="color-grid"><!-- CZERWONE -->
+      <div class="color-option" data-theme="pink">
+       <div class="color-preview" style="background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);"></div>
+       <div class="color-name">
+        Różowy
+       </div>
+      </div>
+      <div class="color-option" data-theme="light-pink">
+       <div class="color-preview" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);"></div>
+       <div class="color-name">
+        Jasny różany
+       </div>
+      </div>
+      <div class="color-option" data-theme="pumpkin">
+       <div class="color-preview" style="background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);"></div>
+       <div class="color-name">
+        Dojrzała dynia
+       </div>
+      </div><!-- POMARAŃCZOWE -->
+      <div class="color-option" data-theme="orange">
+       <div class="color-preview" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"></div>
+       <div class="color-name">
+        Pomarańczowy
+       </div>
+      </div><!-- Ż����TE -->
+      <div class="color-option" data-theme="yellow">
+       <div class="color-preview" style="background: linear-gradient(135deg, #fef08a 0%, #eab308 100%);"></div>
+       <div class="color-name">
+        Żółty
+       </div>
+      </div>
+      <div class="color-option" data-theme="mustard">
+       <div class="color-preview" style="background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);"></div>
+       <div class="color-name">
+        Musztardowy
+       </div>
+      </div><!-- ZIELONE -->
+      <div class="color-option" data-theme="olive">
+       <div class="color-preview" style="background: linear-gradient(135deg, #6b7c4f 0%, #5a6b42 100%);"></div>
+       <div class="color-name">
+        Oliwkowy
+       </div>
+      </div>
+      <div class="color-option" data-theme="green">
+       <div class="color-preview" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);"></div>
+       <div class="color-name">
+        Zielony
+       </div>
+      </div><!-- TURKUSOWE/CYAN -->
+      <div class="color-option" data-theme="turquoise">
+       <div class="color-preview" style="background: linear-gradient(135deg, #a5f3fc 0%, #06b6d4 100%);"></div>
+       <div class="color-name">
+        Turkusowy
+       </div>
+      </div><!-- NIEBIESKIE -->
+      <div class="color-option" data-theme="light-blue">
+       <div class="color-preview" style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);"></div>
+       <div class="color-name">
+        Jasny błękit
+       </div>
+      </div>
+      <div class="color-option active" data-theme="blue">
+       <div class="color-preview" style="background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);"></div>
+       <div class="color-name">
+        Niebieski
+       </div>
+      </div>
+      <div class="color-option" data-theme="navy">
+       <div class="color-preview" style="background: linear-gradient(135deg, #93c5fd 0%, #1e3a8a 100%);"></div>
+       <div class="color-name">
+        Granatowy
+       </div>
+      </div><!-- FIOLETOWE -->
+      <div class="color-option" data-theme="purple">
+       <div class="color-preview" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);"></div>
+       <div class="color-name">
+        Fioletowy
+       </div>
+      </div>
+      <div class="color-option" data-theme="plum">
+       <div class="color-preview" style="background: linear-gradient(135deg, #8e4a9c 0%, #6b3775 100%);"></div>
+       <div class="color-name">
+        Śliwkowy
+       </div>
+      </div><!-- BEŻOWE/BRĄZOWE -->
+      <div class="color-option" data-theme="beige">
+       <div class="color-preview" style="background: linear-gradient(135deg, #e6d7c3 0%, #d4b896 100%);"></div>
+       <div class="color-name">
+        Beżowy
+       </div>
+      </div>
+      <div class="color-option" data-theme="latte">
+       <div class="color-preview" style="background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);"></div>
+       <div class="color-name">
+        Latte
+       </div>
+      </div><!-- NEUTRALNE -->
+      <div class="color-option" data-theme="gray">
+       <div class="color-preview" style="background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);"></div>
+       <div class="color-name">
+        Szary
+       </div>
+      </div>
+      <div class="color-option" data-theme="black-white">
+       <div class="color-preview" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);"></div>
+       <div class="color-name">
+        Czarno-biały
+       </div>
       </div>
      </div>
-     <div class="color-option" data-theme="light-pink">
-      <div class="color-preview" style="background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);"></div>
-      <div class="color-name">
-       Jasny różany
+    </div>
+    <div class="tab-content" id="seasonalTab">
+     <div class="seasonal-grid">
+      <div class="seasonal-option" data-theme="christmas">
+       <div class="seasonal-icon">
+        🎄
+       </div>
+       <div class="seasonal-name">
+        Świąteczna Harmonia
+       </div>
+       <div class="seasonal-description">
+        Elegancki, ciemny motyw z zielenią choinki i czerwonymi akcentami
+       </div>
+       <div class="seasonal-preview">
+        <div class="seasonal-color-dot" style="background: #1a472a;"></div>
+        <div class="seasonal-color-dot" style="background: #2d5a3d;"></div>
+        <div class="seasonal-color-dot" style="background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);"></div>
+        <div class="seasonal-color-dot" style="background: #ffffff;"></div>
+       </div>
       </div>
-     </div>
-     <div class="color-option" data-theme="pumpkin">
-      <div class="color-preview" style="background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);"></div>
-      <div class="color-name">
-       Dojrzała dynia
-      </div>
-     </div><!-- POMARAŃCZOWE -->
-     <div class="color-option" data-theme="orange">
-      <div class="color-preview" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"></div>
-      <div class="color-name">
-       Pomarańczowy
-      </div>
-     </div><!-- Ż����TE -->
-     <div class="color-option" data-theme="yellow">
-      <div class="color-preview" style="background: linear-gradient(135deg, #fef08a 0%, #eab308 100%);"></div>
-      <div class="color-name">
-       Żółty
-      </div>
-     </div>
-     <div class="color-option" data-theme="mustard">
-      <div class="color-preview" style="background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);"></div>
-      <div class="color-name">
-       Musztardowy
-      </div>
-     </div><!-- ZIELONE -->
-     <div class="color-option" data-theme="olive">
-      <div class="color-preview" style="background: linear-gradient(135deg, #6b7c4f 0%, #5a6b42 100%);"></div>
-      <div class="color-name">
-       Oliwkowy
-      </div>
-     </div>
-     <div class="color-option" data-theme="green">
-      <div class="color-preview" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);"></div>
-      <div class="color-name">
-       Zielony
-      </div>
-     </div><!-- TURKUSOWE/CYAN -->
-     <div class="color-option" data-theme="turquoise">
-      <div class="color-preview" style="background: linear-gradient(135deg, #a5f3fc 0%, #06b6d4 100%);"></div>
-      <div class="color-name">
-       Turkusowy
-      </div>
-     </div><!-- NIEBIESKIE -->
-     <div class="color-option" data-theme="light-blue">
-      <div class="color-preview" style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);"></div>
-      <div class="color-name">
-       Jasny błękit
-      </div>
-     </div>
-     <div class="color-option active" data-theme="blue">
-      <div class="color-preview" style="background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);"></div>
-      <div class="color-name">
-       Niebieski
-      </div>
-     </div>
-     <div class="color-option" data-theme="navy">
-      <div class="color-preview" style="background: linear-gradient(135deg, #93c5fd 0%, #1e3a8a 100%);"></div>
-      <div class="color-name">
-       Granatowy
-      </div>
-     </div><!-- FIOLETOWE -->
-     <div class="color-option" data-theme="purple">
-      <div class="color-preview" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);"></div>
-      <div class="color-name">
-       Fioletowy
-      </div>
-     </div>
-     <div class="color-option" data-theme="plum">
-      <div class="color-preview" style="background: linear-gradient(135deg, #8e4a9c 0%, #6b3775 100%);"></div>
-      <div class="color-name">
-       Śliwkowy
-      </div>
-     </div><!-- BEŻOWE/BRĄZOWE -->
-     <div class="color-option" data-theme="beige">
-      <div class="color-preview" style="background: linear-gradient(135deg, #e6d7c3 0%, #d4b896 100%);"></div>
-      <div class="color-name">
-       Beżowy
-      </div>
-     </div>
-     <div class="color-option" data-theme="latte">
-      <div class="color-preview" style="background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);"></div>
-      <div class="color-name">
-       Latte
-      </div>
-     </div><!-- NEUTRALNE -->
-     <div class="color-option" data-theme="gray">
-      <div class="color-preview" style="background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);"></div>
-      <div class="color-name">
-       Szary
-      </div>
-     </div>
-     <div class="color-option" data-theme="black-white">
-      <div class="color-preview" style="background: linear-gradient(135deg, #000000 0%, #333333 100%);"></div>
-      <div class="color-name">
-       Czarno-biały
+      <div class="seasonal-option" data-theme="snow">
+       <div class="seasonal-icon">
+        ❄️
+       </div>
+       <div class="seasonal-name">
+        Śnieżna Zadyma
+       </div>
+       <div class="seasonal-description">
+        Świeży, jasny motyw zimowy przypominający mroźny, słoneczny dzień
+       </div>
+       <div class="seasonal-preview">
+        <div class="seasonal-color-dot" style="background: #e0f2fe;"></div>
+        <div class="seasonal-color-dot" style="background: #f0f9ff;"></div>
+        <div class="seasonal-color-dot" style="background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);"></div>
+        <div class="seasonal-color-dot" style="background: #0c4a6e;"></div>
+       </div>
       </div>
      </div>
     </div>
@@ -1575,8 +1740,41 @@
             }
         }
 
+        // Tab switching function
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.settings-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
         // Color themes - uporządkowane według tęczy
         const colorThemes = {
+            'christmas': {
+                bg: '#1a472a',
+                bg2: '#2d5a3d',
+                navy: '#ffffff',
+                accent: '#ffffff',
+                gradientStart: '#c41e3a',
+                gradientEnd: '#8b0000',
+                textShadow: '0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3)'
+            },
+            'snow': {
+                bg: '#e0f2fe',
+                bg2: '#f0f9ff',
+                navy: '#0c4a6e',
+                accent: '#0284c7',
+                gradientStart: '#0ea5e9',
+                gradientEnd: '#38bdf8',
+                textShadow: 'none'
+            },
             'pink': {
                 bg: '#fce7f3',
                 bg2: '#fdf2f8',
@@ -1747,11 +1945,22 @@
             root.style.setProperty('--gradient-start', theme.gradientStart);
             root.style.setProperty('--gradient-end', theme.gradientEnd);
 
-            // Update active state
-            document.querySelectorAll('.color-option').forEach(option => {
+            // Apply text shadow for christmas theme
+            const title = document.querySelector('.title');
+            if (theme.textShadow) {
+                title.style.textShadow = theme.textShadow;
+            } else {
+                title.style.textShadow = '0 2px 4px rgba(6,21,52,0.12)';
+            }
+
+            // Update active state for both color options and seasonal options
+            document.querySelectorAll('.color-option, .seasonal-option').forEach(option => {
                 option.classList.remove('active');
             });
-            document.querySelector(`[data-theme="${themeName}"]`).classList.add('active');
+            const selectedOption = document.querySelector(`[data-theme="${themeName}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('active');
+            }
 
             // Save to localStorage
             localStorage.setItem('selectedTheme', themeName);
@@ -1802,8 +2011,8 @@
                 }
             });
 
-            // Add click handlers for color options
-            document.querySelectorAll('.color-option').forEach(option => {
+            // Add click handlers for color options and seasonal options
+            document.querySelectorAll('.color-option, .seasonal-option').forEach(option => {
                 option.addEventListener('click', () => {
                     const theme = option.getAttribute('data-theme');
                     changeTheme(theme);
@@ -1811,5 +2020,5 @@
             });
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a74078685f11e3e',t:'MTc2NDYwNzI1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a74463c730edbc9',t:'MTc2NDYwOTgyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
